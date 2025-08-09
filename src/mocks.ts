@@ -1,3 +1,3 @@
-/** biome-ignore-all lint/performance/noBarrelFile: Just for tidier test files - there's also no risk of recursive imports. */
-export * from './application/fruit.service.mock.js'
-export * from './domain/fruit.repository.mock.js'
+/** biome-ignore-all lint/performance/noBarrelFile: keep test imports nice and clean */
+export * from './application/time-provider.mock.js'
+export * from './domain/quote/quote-repository.mock.js'
