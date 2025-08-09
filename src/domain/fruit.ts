@@ -1,6 +1,6 @@
+// biome-ignore lint/correctness/noUndeclaredDependencies: Workaround until https://github.com/biomejs/biome/issues/7162 is fixed.
+import type { JsonObject } from 'type-fest'
 import z from 'zod'
-
-import type { JsonValue } from '#util/json.js'
 
 const fruitSchema = z.strictObject({
   name: z.string().min(1),
@@ -21,7 +21,7 @@ export class Fruit {
     this.calories = calories
   }
 
-  public toJSON(): JsonValue {
+  public toJSON(): JsonObject {
     return {
       name: this.name,
       calories: this.calories,

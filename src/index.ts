@@ -5,9 +5,8 @@ import { Logger } from 'nestjs-pino'
 
 import { OPEN_API_CONFIG, type OpenApiConfig } from '#infrastructure/config/open-api.config.js'
 import { SERVER_CONFIG, type ServerConfig } from '#infrastructure/config/server.config.js'
-
-import { createOpenAPIDocument } from './create-openapi-document.js'
-import { MainModule } from './module/main.module.js'
+import { MainModule } from '#module/main.module.js'
+import { createOpenAPIDocument } from '#util/create-openapi-document.js'
 
 export async function bootstrap(): Promise<void> {
   const app = await NestFactory.create<NestExpressApplication>(MainModule, { bufferLogs: true })
@@ -16,14 +15,13 @@ export async function bootstrap(): Promise<void> {
   const openApi = app.get<OpenApiConfig>(OPEN_API_CONFIG)
   const logger = app.get(Logger)
 
-  app.useLogger(logger)
+  app.enableShutdownHooks().useLogger(logger)
 
   if (openApi.swagger.enabled) {
-    const document = createOpenAPIDocument(app, openApi)
-    SwaggerModule.setup(openApi.swagger.path, app, () => document)
+    SwaggerModule.setup(openApi.swagger.path, app, () => createOpenAPIDocument(app, openApi))
   }
 
-  await app.enableShutdownHooks().listen(server.port, server.hostname, async () => {
+  await app.listen(server.port, server.hostname, async () => {
     const url = await app.getUrl()
     logger.log(`Server listening on ${url}`)
   })
