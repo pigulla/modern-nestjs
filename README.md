@@ -8,8 +8,8 @@
 
 This repository provides a highly opinionated, basic setup for modern NestJS applications. It's not intended to be a turnkey solution but a solid starting point for the most common use cases. You can, should and will need to tweak and adapt it to your needs and personal preferences. 
 
-### Key Features
-- 🦠 Use [Biome](https://biomejs.dev/) instead of [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/). Biome hasn't yet reached feature parity compared to a pimped out ESLint setup, but it generates orders of magnitude fewer headaches. It's also roughly ten billion times faster.
+## Key Features
+- 🦠 Use [Biome](https://biomejs.dev/) instead of [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/). Biome hasn't yet reached feature parity compared to a fully pimped out ESLint setup, but it causes orders of magnitude fewer headaches. It's also roughly ten billion times faster.
 - 🕵️‍♀️ Validate DTOs, route and query parameters with [Zod](https://github.com/colinhacks/zod) instead of [Class Validator](https://github.com/typestack/class-validator) (powered by [`nestjs-zod`](https://github.com/BenLorantfy/nestjs-zod) - this currently requires the [v5 beta](https://github.com/BenLorantfy/nestjs-zod/discussions/148)). 
 - ✅ Validate OpenAPI documentation with [Redocly](https://redocly.com/redocly-cli). It can also [generate](https://redocly.com/docs/cli/commands/build-docs) reasonable pretty HTML docs.
 - 🧑‍🔧 Use [Vitest](https://vitest.dev/) instead of [Jest](https://vitest.dev/).
