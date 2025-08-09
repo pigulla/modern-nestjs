@@ -1,0 +1,42 @@
+{
+    "application": [
+        {
+            "mustNotImportFrom": ["infrastructure", "presentation", "module"]
+        }
+    ],
+    "domain": [
+        {
+            "mustNotImportFrom": ["application", "presentation", "infrastructure", "module"]
+        }
+    ],
+    "presentation": [
+        {
+            "mustNotImportFrom": "module"
+        },
+        {
+            "mustNotImportFrom": "application",
+            "exceptFor": ["interfaces", "errors"]
+        }
+    ],
+    "infrastructure": [
+        {
+            "mustNotImportFrom": ["presentation", "module"]
+        },
+        {
+            "mustNotImportFrom": "application",
+            "exceptFor": ["interfaces", "errors"]
+        }
+    ],
+    "module": [],
+    "util": [
+        {
+            "mustNotImportFrom": [
+                "application",
+                "domain",
+                "presentation",
+                "infrastructure",
+                "module"
+            ]
+        }
+    ]
+}

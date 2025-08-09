@@ -1,0 +1,118 @@
+{
+  "name": "modern-nestjs",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Highly opinionated, modern setup for NestJS-projects.",
+  "bugs": {
+    "url": "https://github.com/pigulla/modern-nestjs/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pigulla/modern-nestjs"
+  },
+  "license": "ISC",
+  "author": {
+    "name": "Raphael Pigulla",
+    "email": "raphael@pigulla.net",
+    "url": "https://de.linkedin.com/in/pigulla"
+  },
+  "type": "module",
+  "imports": {
+    "#application/*": {
+      "development": "./src/application/*",
+      "default": "./dist/src/application/*"
+    },
+    "#domain/*": {
+      "development": "./src/domain/*",
+      "default": "./dist/src/domain/*"
+    },
+    "#infrastructure/*": {
+      "development": "./src/infrastructure/*",
+      "default": "./dist/src/infrastructure/*"
+    },
+    "#module/*": {
+      "development": "./src/module/*",
+      "default": "./dist/src/module/*"
+    },
+    "#presentation/*": {
+      "development": "./src/presentation/*",
+      "default": "./dist/src/presentation/*"
+    },
+    "#util/*": {
+      "development": "./src/util/*",
+      "default": "./dist/src/util/*"
+    }
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc --project tsconfig.build.json && npm run build:copy-config",
+    "build:copy-config": "rsync --archive --include '*/' --exclude 'local*' config/ dist/config",
+    "format": "npm run format:biome && npm run format:package-json",
+    "format:biome": "biome check --write",
+    "format:package-json": "sort-package-json",
+    "lint": "npm run lint:tsc && npm run lint:biome && npm run lint:depcheck && npm run lint:lockfile && npm run lint:package-json",
+    "lint:biome": "biome check",
+    "lint:depcheck": "depcheck",
+    "lint:lockfile": "lockfile-lint",
+    "lint:package-json": "npmPkgJsonLint . && sort-package-json --check",
+    "lint:tsc": "tsc",
+    "openapi": "npm run openapi:build && npm run openapi:html && npm run openapi:lint",
+    "openapi:build": "NODE_OPTIONS='--conditions development' jiti scripts/build-openapi-spec.ts > openapi.json",
+    "openapi:html": "redocly build-docs openapi.json --output=openapi.html",
+    "openapi:lint": "redocly lint openapi.json",
+    "start": "NODE_OPTIONS='--conditions development' jiti src/index.ts",
+    "start:dist": "node dist/src/index.js",
+    "test": "npm run lint && npm run vitest && npm audit --omit dev --audit-level high",
+    "vitest": "npm run vitest:unit && npm run vitest:integration && npm run vitest:architecture",
+    "vitest:architecture": "vitest run --passWithNoTests --slowTestThreshold 30000 --testTimeout 30000 test/architecture/",
+    "vitest:integration": "vitest run test/integration/",
+    "vitest:unit": "vitest run src/"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "@nestjs/common": "11.1.6",
+    "@nestjs/core": "11.1.6",
+    "@nestjs/platform-express": "11.1.6",
+    "@nestjs/swagger": "11.2.0",
+    "config": "4.1.0",
+    "nestjs-pino": "4.4.0",
+    "nestjs-zod": "5.0.0-beta.20250719T005107",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2",
+    "zod": "4.0.16"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.1.4",
+    "@nestjs/testing": "11.1.6",
+    "@redocly/cli": "2.0.2",
+    "@swc-node/register": "1.10.10",
+    "@swc/core": "1.13.3",
+    "@tsconfig/node-ts": "23.6.1",
+    "@tsconfig/node24": "24.0.1",
+    "@types/config": "3.3.5",
+    "@types/express": "5.0.3",
+    "@types/node": "24.2.1",
+    "@types/supertest": "6.0.3",
+    "@vitest/coverage-v8": "3.2.4",
+    "cz-conventional-changelog": "3.3.0",
+    "depcheck": "1.4.7",
+    "jiti": "2.5.1",
+    "lockfile-lint": "4.14.1",
+    "npm-package-json-lint": "9.0.0",
+    "npm-package-json-lint-config-default": "8.0.1",
+    "pino-pretty": "13.1.1",
+    "sort-package-json": "3.4.0",
+    "source-map-support": "0.5.21",
+    "supertest": "7.1.4",
+    "ts-loader": "9.5.2",
+    "tsarch": "5.4.1",
+    "typescript": "5.9.2",
+    "unplugin-swc": "1.5.5",
+    "vite": "7.1.1",
+    "vitest": "3.2.4",
+    "yaml": "2.8.1"
+  }
+}

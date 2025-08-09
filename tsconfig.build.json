@@ -1,0 +1,17 @@
+{
+    "extends": "./tsconfig.json",
+    "exclude": [
+        "src/mocks.ts",
+        "vitest.config.ts",
+        "node_modules",
+        "test",
+        "dist",
+        "scripts",
+        "**/*mock.ts",
+        "**/*test.ts"
+    ],
+    "compilerOptions": {
+        "noEmit": false,
+        "customConditions": []
+    }
+}

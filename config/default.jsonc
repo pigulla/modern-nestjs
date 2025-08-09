@@ -1,0 +1,31 @@
+{
+    "server": {
+        "hostname": "localhost",
+        "port": 3000
+    },
+    "logging": {
+        "enabled": true,
+        "pretty": false,
+        "level": "log",
+        "requestResponse": false
+    },
+    "openApi": {
+        "server": "http://example.com",
+        "title": "My API",
+        "description": "This is my API.",
+        "version": "1.0",
+        "swagger": {
+            "enabled": false,
+            "path": "swagger"
+        },
+        "license": {
+            "name": "ISC",
+            "url": "https://spdx.org/licenses/ISC"
+        },
+        "contact": {
+            "name": "Raphael Pigulla",
+            "email": "raphael@pigulla.net",
+            "url": "https://de.linkedin.com/in/pigulla"
+        }
+    }
+}

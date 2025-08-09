@@ -1,0 +1,12 @@
+{
+    "logging": {
+        "level": "verbose",
+        "pretty": true
+    },
+    "openApi": {
+        "server": "http://localhost:3000",
+        "swagger": {
+            "enabled": true
+        }
+    }
+}

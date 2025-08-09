@@ -1,0 +1,133 @@
+{
+    "$schema": "https://biomejs.dev/schemas/2.1.4/schema.json",
+    "vcs": {
+        "enabled": false,
+        "clientKind": "git",
+        "useIgnoreFile": true
+    },
+    "files": {
+        "includes": ["**", "!package.json", "!openapi.json", "!dist", "!node_modules"]
+    },
+    "formatter": {
+        "enabled": true,
+        "indentStyle": "space",
+        "lineWidth": 100,
+        "indentWidth": 2
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "recommended": true,
+            "correctness": {
+                "noPrivateImports": "error",
+                "noUndeclaredDependencies": {
+                    "level": "error",
+                    "options": {
+                        "devDependencies": ["**/vitest.config.ts", "**/*.test.ts", "**/*.mock.ts"],
+                        "peerDependencies": false,
+                        "optionalDependencies": false
+                    }
+                }
+            },
+            "performance": {
+                "noBarrelFile": "error"
+            },
+            "style": {
+                "noDoneCallback": "error",
+                "noEnum": "error",
+                "noInferrableTypes": "error",
+                "noParameterAssign": "error",
+                "noParameterProperties": "error",
+                "noProcessEnv": "error",
+                "noUnusedTemplateLiteral": "error",
+                "noUselessElse": "error",
+                "noYodaExpression": "error",
+                "useAsConstAssertion": "error",
+                "useAtIndex": "error",
+                "useConsistentMemberAccessibility": {
+                    "level": "error",
+                    "options": { "accessibility": "explicit" }
+                },
+                "useDefaultParameterLast": "error",
+                "useEnumInitializers": "error",
+                "useFilenamingConvention": {
+                    "level": "error",
+                    "options": {
+                        "strictCase": false,
+                        "requireAscii": true,
+                        "match": "(.+?)[.](.+)",
+                        "filenameCases": ["kebab-case"]
+                    }
+                },
+                "useImportType": "off",
+                "useNodeAssertStrict": "error",
+                "useNumberNamespace": "error",
+                "useSelfClosingElements": "error",
+                "useSingleVarDeclarator": "error",
+                "useThrowNewError": "error",
+                "useThrowOnlyError": "error"
+            },
+            "suspicious": {
+                "noConsole": "error",
+                "noExportsInTest": "error",
+                "noFocusedTests": "error",
+                "noSkippedTests": "error",
+                "noVar": "error",
+                "useAwait": "error"
+            }
+        }
+    },
+    "javascript": {
+        "formatter": {
+            "quoteStyle": "single",
+            "trailingCommas": "all",
+            "semicolons": "asNeeded",
+            "arrowParentheses": "asNeeded"
+        },
+        "parser": {
+            "unsafeParameterDecoratorsEnabled": true
+        }
+    },
+    "json": {
+        "formatter": {
+            "enabled": true,
+            "indentStyle": "space",
+            "indentWidth": 4
+        }
+    },
+    "assist": {
+        "enabled": true,
+        "actions": {
+            "source": {
+                "organizeImports": {
+                    "level": "on",
+                    "options": {
+                        "groups": [
+                            ":NODE:",
+                            ":BLANK_LINE:",
+                            ":PACKAGE:",
+                            ":BLANK_LINE:",
+                            ":ALIAS:",
+                            ":BLANK_LINE:",
+                            "../**",
+                            ":BLANK_LINE:",
+                            "./**"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "overrides": [
+        {
+            "includes": ["src/modules/**/*"],
+            "linter": {
+                "rules": {
+                    "complexity": {
+                        "noStaticOnlyClass": "off"
+                    }
+                }
+            }
+        }
+    ]
+}
