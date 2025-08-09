@@ -3,6 +3,13 @@
         "level": "verbose",
         "pretty": true
     },
+    "database": {
+        "connection": {
+            "host": "localhost",
+            "ssl": false
+        },
+        "logQueries": true
+    },
     "openApi": {
         "server": "http://localhost:3000",
         "swagger": {

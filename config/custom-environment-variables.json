@@ -1,0 +1,13 @@
+{
+    "database": {
+        "connection": {
+            "host": "DATABASE_HOST",
+            "port": {
+                "__name": "DATABASE_PORT",
+                "__format": "number"
+            },
+            "username": "DATABASE_USERNAME",
+            "password": "DATABASE_PASSWORD"
+        }
+    }
+}
