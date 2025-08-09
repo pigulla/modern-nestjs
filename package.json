@@ -79,7 +79,7 @@
     "@nestjs/swagger": "11.2.0",
     "config": "4.1.0",
     "nestjs-pino": "4.4.0",
-    "nestjs-zod": "5.0.0-beta.20250719T005107",
+    "nestjs-zod": "5.0.0-beta.20250806T023752",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.2",
     "zod": "4.0.17"
