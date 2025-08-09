@@ -14,6 +14,7 @@ jobs:
           node-version: 24
 
       - run: npm ci
+      - run: npm i --no-save @biomejs/cli-linux-x64 @swc/core @rollup/rollup-linux-x64-gnu
       - run: npm test
       - run: npm run build
       - run: npm run openapi

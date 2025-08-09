@@ -7,7 +7,7 @@ import rulesJson from './rules.json' with { type: 'json' }
 import { type Component, type Exception, type Rule, rulesSchema } from './rules.schema.js'
 
 describe('The project implements a clean architecture where', () => {
-  const pathToTsConfig = join(__dirname, '..', '..', 'tsconfig.json')
+  const pathToTsConfig = join(import.meta.dirname, '..', '..', 'tsconfig.json')
   const rules = rulesSchema.parse(rulesJson)
 
   describe.each<[string, Rule[]]>(Object.entries(rules))('files in %s', (source, rulesMap) => {
