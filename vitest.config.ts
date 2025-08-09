@@ -24,12 +24,12 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '#application': resolve(__dirname, 'src/application'),
-      '#domain': resolve(__dirname, 'src/domain'),
-      '#infrastructure': resolve(__dirname, 'src/infrastructure'),
-      '#module': resolve(__dirname, 'src/module'),
-      '#presentation': resolve(__dirname, 'src/presentation'),
-      '#util': resolve(__dirname, 'src/util'),
+      '#application': resolve(import.meta.dirname, 'src/application'),
+      '#domain': resolve(import.meta.dirname, 'src/domain'),
+      '#infrastructure': resolve(import.meta.dirname, 'src/infrastructure'),
+      '#module': resolve(import.meta.dirname, 'src/module'),
+      '#presentation': resolve(import.meta.dirname, 'src/presentation'),
+      '#util': resolve(import.meta.dirname, 'src/util'),
     },
   },
 })

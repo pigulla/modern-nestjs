@@ -23,7 +23,13 @@
                 "noUndeclaredDependencies": {
                     "level": "error",
                     "options": {
-                        "devDependencies": ["**/vitest.config.ts", "**/*.test.ts", "**/*.mock.ts"],
+                        "devDependencies": [
+                            "**/vitest.config.ts",
+                            "**/*.test.ts",
+                            "**/*.mock.ts",
+                            "**/test/**/*.ts",
+                            "**/scripts/**/*.ts"
+                        ],
                         "peerDependencies": false,
                         "optionalDependencies": false
                     }

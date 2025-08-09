@@ -9,6 +9,19 @@
         "level": "log",
         "requestResponse": false
     },
+    "database": {
+        "connection": {
+            "name": "application",
+            "host": "localhost",
+            "port": 5432,
+            "ssl": true,
+            "username": "",
+            "password": "",
+            "database": "quotes"
+        },
+        "logQueries": false,
+        "disableWarnings": false
+    },
     "openApi": {
         "server": "http://example.com",
         "title": "My API",

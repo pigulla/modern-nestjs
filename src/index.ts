@@ -3,10 +3,9 @@ import type { NestExpressApplication } from '@nestjs/platform-express'
 import { SwaggerModule } from '@nestjs/swagger'
 import { Logger } from 'nestjs-pino'
 
-import { OPEN_API_CONFIG, type OpenApiConfig } from '#infrastructure/config/open-api.config.js'
-import { SERVER_CONFIG, type ServerConfig } from '#infrastructure/config/server.config.js'
-
 import { createOpenAPIDocument } from './create-openapi-document.js'
+import { OPEN_API_CONFIG, type OpenApiConfig } from './infrastructure/config/open-api.config.js'
+import { SERVER_CONFIG, type ServerConfig } from './infrastructure/config/server.config.js'
 import { MainModule } from './module/main.module.js'
 
 export async function bootstrap(): Promise<void> {
