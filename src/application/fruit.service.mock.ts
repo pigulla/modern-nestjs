@@ -6,6 +6,10 @@ export type FruitServiceMock = Mocked<IFruitService>
 
 export function mockFruitService(): FruitServiceMock {
   return {
+    get: vi.fn(),
+    update: vi.fn(),
+    create: vi.fn(),
+    delete: vi.fn(),
     getRandom: vi.fn(),
   }
 }

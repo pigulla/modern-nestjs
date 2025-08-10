@@ -20,27 +20,27 @@
   "imports": {
     "#application/*": {
       "development": "./src/application/*",
-      "default": "./dist/src/application/*"
+      "dist": "./dist/src/application/*"
     },
     "#domain/*": {
       "development": "./src/domain/*",
-      "default": "./dist/src/domain/*"
+      "dist": "./dist/src/domain/*"
     },
     "#infrastructure/*": {
       "development": "./src/infrastructure/*",
-      "default": "./dist/src/infrastructure/*"
+      "dist": "./dist/src/infrastructure/*"
     },
     "#module/*": {
       "development": "./src/module/*",
-      "default": "./dist/src/module/*"
+      "dist": "./dist/src/module/*"
     },
     "#presentation/*": {
       "development": "./src/presentation/*",
-      "default": "./dist/src/presentation/*"
+      "dist": "./dist/src/presentation/*"
     },
     "#util/*": {
       "development": "./src/util/*",
-      "default": "./dist/src/util/*"
+      "dist": "./dist/src/util/*"
     }
   },
   "scripts": {
@@ -60,7 +60,7 @@
     "openapi:html": "redocly build-docs openapi.json --output=openapi.html",
     "openapi:lint": "redocly lint openapi.json",
     "start": "NODE_OPTIONS='--conditions development' jiti src/index.ts",
-    "start:dist": "node dist/src/index.js",
+    "start:dist": "NODE_OPTIONS='--conditions dist' node dist/src/index.js",
     "test": "npm run lint && npm run vitest && npm audit --omit dev --audit-level high",
     "vitest": "npm run vitest:unit && npm run vitest:integration && npm run vitest:architecture",
     "vitest:architecture": "vitest run --passWithNoTests --slowTestThreshold 30000 --testTimeout 30000 test/architecture/",

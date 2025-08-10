@@ -12,6 +12,6 @@
     ],
     "compilerOptions": {
         "noEmit": false,
-        "customConditions": []
+        "customConditions": ["dist"]
     }
 }
