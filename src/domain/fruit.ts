@@ -2,8 +2,20 @@
 import type { JsonObject } from 'type-fest'
 import z from 'zod'
 
+export const fruitNameSchema = z
+  .string()
+  .min(1)
+  .refine(value => value !== 'random', { message: '"random" is a reserved name' })
+  .brand('fruit-name')
+
+export type FruitName = z.infer<typeof fruitNameSchema>
+
+export function asFruitName(value: string): FruitName {
+  return fruitNameSchema.parse(value)
+}
+
 const fruitSchema = z.strictObject({
-  name: z.string().min(1),
+  name: fruitNameSchema,
   calories: z.number().min(0),
 })
 
@@ -11,10 +23,10 @@ export class Fruit {
   // biome-ignore lint/correctness/noUnusedPrivateClassMembers: Disable structural typing.
   readonly #brand = Symbol(Fruit.name)
 
-  public readonly name: string
+  public readonly name: FruitName
   public readonly calories: number
 
-  public constructor(data: { name: string; calories: number }) {
+  public constructor(data: { name: FruitName; calories: number }) {
     const { name, calories } = fruitSchema.parse(data)
 
     this.name = name

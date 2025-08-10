@@ -6,6 +6,10 @@ export type FruitRepositoryMock = Mocked<IFruitRepository>
 
 export function mockFruitRepository(): FruitRepositoryMock {
   return {
+    create: vi.fn(),
+    get: vi.fn(),
     getAll: vi.fn(),
+    delete: vi.fn(),
+    update: vi.fn(),
   }
 }
