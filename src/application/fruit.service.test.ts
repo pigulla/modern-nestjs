@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing'
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { asFruitName, Fruit } from '#domain/fruit.js'
+import { Fruit } from '#domain/fruit.js'
 import { IFruitRepository } from '#domain/fruit.repository.interface.js'
 import { type FruitRepositoryMock, mockFruitRepository } from '#domain/fruit.repository.mock.js'
 
@@ -22,7 +22,7 @@ describe('AppService', () => {
   })
 
   it('should do things', () => {
-    const fruit = new Fruit({ name: asFruitName('Watermelon'), calories: 30 })
+    const fruit = Fruit.create({ id: 42, name: 'Watermelon', calories: 30 })
 
     fruitRepositoryMock.getAll.mockReturnValue([fruit])
 

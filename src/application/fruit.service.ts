@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common'
 
-import type { Fruit, FruitName } from '#domain/fruit.js'
+import type { Fruit, FruitID } from '#domain/fruit.js'
 import { IFruitRepository } from '#domain/fruit.repository.interface.js'
 
 import { IFruitService } from './fruit.service.interface.js'
@@ -14,35 +14,35 @@ export class FruitService implements IFruitService {
     this.repository = fruitRepository
   }
 
-  public get(name: FruitName): Fruit {
-    this.logger.log(`Getting fruit with name "${name}"`)
+  public get(id: FruitID): Fruit {
+    this.logger.log(`Getting fruit with id "${id}"`)
 
-    return this.repository.get(name)
+    return this.repository.get(id)
   }
 
   public create(fruit: Fruit): Fruit {
-    this.logger.log(`Creating a fruit with name "${fruit.name}"`)
+    this.logger.log(`Creating a fruit with id "${fruit.id}"`)
 
     return this.repository.create(fruit)
   }
 
   public update(fruit: Fruit): Fruit {
-    this.logger.log(`Updating fruit with name "${fruit.name}"`)
+    this.logger.log(`Updating fruit with id "${fruit.id}"`)
 
     return this.repository.update(fruit)
   }
 
-  public delete(name: FruitName): void {
-    this.logger.log(`Deleting fruit with name "${name}"`)
+  public delete(id: FruitID): void {
+    this.logger.log(`Deleting fruit with id "${id}"`)
 
-    this.repository.delete(name)
+    this.repository.delete(id)
   }
 
-  public getRandom(): Fruit {
+  public getRandom(): Fruit | null {
     this.logger.log('Getting a random fruit')
 
     const fruits = this.repository.getAll()
 
-    return fruits[Math.floor(Math.random() * fruits.length)]
+    return fruits[Math.floor(Math.random() * fruits.length)] ?? null
   }
 }

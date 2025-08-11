@@ -1,22 +1,24 @@
 import { createZodDto } from 'nestjs-zod'
 import { z } from 'zod'
 
-import { Fruit, fruitNameSchema } from '#domain/fruit.js'
+import { Fruit, fruitIdSchema } from '#domain/fruit.js'
 
 export const fruitDtoSchema = z.strictObject({
-  name: fruitNameSchema.meta({ description: 'The name of the fruit.' }),
-  calories: z.number().min(0).describe('How much calories a serving has.'),
+  id: fruitIdSchema,
+  name: z.string().min(1),
+  calories: z.number().min(0),
 })
 
 export class FruitDTO extends createZodDto(fruitDtoSchema) {}
 
 export function domainToDTO(fruit: Fruit): FruitDTO {
   return fruitDtoSchema.parse({
+    id: fruit.id,
     name: fruit.name,
     calories: fruit.calories,
   })
 }
 
-export function dtoToDomain({ name, calories }: FruitDTO): Fruit {
-  return new Fruit({ name, calories })
+export function dtoToDomain({ id, name, calories }: FruitDTO): Fruit {
+  return new Fruit({ id, name, calories })
 }

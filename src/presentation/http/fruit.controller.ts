@@ -9,6 +9,7 @@ import {
   HttpStatus,
   NotFoundException,
   Param,
+  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common'
@@ -18,7 +19,7 @@ import { ZodValidationPipe } from 'nestjs-zod'
 import { IFruitService } from '#application/fruit.service.interface.js'
 import { FruitAlreadyExistsError } from '#domain/error/fruit-already-exists.error.js'
 import { FruitNotFoundError } from '#domain/error/fruit-not-found.error.js'
-import { type FruitName, fruitNameSchema } from '#domain/fruit.js'
+import { type FruitID, fruitIdSchema } from '#domain/fruit.js'
 
 import { domainToDTO, dtoToDomain, FruitDTO } from './fruit.dto.js'
 
@@ -42,19 +43,29 @@ export class FruitController {
     type: FruitDTO,
   })
   @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'No fruits were found so a random fruit could not be returned.',
+  })
+  @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'The operation failed unexpectedly.',
   })
   public random(): FruitDTO {
-    return domainToDTO(this.fruitService.getRandom())
+    const fruit = this.fruitService.getRandom()
+
+    if (!fruit) {
+      throw new NotFoundException()
+    }
+
+    return domainToDTO(fruit)
   }
 
-  @Get(':name')
+  @Get(':id')
   @ApiOperation({
     summary: 'Get a fruit.',
-    description: 'Get the fruit with the given name, if it exists.',
+    description: 'Get the fruit with the given id, if it exists.',
   })
-  @ApiParam({ name: 'name', type: 'string', example: 'Banana' })
+  @ApiParam({ name: 'id', type: 'number', format: 'int', example: 42 })
   @ApiResponse({
     status: HttpStatus.OK,
     type: FruitDTO,
@@ -67,11 +78,13 @@ export class FruitController {
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'The fruit with the given name was not found.',
+    description: 'The fruit with the given id was not found.',
   })
-  public get(@Param('name', new ZodValidationPipe(fruitNameSchema)) name: FruitName): FruitDTO {
+  public get(
+    @Param('id', ParseIntPipe, new ZodValidationPipe(fruitIdSchema)) id: FruitID,
+  ): FruitDTO {
     try {
-      return domainToDTO(this.fruitService.get(name))
+      return domainToDTO(this.fruitService.get(id))
     } catch (error) {
       if (error instanceof FruitNotFoundError) {
         throw new NotFoundException(error.message)
@@ -81,13 +94,13 @@ export class FruitController {
     }
   }
 
-  @Delete(':name')
+  @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({
     summary: 'Delete a fruit.',
-    description: 'Delete the fruit with the given name, if it exists.',
+    description: 'Delete the fruit with the given id, if it exists.',
   })
-  @ApiParam({ name: 'name', type: 'string', example: 'Banana' })
+  @ApiParam({ name: 'id', type: 'number', format: 'int', example: 42 })
   @ApiResponse({
     status: HttpStatus.NO_CONTENT,
     description: 'The operation completed successfully.',
@@ -99,11 +112,13 @@ export class FruitController {
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'The fruit with the given name was not found.',
+    description: 'The fruit with the given id was not found.',
   })
-  public delete(@Param('name', new ZodValidationPipe(fruitNameSchema)) name: FruitName): void {
+  public delete(
+    @Param('id', ParseIntPipe, new ZodValidationPipe(fruitIdSchema)) id: FruitID,
+  ): void {
     try {
-      this.fruitService.delete(name)
+      this.fruitService.delete(id)
     } catch (error) {
       if (error instanceof FruitNotFoundError) {
         throw new NotFoundException(error.message)
@@ -113,12 +128,12 @@ export class FruitController {
     }
   }
 
-  @Put(':name')
+  @Put(':id')
   @ApiOperation({
     summary: 'Update a fruit.',
-    description: 'Update the fruit with the given name, if it exists.',
+    description: 'Update the fruit with the given id, if it exists.',
   })
-  @ApiParam({ name: 'name', type: 'string', example: 'Banana' })
+  @ApiParam({ name: 'id', type: 'number', format: 'int', example: 42 })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'The operation completed successfully.',
@@ -130,13 +145,13 @@ export class FruitController {
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
-    description: 'The fruit with the given name was not found.',
+    description: 'The fruit with the given id was not found.',
   })
   public update(
-    @Param('name', new ZodValidationPipe(fruitNameSchema)) name: FruitName,
+    @Param('id', ParseIntPipe, new ZodValidationPipe(fruitIdSchema)) id: FruitID,
     @Body() dto: FruitDTO,
   ): FruitDTO {
-    if (name !== dto.name) {
+    if (id !== dto.id) {
       throw new BadRequestException('Route parameter does not match payload.')
     }
 
@@ -171,7 +186,7 @@ export class FruitController {
   })
   @ApiResponse({
     status: HttpStatus.CONFLICT,
-    description: 'A fruit with the given name already exists.',
+    description: 'A fruit with the given id already exists.',
   })
   public create(@Body() dto: FruitDTO): FruitDTO {
     const fruit = dtoToDomain(dto)
