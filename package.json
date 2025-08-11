@@ -30,6 +30,9 @@
       "development": "./src/infrastructure/*",
       "dist": "./dist/src/infrastructure/*"
     },
+    "#mocks": {
+      "development": "./src/mocks.js"
+    },
     "#module/*": {
       "development": "./src/module/*",
       "dist": "./dist/src/module/*"
@@ -63,9 +66,10 @@
     "start:dist": "NODE_OPTIONS='--conditions dist' node dist/src/index.js",
     "test": "npm run lint && npm run vitest && npm audit --omit dev --audit-level high",
     "vitest": "npm run vitest:unit && npm run vitest:integration && npm run vitest:architecture",
-    "vitest:architecture": "vitest run --passWithNoTests --slowTestThreshold 30000 --testTimeout 30000 test/architecture/",
-    "vitest:integration": "vitest run test/integration/",
-    "vitest:unit": "vitest run src/"
+    "vitest:architecture": "vitest run --passWithNoTests --slowTestThreshold 30000 --testTimeout 30000 test/architecture",
+    "vitest:coverage": "vitest run --coverage --exclude test/architecture",
+    "vitest:integration": "vitest run test/integration",
+    "vitest:unit": "vitest run src"
   },
   "config": {
     "commitizen": {

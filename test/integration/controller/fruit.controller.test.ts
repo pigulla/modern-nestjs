@@ -4,8 +4,8 @@ import request from 'supertest'
 import { afterEach, beforeEach, describe, it } from 'vitest'
 
 import { IFruitService } from '#application/fruit.service.interface.js'
-import { type FruitServiceMock, mockFruitService } from '#application/fruit.service.mock.js'
 import { asFruitName, Fruit } from '#domain/fruit.js'
+import { type FruitServiceMock, mockFruitService } from '#mocks'
 import { FruitController } from '#presentation/http/fruit.controller.js'
 
 describe('AppController', () => {
