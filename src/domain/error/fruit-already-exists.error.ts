@@ -1,11 +1,11 @@
-import type { FruitName } from '#domain/fruit.js'
+import type { FruitID } from '#domain/fruit.js'
 
 export class FruitAlreadyExistsError extends Error {
-  public readonly name: FruitName
+  public readonly id: FruitID
 
-  public constructor(name: FruitName) {
-    super('A fruit with the given name already exists')
+  public constructor(id: FruitID) {
+    super('A fruit with the given id already exists')
 
-    this.name = name
+    this.id = id
   }
 }

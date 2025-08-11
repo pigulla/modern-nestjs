@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common'
 
-import type { Fruit, FruitName } from './fruit.js'
+import type { Fruit, FruitID } from './fruit.js'
 
 @Injectable()
 export abstract class IFruitRepository {
   public abstract create(fruit: Fruit): Fruit
-  public abstract get(name: FruitName): Fruit
+  public abstract get(id: FruitID): Fruit
   public abstract getAll(): Fruit[]
-  public abstract delete(name: FruitName): void
+  public abstract delete(id: FruitID): void
   public abstract update(fruit: Fruit): Fruit
 }
