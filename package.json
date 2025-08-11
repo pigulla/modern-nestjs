@@ -91,7 +91,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.1.4",
     "@nestjs/testing": "11.1.6",
-    "@redocly/cli": "2.0.2",
+    "@redocly/cli": "2.0.3",
     "@swc-node/register": "1.10.10",
     "@swc/core": "1.13.3",
     "@tsconfig/node-ts": "23.6.1",
@@ -116,7 +116,7 @@
     "type-fest": "4.41.0",
     "typescript": "5.9.2",
     "unplugin-swc": "1.5.5",
-    "vite": "7.1.1",
+    "vite": "7.1.2",
     "vitest": "3.2.4",
     "yaml": "2.8.1"
   }

@@ -2,32 +2,32 @@ import { Injectable } from '@nestjs/common'
 
 import { FruitAlreadyExistsError } from '#domain/error/fruit-already-exists.error.js'
 import { FruitNotFoundError } from '#domain/error/fruit-not-found.error.js'
-import { asFruitName, Fruit, type FruitName } from '#domain/fruit.js'
+import { asFruitID, Fruit, type FruitID } from '#domain/fruit.js'
 import type { IFruitRepository } from '#domain/fruit.repository.interface.js'
 
 @Injectable()
 export class FruitRepository implements IFruitRepository {
-  private readonly fruits: Map<FruitName, Fruit> = new Map([
-    [asFruitName('Banana'), new Fruit({ name: asFruitName('Banana'), calories: 111 })],
-    [asFruitName('Pear'), new Fruit({ name: asFruitName('Pear'), calories: 103 })],
-    [asFruitName('Plum'), new Fruit({ name: asFruitName('Plum'), calories: 17 })],
+  private readonly fruits: Map<FruitID, Fruit> = new Map([
+    [asFruitID(1), new Fruit({ id: asFruitID(1), name: 'Banana', calories: 111 })],
+    [asFruitID(2), new Fruit({ id: asFruitID(2), name: 'Pear', calories: 103 })],
+    [asFruitID(3), new Fruit({ id: asFruitID(3), name: 'Plum', calories: 17 })],
   ])
 
   public create(fruit: Fruit): Fruit {
-    if (this.fruits.has(fruit.name)) {
-      throw new FruitAlreadyExistsError(fruit.name)
+    if (this.fruits.has(fruit.id)) {
+      throw new FruitAlreadyExistsError(fruit.id)
     }
 
-    this.fruits.set(fruit.name, fruit)
+    this.fruits.set(fruit.id, fruit)
 
     return fruit
   }
 
-  public get(name: FruitName): Fruit {
-    const fruit = this.fruits.get(name)
+  public get(id: FruitID): Fruit {
+    const fruit = this.fruits.get(id)
 
     if (!fruit) {
-      throw new FruitNotFoundError(name)
+      throw new FruitNotFoundError(id)
     }
 
     return fruit
@@ -37,20 +37,20 @@ export class FruitRepository implements IFruitRepository {
     return [...this.fruits.values()]
   }
 
-  public delete(name: FruitName): void {
-    if (!this.fruits.has(name)) {
-      throw new FruitNotFoundError(name)
+  public delete(id: FruitID): void {
+    if (!this.fruits.has(id)) {
+      throw new FruitNotFoundError(id)
     }
 
-    this.fruits.delete(name)
+    this.fruits.delete(id)
   }
 
   public update(fruit: Fruit): Fruit {
-    if (!this.fruits.has(fruit.name)) {
-      throw new FruitNotFoundError(fruit.name)
+    if (!this.fruits.has(fruit.id)) {
+      throw new FruitNotFoundError(fruit.id)
     }
 
-    this.fruits.set(fruit.name, fruit)
+    this.fruits.set(fruit.id, fruit)
 
     return fruit
   }

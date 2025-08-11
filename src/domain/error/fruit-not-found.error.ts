@@ -1,11 +1,11 @@
-import type { FruitName } from '#domain/fruit.js'
+import type { FruitID } from '#domain/fruit.js'
 
 export class FruitNotFoundError extends Error {
-  public readonly name: FruitName
+  public readonly id: FruitID
 
-  public constructor(name: FruitName) {
+  public constructor(id: FruitID) {
     super('Fruit not found')
 
-    this.name = name
+    this.id = id
   }
 }
