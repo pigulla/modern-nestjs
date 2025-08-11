@@ -6,7 +6,7 @@
         "useIgnoreFile": true
     },
     "files": {
-        "includes": ["**", "!package.json", "!openapi.json", "!dist", "!node_modules"]
+        "includes": ["**", "!package.json", "!openapi.json", "!coverage", "!dist", "!node_modules"]
     },
     "formatter": {
         "enabled": true,
