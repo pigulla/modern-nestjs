@@ -44,9 +44,19 @@ export class FruitController {
     description: 'No fruits were found so a random fruit could not be returned.',
   })
   @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'No fruits were found so a random fruit could not be returned.',
+  })
+  @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'The operation failed unexpectedly.',
   })
+  public random(): FruitDTO {
+    const fruit = this.fruitService.getRandom()
+
+    if (!fruit) {
+      throw new NotFoundException()
+    }
   public random() {
     const fruit = this.fruitService.getRandom()
 
@@ -63,7 +73,11 @@ export class FruitController {
     description: 'Get the fruit with the given id, if it exists.',
   })
   @ApiParam({ name: 'id', type: 'number', format: 'int', example: 42 })
-  @ZodResponse({ description: 'The operation completed successfully.', type: FruitDTO })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: FruitDTO,
+    description: 'The operation completed successfully.',
+  })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description:
@@ -73,7 +87,9 @@ export class FruitController {
     status: HttpStatus.NOT_FOUND,
     description: 'The fruit with the given id was not found.',
   })
-  public get(@Param('id', ParseIntPipe, new ZodValidationPipe(fruitIdSchema)) id: FruitID) {
+  public get(
+    @Param('id', ParseIntPipe, new ZodValidationPipe(fruitIdSchema)) id: FruitID,
+  ): FruitDTO {
     try {
       return domainToDTO(this.fruitService.get(id))
     } catch (error) {
@@ -125,7 +141,10 @@ export class FruitController {
     description: 'Update the fruit with the given id, if it exists.',
   })
   @ApiParam({ name: 'id', type: 'number', format: 'int', example: 42 })
-  @ZodResponse({ description: 'The operation completed successfully.', type: FruitDTO })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The operation completed successfully.',
+  })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description:
@@ -138,7 +157,7 @@ export class FruitController {
   public update(
     @Param('id', ParseIntPipe, new ZodValidationPipe(fruitIdSchema)) id: FruitID,
     @Body() dto: FruitDTO,
-  ) {
+  ): FruitDTO {
     if (id !== dto.id) {
       throw new BadRequestException('Route parameter does not match payload.')
     }
