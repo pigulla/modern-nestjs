@@ -1,12 +1,14 @@
 {
-    "extends": ["@tsconfig/node24/tsconfig.json", "@tsconfig/node-ts/tsconfig.json"],
-    "include": ["src/**/*.ts"],
-    "compilerOptions": {
-        "noEmit": true,
-        "rootDir": ".",
-        "outDir": "./dist",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "customConditions": ["development"]
-    }
+    "files": [],
+    "references": [
+        {
+            "path": "packages/app"
+        },
+        {
+            "path": "packages/domain"
+        },
+        {
+            "path": "packages/dto"
+        }
+    ]
 }

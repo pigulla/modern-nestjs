@@ -13,7 +13,7 @@ This repository provides a highly opinionated, basic setup for modern NestJS app
 - 🕵️‍♀️ Validate DTOs, route and query parameters with [Zod](https://github.com/colinhacks/zod) instead of [Class Validator](https://github.com/typestack/class-validator) (powered by [`nestjs-zod`](https://github.com/BenLorantfy/nestjs-zod) - this currently requires the [v5 beta](https://github.com/BenLorantfy/nestjs-zod/discussions/148)). 
 - ✅ Validate OpenAPI documentation with [Redocly](https://redocly.com/redocly-cli). It can also [generate](https://redocly.com/docs/cli/commands/build-docs) reasonably pretty HTML docs.
 - 🧑‍🔧 Use [Vitest](https://vitest.dev/) instead of [Jest](https://vitest.dev/).
-- 🏚 Comes with [architecture tests](./test/architecture) powered by [TSArch](https://github.com/ts-arch/ts-arch). The tests currently assert the core ideas of a [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html). Feel free to [configure](./test/architecture/rules.json) them to your liking.
+- 🏚 Comes with [architecture tests](packages/app/test/architecture) powered by [TSArch](https://github.com/ts-arch/ts-arch). The tests currently assert the core ideas of a [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html). Feel free to [configure](packages/app/test/architecture/rules.json) them to your liking.
 - 🔬 Extended linting with [`depcheck`](https://github.com/depcheck/depcheck), [`npm-package-json-lint`](https://npmpackagejsonlint.org/) and [`lockfile-lint`](https://github.com/lirantal/lockfile-lint/tree/main).
 - ✨ Run TypeScript files with [`jiti`](https://github.com/unjs/jiti) instead of [`ts-node`](https://typestrong.org/ts-node/).
 - 📜 Logging is based on [`pino`](https://getpino.io/#/) (courtesy of [`nestjs-pino`](https://github.com/iamolegga/nestjs-pino)).
@@ -22,10 +22,13 @@ This repository provides a highly opinionated, basic setup for modern NestJS app
 - 🚀 Did I mention that the package itself is ESM? Because it is.
 - 🧰 Use [`@tsconfig/bases`](https://github.com/tsconfig/bases) for TypeScript configuration.
 - 💁‍♂️ Preconfigured for [commitizen](https://commitizen.github.io/cz-cli/).
+- 📦 Monorepo setup with [npm workspaces](https://docs.npmjs.com/cli/v11/using-npm/workspaces).
 
 ### Missing Features
 - We can _almost_ run the code natively using [type stripping](https://nodejs.org/api/typescript.html#type-stripping). To make this work we need the [`rewriteRelativeImportExtensions`](https://devblogs.microsoft.com/typescript/announcing-typescript-5-7/) option introduced in TypeScript 5.7 - unfortunately this doesn't play well with subpath imports because those are absolute. Guess we have to either wait for TypeScript to fix this or get rid of the subpath imports.
 - Maybe add linting for Markdown ([`markdownlint`](https://github.com/DavidAnson/markdownlint) looks nice enough),
+- Unfortunately, the build order has to be sorted topologically in the `workspace` property of [`package.json`](./package.json) (until this is [fixed](https://github.com/npm/cli/issues/4139#issuecomment-1730186418) by `npm`).
 
 ### Other Notes
 - We use abstract classes instead of interfaces solely because they can then double as injection tokens (interfaces don't exist at runtime, abstract classes do). Note that the concretions don't `extend` but `implement` them.
+- This is a very basic setup for a monorepo. If you need more features (and accept the headaches that come with those) check out [nx](https://nx.dev/) or [Turborepo](https://turborepo.com/).
