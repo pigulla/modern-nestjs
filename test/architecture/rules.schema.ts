@@ -1,7 +1,7 @@
 import z from 'zod'
 
 // This needs to match the directory names in /src
-export const COMPONENT = {
+const COMPONENT = {
   APPLICATION: 'application',
   DOMAIN: 'domain',
   PRESENTATION: 'presentation',
@@ -13,12 +13,12 @@ export type Component = keyof typeof COMPONENT
 
 // This needs to match the file suffixes except for the trailing "s",
 // e.g., "interfaces" will be mapped to  "*.interface.ts".
-export const EXCEPTION = {
+const EXCEPTION = {
   ERRORS: 'errors',
   INTERFACES: 'interfaces',
   CONFIGS: 'configs',
 } as const
-export type Exception = keyof typeof COMPONENT
+export type Exception = keyof typeof EXCEPTION
 
 const componentSchema = z.union(
   ['application', 'domain', 'presentation', 'infrastructure', 'module', 'util'].map(value =>
@@ -32,7 +32,7 @@ const exceptionSchema = z.union(
   ),
 )
 
-export const ruleSchema = z.strictObject({
+const ruleSchema = z.strictObject({
   mustNotImportFrom: z
     .union([componentSchema, z.array(componentSchema)])
     .transform<Set<Component>>(value => new Set(Array.isArray(value) ? value : [value])),
@@ -46,4 +46,3 @@ export const ruleSchema = z.strictObject({
 export const rulesSchema = z.record(componentSchema, z.array(ruleSchema))
 
 export type Rule = z.infer<typeof ruleSchema>
-export type Rules = z.infer<typeof rulesSchema>
