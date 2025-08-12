@@ -69,5 +69,8 @@
     "vite": "7.1.2",
     "vitest": "3.2.4",
     "yaml": "2.8.1"
+  },
+  "dependencies": {
+    "dayjs": "1.11.13"
   }
 }

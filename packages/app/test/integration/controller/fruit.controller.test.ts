@@ -1,4 +1,4 @@
-import { asFruitID, Fruit } from '@modern-nestjs/domain/fruit.js'
+import { asFruitID, Fruit } from '@modern-nestjs/domain/network.js'
 
 import { HttpStatus, type INestApplication } from '@nestjs/common'
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
@@ -11,7 +11,7 @@ import { IFruitService } from '#application/fruit.service.interface.js'
 import { FruitAlreadyExistsError } from '#domain/error/fruit-already-exists.error.js'
 import { FruitNotFoundError } from '#domain/error/fruit-not-found.error.js'
 import { type FruitServiceMock, mockFruitService } from '#mocks'
-import { FruitController } from '#presentation/http/fruit.controller.js'
+import { FruitController } from '#presentation/http/channel.controller.js'
 
 describe('AppController', () => {
   const banana = Fruit.create({ id: 42, name: 'Banana', calories: 30 })
