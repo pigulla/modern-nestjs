@@ -20,14 +20,7 @@
             "recommended": true,
             "correctness": {
                 "noPrivateImports": "error",
-                "noUndeclaredDependencies": {
-                    "level": "error",
-                    "options": {
-                        "devDependencies": ["**/vitest.config.ts", "**/*.test.ts", "**/*.mock.ts"],
-                        "peerDependencies": false,
-                        "optionalDependencies": false
-                    }
-                }
+                "noUndeclaredDependencies": "off"
             },
             "performance": {
                 "noBarrelFile": "error"
@@ -104,6 +97,8 @@
                     "options": {
                         "groups": [
                             ":NODE:",
+                            ":BLANK_LINE:",
+                            ["@modern-nestjs/**"],
                             ":BLANK_LINE:",
                             ":PACKAGE:",
                             ":BLANK_LINE:",

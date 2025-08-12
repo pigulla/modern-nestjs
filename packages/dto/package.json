@@ -1,0 +1,42 @@
+{
+    "name": "@modern-nestjs/dto",
+    "version": "0.0.1",
+    "description": "The DTO part.",
+    "bugs": {
+        "url": "https://github.com/pigulla/modern-nestjs/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/pigulla/modern-nestjs"
+    },
+    "license": "ISC",
+    "author": {
+        "name": "Raphael Pigulla",
+        "email": "raphael@pigulla.net",
+        "url": "https://de.linkedin.com/in/pigulla"
+    },
+    "type": "module",
+    "exports": {
+        "./*": {
+            "development": "./src/*",
+            "dist": "./dist/src/*"
+        }
+    },
+    "scripts": {
+        "build": "rm -rf dist && npm run build:tsc",
+        "build:tsc": "tsc --project tsconfig.build.json",
+        "format": "npm run format:biome && npm run format:package-json",
+        "format:biome": "biome check --write",
+        "format:package-json": "sort-package-json",
+        "lint": "npm run lint:tsc && npm run lint:biome && npm run lint:knip && npm run lint:lockfile && npm run lint:package-json",
+        "lint:biome": "biome check",
+        "lint:package-json": "npmPkgJsonLint . && sort-package-json --check",
+        "lint:tsc": "tsc --noEmit",
+        "test": "npm run lint && npm run vitest && npm audit --omit dev --audit-level high"
+    },
+    "dependencies": {
+        "@modern-nestjs/domain": "0.0.1",
+        "nestjs-zod": "5.0.0-beta.20250719T005107",
+        "zod": "4.0.17"
+    }
+}

@@ -22,10 +22,13 @@ This repository provides a highly opinionated, basic setup for modern NestJS app
 - 🚀 Did I mention that the package itself is ESM? Because it is.
 - 🧰 Use [`@tsconfig/bases`](https://github.com/tsconfig/bases) for TypeScript configuration.
 - 💁‍♂️ Preconfigured for [commitizen](https://commitizen.github.io/cz-cli/).
+- 📦 Monorepo setup with [npm workspaces](https://docs.npmjs.com/cli/v11/using-npm/workspaces).
 
 ### Missing Features
 - We can _almost_ run the code natively using [type stripping](https://nodejs.org/api/typescript.html#type-stripping). To make this work we need the [`rewriteRelativeImportExtensions`](https://devblogs.microsoft.com/typescript/announcing-typescript-5-7/) option introduced in TypeScript 5.7 - unfortunately this doesn't play well with subpath imports because those are absolute. Guess we have to either wait for TypeScript to fix this or get rid of the subpath imports.
 - Maybe add linting for Markdown ([`markdownlint`](https://github.com/DavidAnson/markdownlint) looks nice enough),
+- Unfortunately, the build order has to be sorted topologically in the `workspace` property of [`package.json`](./package.json) (until this is [fixed](https://github.com/npm/cli/issues/4139#issuecomment-1730186418) by `npm`).
 
 ### Other Notes
 - We use abstract classes instead of interfaces solely because they can then double as injection tokens (interfaces don't exist at runtime, abstract classes do). Note that the concretions don't `extend` but `implement` them.
+- This is a very basic setup for a monorepo. If you need more features (and accept the headaches that come with those) check out [nx](https://nx.dev/) or [Turborepo](https://turborepo.com/).

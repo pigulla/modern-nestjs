@@ -1,0 +1,95 @@
+{
+    "name": "@modern-nestjs/app",
+    "version": "0.0.1",
+    "description": "The app part.",
+    "bugs": {
+        "url": "https://github.com/pigulla/modern-nestjs/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/pigulla/modern-nestjs"
+    },
+    "license": "ISC",
+    "author": {
+        "name": "Raphael Pigulla",
+        "email": "raphael@pigulla.net",
+        "url": "https://de.linkedin.com/in/pigulla"
+    },
+    "type": "module",
+    "imports": {
+        "#application/*": {
+            "development": "./src/application/*",
+            "dist": "./dist/src/application/*"
+        },
+        "#domain/*": {
+            "development": "./src/domain/*",
+            "dist": "./dist/src/domain/*"
+        },
+        "#infrastructure/*": {
+            "development": "./src/infrastructure/*",
+            "dist": "./dist/src/infrastructure/*"
+        },
+        "#mocks": {
+            "development": "./src/mocks.js"
+        },
+        "#module/*": {
+            "development": "./src/module/*",
+            "dist": "./dist/src/module/*"
+        },
+        "#presentation/*": {
+            "development": "./src/presentation/*",
+            "dist": "./dist/src/presentation/*"
+        },
+        "#util/*": {
+            "development": "./src/util/*",
+            "dist": "./dist/src/util/*"
+        }
+    },
+    "scripts": {
+        "build": "rm -rf dist && npm run build:tsc && npm run build:copy-config",
+        "build:copy-config": "rsync --archive --include '*/' --exclude 'local*' config/ dist/config",
+        "build:tsc": "tsc --project tsconfig.build.json",
+        "format": "npm run format:biome && npm run format:package-json",
+        "format:biome": "biome check --write",
+        "format:package-json": "sort-package-json",
+        "lint": "npm run lint:tsc && npm run lint:biome && npm run lint:knip && npm run lint:lockfile && npm run lint:package-json",
+        "lint:biome": "biome check",
+        "lint:package-json": "npmPkgJsonLint . && sort-package-json --check",
+        "lint:tsc": "tsc --noEmit",
+        "openapi": "npm run openapi:build && npm run openapi:html && npm run openapi:lint",
+        "openapi:build": "NODE_OPTIONS='--conditions development' jiti scripts/build-openapi-spec.ts > openapi.json",
+        "openapi:html": "redocly build-docs openapi.json --output=openapi.html",
+        "openapi:lint": "redocly lint openapi.json",
+        "start": "NODE_OPTIONS='--conditions development' jiti src/index.ts",
+        "start:dist": "NODE_OPTIONS='--conditions dist' node dist/src/index.js",
+        "test": "npm run lint && npm run vitest && npm audit --omit dev --audit-level high",
+        "vitest": "npm run vitest:unit && npm run vitest:integration && npm run vitest:architecture",
+        "vitest:architecture": "vitest run --passWithNoTests --slowTestThreshold 30000 --testTimeout 30000 test/architecture",
+        "vitest:coverage": "vitest run --coverage --exclude test/architecture",
+        "vitest:integration": "vitest run test/integration",
+        "vitest:unit": "vitest run src"
+    },
+    "dependencies": {
+        "@modern-nestjs/domain": "0.0.1",
+        "@modern-nestjs/dto": "0.0.1",
+        "@nestjs/common": "11.1.6",
+        "@nestjs/core": "11.1.6",
+        "@nestjs/platform-express": "11.1.6",
+        "@nestjs/swagger": "11.2.0",
+        "config": "4.1.0",
+        "nestjs-pino": "4.4.0",
+        "nestjs-zod": "5.0.0-beta.20250719T005107",
+        "rxjs": "7.8.2",
+        "zod": "4.0.17"
+    },
+    "devDependencies": {
+        "@nestjs/testing": "11.1.6",
+        "@redocly/cli": "2.0.3",
+        "@types/config": "3.3.5",
+        "@types/express": "5.0.3",
+        "@types/supertest": "6.0.3",
+        "pino-pretty": "13.1.1",
+        "supertest": "7.1.4",
+        "yaml": "2.8.1"
+    }
+}
