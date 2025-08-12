@@ -14,7 +14,7 @@ This repository provides a highly opinionated, basic setup for modern NestJS app
 - ✅ Validate OpenAPI documentation with [Redocly](https://redocly.com/redocly-cli). It can also [generate](https://redocly.com/docs/cli/commands/build-docs) reasonably pretty HTML docs.
 - 🧑‍🔧 Use [Vitest](https://vitest.dev/) instead of [Jest](https://vitest.dev/).
 - 🏚 Comes with [architecture tests](./test/architecture) powered by [TSArch](https://github.com/ts-arch/ts-arch). The tests currently assert the core ideas of a [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html). Feel free to [configure](./test/architecture/rules.json) them to your liking.
-- 🔬 Extended linting with [`depcheck`](https://github.com/depcheck/depcheck), [`npm-package-json-lint`](https://npmpackagejsonlint.org/) and [`lockfile-lint`](https://github.com/lirantal/lockfile-lint/tree/main).
+- 🔬 Extended linting with [`Knip`](https://knip.dev), [`npm-package-json-lint`](https://npmpackagejsonlint.org/) and [`lockfile-lint`](https://github.com/lirantal/lockfile-lint/tree/main).
 - ✨ Run TypeScript files with [`jiti`](https://github.com/unjs/jiti) instead of [`ts-node`](https://typestrong.org/ts-node/).
 - 📜 Logging is based on [`pino`](https://getpino.io/#/) (courtesy of [`nestjs-pino`](https://github.com/iamolegga/nestjs-pino)).
 - ⚙️ Configuration is done with [`config`](https://github.com/node-config/node-config) because it is awesome.

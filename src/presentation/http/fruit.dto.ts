@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 import { Fruit, fruitIdSchema } from '#domain/fruit.js'
 
-export const fruitDtoSchema = z.strictObject({
+const fruitDtoSchema = z.strictObject({
   id: fruitIdSchema,
   name: z.string().min(1),
   calories: z.number().min(0),
