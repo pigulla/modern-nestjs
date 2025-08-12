@@ -7,6 +7,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - run: |
+          sudo apt-get -qq update
+          sudo apt-get -qq install --yes docker-compose
+          # Pull image to avoid timeouts when running the integration tests
+          docker pull --quiet postgres:17
+
       - uses: actions/checkout@v2
 
       - uses: actions/setup-node@v1
