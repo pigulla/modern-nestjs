@@ -9,7 +9,6 @@ export function mockChannelFilterRepository(): ChannelFilterRepositoryMock {
     get: vi.fn(),
     getAll: vi.fn(),
     getAllForNetwork: vi.fn(),
-    getIdOf: vi.fn(),
     insert: vi.fn(),
   }
 }

@@ -9,6 +9,7 @@ import type { Network } from '#domain/network/network.js'
 export function channelToDTO(channel: Channel): ChannelDTO {
   return channelDtoSchema.parse({
     key: channel.key,
+    networkKey: channel.networkKey,
     name: channel.name,
     director: channel.director,
     description: channel.description,
@@ -18,7 +19,7 @@ export function channelToDTO(channel: Channel): ChannelDTO {
 export function channelFilterToDTO(channelFilter: ChannelFilter): ChannelFilterDTO {
   return channelFilterDtoSchema.parse({
     key: channelFilter.key,
-    network: channelFilter.network,
+    networkKey: channelFilter.networkKey,
     name: channelFilter.name,
     position: channelFilter.position,
     channels: [...channelFilter.channels],

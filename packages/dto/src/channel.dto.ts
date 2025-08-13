@@ -1,8 +1,11 @@
 import { createZodDto } from 'nestjs-zod'
 import { z } from 'zod'
 
+import { keySchema } from './key.schema.js'
+
 export const channelDtoSchema = z.strictObject({
-  key: z.string().regex(/^[a-z0-9]+$/),
+  key: keySchema,
+  networkKey: keySchema,
   name: z.string().min(1),
   director: z.string(),
   description: z.string(),

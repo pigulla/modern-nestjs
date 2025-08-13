@@ -1,5 +1,4 @@
 SELECT
-  id,
   key,
   name,
   url

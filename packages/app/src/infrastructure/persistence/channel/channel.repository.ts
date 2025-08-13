@@ -1,59 +1,35 @@
 import { join } from 'node:path'
 
-import type { Channel, ChannelID, ChannelKey } from '#domain/channel/channel.js'
-import { asChannelID } from '#domain/channel/channel.schema.js'
-import type { NetworkID } from '#domain/network/network.js'
-
 import { Injectable, type OnModuleInit } from '@nestjs/common'
 
+import type { Channel, ChannelKey } from '#domain/channel/channel.js'
 import type { IChannelRepository } from '#domain/channel/channel.repository.interface.js'
 import { ChannelNotFoundError } from '#domain/channel/channel-not-found.error.js'
+import type { NetworkKey } from '#domain/network/network.js'
 import { AbstractRepository } from '#infrastructure/persistence/abstract.repository.js'
 import { channelsRow } from '#infrastructure/persistence/channel/sql/channels.row.js'
 import { IDatabase } from '#infrastructure/persistence/database.interface.js'
 
 @Injectable()
 export class ChannelRepository
-  extends AbstractRepository<
-    ['get-all', 'get-all-for-network', 'get-id-by-key', 'get-one-by-id', 'get-one-by-key', 'insert']
-  >
+  extends AbstractRepository<['get-all', 'get-all-for-network', 'get-one-by-key', 'insert']>
   implements IChannelRepository, OnModuleInit
 {
   public constructor(database: IDatabase) {
     super(database, {
       directory: join(import.meta.dirname, 'sql'),
-      fileNames: [
-        'get-all',
-        'get-all-for-network',
-        'get-id-by-key',
-        'get-one-by-id',
-        'get-one-by-key',
-        'insert',
-      ],
+      fileNames: ['get-all', 'get-all-for-network', 'get-one-by-key', 'insert'],
     })
   }
 
-  public async getIdOf(key: ChannelKey): Promise<ChannelID> {
-    const stmt = this.stmt.GET_ID_BY_KEY
+  public async get(key: ChannelKey): Promise<Channel> {
+    const stmt = this.stmt.GET_ONE_BY_KEY
 
     stmt.bind({ key })
     const rows = (await stmt.runAndReadAll()).getRowObjects()
 
     if (rows.length === 0) {
-      throw new ChannelNotFoundError({ key })
-    }
-
-    return asChannelID(rows[0].id as number)
-  }
-
-  public async get(id: ChannelID): Promise<Channel> {
-    const stmt = this.stmt.GET_ONE_BY_ID
-
-    stmt.bind({ id })
-    const rows = (await stmt.runAndReadAll()).getRowObjects()
-
-    if (rows.length === 0) {
-      throw new ChannelNotFoundError({ id })
+      throw new ChannelNotFoundError(key)
     }
 
     return channelsRow.parse(rows[0]).toDomain()
@@ -67,9 +43,9 @@ export class ChannelRepository
     return rows.map(row => channelsRow.parse(row).toDomain())
   }
 
-  public async getAllForNetwork(id: NetworkID): Promise<Channel[]> {
+  public async getAllForNetwork(key: NetworkKey): Promise<Channel[]> {
     const stmt = this.stmt.GET_ALL_FOR_NETWORK
-    stmt.bind({ network_id: id })
+    stmt.bind({ network_key: key })
 
     const rows = (await stmt.runAndReadAll()).getRowObjects()
 
@@ -80,10 +56,9 @@ export class ChannelRepository
     const stmt = this.stmt.INSERT
 
     stmt.bind({
-      id: channel.id,
       key: channel.key,
       name: channel.name,
-      network_id: channel.network,
+      network_key: channel.networkKey,
       description: channel.description,
       director: channel.director,
     })

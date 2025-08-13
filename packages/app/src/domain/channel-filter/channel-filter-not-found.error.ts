@@ -1,9 +1,7 @@
-import type { ChannelFilterID, ChannelFilterKey } from '#domain/channel-filter/channel-filter.js'
+import type { ChannelFilterKey } from './channel-filter.js'
 
 export class ChannelFilterNotFoundError extends Error {
-  public constructor(identifier: { id: ChannelFilterID } | { key: ChannelFilterKey }) {
-    super(
-      `Channel filter with ${'key' in identifier ? 'key' : 'id'} "${'key' in identifier ? identifier.key : identifier.id}" not found`,
-    )
+  public constructor(key: ChannelFilterKey) {
+    super(`Channel filter with key "${key}" not found`)
   }
 }

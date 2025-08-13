@@ -1,10 +1,10 @@
-import type { Channel, ChannelID, ChannelKey } from '#domain/channel/channel.js'
-import type { NetworkID } from '#domain/network/network.js'
+import type { NetworkKey } from '../network/network.js'
+
+import type { Channel, ChannelKey } from './channel.js'
 
 export abstract class IChannelRepository {
-  public abstract getIdOf(key: ChannelKey): Promise<ChannelID>
-  public abstract get(id: ChannelID): Promise<Channel>
+  public abstract get(key: ChannelKey): Promise<Channel>
   public abstract getAll(): Promise<Channel[]>
-  public abstract getAllForNetwork(id: NetworkID): Promise<Channel[]>
+  public abstract getAllForNetwork(key: NetworkKey): Promise<Channel[]>
   public abstract insert(channel: Channel): Promise<Channel>
 }

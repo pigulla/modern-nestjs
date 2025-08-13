@@ -1,7 +1,5 @@
 import z from 'zod'
 
-import { channelIdSchema } from '#domain/channel/channel.schema.js'
-
 export const channelDtoSchema = z
   .object({
     id: z.number().int(),
@@ -17,7 +15,7 @@ export const channelDtoSchema = z
         z
           .object({
             id: z.number().int(),
-            similar_channel_id: channelIdSchema,
+            similar_channel_id: z.number().int(),
           })
           .readonly(),
       )

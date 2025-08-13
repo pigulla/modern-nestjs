@@ -1,7 +1,6 @@
 SELECT
-  id,
   key,
-  network_id,
+  network_key,
   name,
   description,
   director

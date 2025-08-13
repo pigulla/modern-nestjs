@@ -1,8 +1,10 @@
 import { createZodDto } from 'nestjs-zod'
 import { z } from 'zod'
 
+import { keySchema } from './key.schema.js'
+
 export const networkDtoSchema = z.strictObject({
-  key: z.string().regex(/^[a-z0-9]+$/),
+  key: keySchema,
   name: z.string().min(1),
   url: z.url(),
 })

@@ -1,80 +1,72 @@
 import type { JsonObject } from 'type-fest'
 import z from 'zod'
 
-import { type ChannelID } from '../channel/channel.js'
-import { asChannelID } from '../channel/channel.schema.js'
-import type { NetworkID } from '../network/network.js'
-import { asNetworkID } from '../network/network.schema.js'
+import { asChannelKey } from '#domain/channel/channel.schema.js'
+
+import type { ChannelKey } from '../channel/channel.js'
+import type { NetworkKey } from '../network/network.js'
+import { asNetworkKey } from '../network/network.schema.js'
 
 import {
-  asChannelFilterID,
   asChannelFilterKey,
-  channelFilterIdSchema,
   channelFilterKeySchema,
   channelFilterSchema,
 } from './channel-filter.schema.js'
 
-export type ChannelFilterID = z.infer<typeof channelFilterIdSchema>
 export type ChannelFilterKey = z.infer<typeof channelFilterKeySchema>
 
 export class ChannelFilter {
   // biome-ignore lint/correctness/noUnusedPrivateClassMembers: Disable structural typing.
   readonly #brand = Symbol(ChannelFilter.name)
 
-  public readonly id: ChannelFilterID
   public readonly key: ChannelFilterKey
-  public readonly network: NetworkID
+  public readonly networkKey: NetworkKey
   public readonly name: string
   public readonly position: number
-  public readonly channels: ReadonlySet<ChannelID>
+  public readonly channels: ReadonlySet<ChannelKey>
 
   public constructor(data: {
-    id: ChannelFilterID
     key: ChannelFilterKey
-    network: NetworkID
+    networkKey: NetworkKey
     name: string
     position: number
-    channels: Set<ChannelID>
+    channels: Set<ChannelKey>
   }) {
-    const { id, key, network, name, position, channels } = channelFilterSchema.parse(data)
+    const { key, networkKey, name, position, channels } = channelFilterSchema.parse(data)
 
-    this.id = id
     this.key = key
-    this.network = network
+    this.networkKey = networkKey
     this.name = name
     this.position = position
     this.channels = new Set(channels)
   }
 
   public static create({
-    id,
     key,
-    network,
+    networkKey,
     name,
     position,
     channels,
   }: {
-    id: number
     key: string
-    network: number
+    networkKey: string
     name: string
     position: number
-    channels: Iterable<number>
+    channels: Iterable<string>
   }): ChannelFilter {
     return new ChannelFilter({
-      id: asChannelFilterID(id),
       key: asChannelFilterKey(key),
-      network: asNetworkID(network),
+      networkKey: asNetworkKey(networkKey),
       name,
       position,
-      channels: new Set([...channels].map(id => asChannelID(id))),
+      channels: new Set([...channels].map(key => asChannelKey(key))),
     })
   }
 
   public toJSON(): JsonObject {
     return {
-      id: this.id,
       key: this.key,
+      networkKey: this.networkKey,
       name: this.name,
       position: this.position,
       channels: [...this.channels],

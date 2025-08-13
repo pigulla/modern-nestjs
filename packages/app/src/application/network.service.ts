@@ -1,7 +1,6 @@
-import { Network, type NetworkKey } from '#domain/network/network.js'
-
 import { Injectable } from '@nestjs/common'
 
+import { Network, type NetworkKey } from '#domain/network/network.js'
 import { INetworkRepository } from '#domain/network/network.repository.interface.js'
 
 import type { INetworkService } from './network.service.interface.js'
@@ -14,9 +13,8 @@ export class NetworkService implements INetworkService {
     this.repository = repository
   }
 
-  public async get(key: NetworkKey): Promise<Network> {
-    const id = await this.repository.getIdOf(key)
-    return this.repository.get(id)
+  public get(key: NetworkKey): Promise<Network> {
+    return this.repository.get(key)
   }
 
   public getAll(): Promise<Network[]> {

@@ -1,9 +1,7 @@
-import type { ChannelID, ChannelKey } from '#domain/channel/channel.js'
+import type { ChannelKey } from './channel.js'
 
 export class ChannelNotFoundError extends Error {
-  public constructor(identifier: { id: ChannelID } | { key: ChannelKey }) {
-    super(
-      `Channel with ${'key' in identifier ? 'key' : 'id'} "${'key' in identifier ? identifier.key : identifier.id}" not found`,
-    )
+  public constructor(key: ChannelKey) {
+    super(`Channel with key "${key}" not found`)
   }
 }

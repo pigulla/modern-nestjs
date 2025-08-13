@@ -1,14 +1,20 @@
-import { Channel } from '#domain/channel/channel.js'
-import { ChannelFilter } from '#domain/channel-filter/channel-filter.js'
-import { Network } from '#domain/network/network.js'
+import * as net from 'node:net'
 
 import { Injectable, Logger, type OnModuleInit } from '@nestjs/common'
+import type { Writable } from 'type-fest'
 
+import { Channel, type ChannelKey } from '#domain/channel/channel.js'
 import { IChannelRepository } from '#domain/channel/channel.repository.interface.js'
+import { ChannelFilter, type ChannelFilterKey } from '#domain/channel-filter/channel-filter.js'
 import { IChannelFilterRepository } from '#domain/channel-filter/channel-filter.repository.interface.js'
+import { Network, type NetworkKey } from '#domain/network/network.js'
 import { INetworkRepository } from '#domain/network/network.repository.interface.js'
 
 import data from '../../../../../data.json' with { type: 'json' }
+
+type NetworkMap = ReadonlyMap<number, NetworkKey>
+type ChannelMap = ReadonlyMap<number, ChannelKey>
+type ChannelFilterMap = ReadonlyMap<number, ChannelFilterKey>
 
 @Injectable()
 export class DataImporter implements OnModuleInit {
@@ -28,71 +34,80 @@ export class DataImporter implements OnModuleInit {
   }
 
   public async onModuleInit(): Promise<void> {
-    await this.loadNetworks()
-    await this.loadChannels()
-    await this.loadChannelFilters()
+    const networks = await this.loadNetworks()
+    const channels = await this.loadChannels(networks)
+    await this.loadChannelFilters(networks, channels)
   }
 
-  private async loadNetworks(): Promise<void> {
-    let count = 0
+  private async loadNetworks(): Promise<NetworkMap> {
+    const result = new Map() as Writable<NetworkMap>
 
-    for (const network of data.networks) {
-      if (!network.active) {
+    for (const item of data.networks) {
+      if (!item.active) {
         continue
       }
 
-      count++
-      await this.networkRepository.insert(
+      const network = await this.networkRepository.insert(
         Network.create({
-          id: network.id,
-          key: network.key,
-          name: network.name,
-          url: network.url,
+          key: item.key,
+          name: item.name,
+          url: item.url,
         }),
       )
+
+      result.set(item.id, network.key)
     }
 
-    this.logger.verbose(`Successfully loaded ${count} network(s)`)
+    this.logger.verbose(`Successfully loaded ${result.size} network(s)`)
+    return result
   }
 
-  private async loadChannels(): Promise<void> {
-    let count = 0
+  private async loadChannels(networks: NetworkMap): Promise<ChannelMap> {
+    const result = new Map() as Writable<ChannelMap>
 
-    for (const channel of data.channels) {
-      count++
-      await this.channelRepository.insert(
+    for (const item of data.channels) {
+      const channel = await this.channelRepository.insert(
         Channel.create({
-          id: channel.id,
-          key: channel.key,
-          network: channel.network_id,
-          name: channel.name,
-          description: channel.description,
-          director: channel.channel_director,
+          key: item.key,
+          // biome-ignore lint/style/noNonNullAssertion: If this explodes, it should do so loudly.
+          networkKey: networks.get(item.network_id)!,
+          name: item.name,
+          description: item.description,
+          director: item.channel_director,
           similarChannels: [],
         }),
       )
+
+      result.set(item.id, channel.key)
     }
 
-    this.logger.verbose(`Successfully loaded ${count} channels(s)`)
+    this.logger.verbose(`Successfully loaded ${result.size} channels(s)`)
+    return result
   }
 
-  private async loadChannelFilters(): Promise<void> {
-    let count = 0
+  private async loadChannelFilters(
+    networks: NetworkMap,
+    channels: ChannelMap,
+  ): Promise<ChannelFilterMap> {
+    const result = new Map() as Writable<ChannelFilterMap>
 
-    for (const channelFilter of data.channel_filters) {
-      count++
-      await this.channelFilterRepository.insert(
+    for (const item of data.channel_filters) {
+      const channelFilter = await this.channelFilterRepository.insert(
         ChannelFilter.create({
-          id: channelFilter.id,
-          key: channelFilter.key,
-          network: channelFilter.network_id,
-          name: channelFilter.name,
-          position: channelFilter.position,
-          channels: channelFilter.channels,
+          key: item.key,
+          // biome-ignore lint/style/noNonNullAssertion: If this explodes, it should do so loudly.
+          networkKey: networks.get(item.network_id)!,
+          name: item.name,
+          position: item.position,
+          // biome-ignore lint/style/noNonNullAssertion: If this explodes, it should do so loudly.
+          channels: item.channels.map(id => channels.get(id)!),
         }),
       )
+
+      result.set(item.id, channelFilter.key)
     }
 
-    this.logger.verbose(`Successfully loaded ${count} channel filter(s)`)
+    this.logger.verbose(`Successfully loaded ${result.size} channel filter(s)`)
+    return result
   }
 }

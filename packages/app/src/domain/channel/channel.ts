@@ -1,47 +1,37 @@
 import type { JsonObject } from 'type-fest'
 import z from 'zod'
 
-import type { NetworkID } from '../network/network.js'
-import { asNetworkID } from '../network/network.schema.js'
+import type { NetworkKey } from '#domain/network/network.js'
+import { asNetworkKey } from '#domain/network/network.schema.js'
 
-import {
-  asChannelID,
-  asChannelKey,
-  channelIdSchema,
-  channelKeySchema,
-  channelSchema,
-} from './channel.schema.js'
+import { asChannelKey, channelKeySchema, channelSchema } from './channel.schema.js'
 
-export type ChannelID = z.infer<typeof channelIdSchema>
 export type ChannelKey = z.infer<typeof channelKeySchema>
 
 export class Channel {
   // biome-ignore lint/correctness/noUnusedPrivateClassMembers: Disable structural typing.
   readonly #brand = Symbol(Channel.name)
 
-  public readonly id: ChannelID
   public readonly key: ChannelKey
-  public readonly network: NetworkID
+  public readonly networkKey: NetworkKey
   public readonly name: string
   public readonly director: string
   public readonly description: string
-  public readonly similarChannels: ReadonlySet<ChannelID>
+  public readonly similarChannels: ReadonlySet<ChannelKey>
 
   public constructor(data: {
-    id: ChannelID
     key: ChannelKey
-    network: NetworkID
+    networkKey: NetworkKey
     name: string
     director: string
     description: string
-    similarChannels: Set<ChannelID>
+    similarChannels: Set<ChannelKey>
   }) {
-    const { id, key, network, name, director, description, similarChannels } =
+    const { key, networkKey, name, director, description, similarChannels } =
       channelSchema.parse(data)
 
-    this.id = id
     this.key = key
-    this.network = network
+    this.networkKey = networkKey
     this.name = name
     this.director = director
     this.description = description
@@ -49,26 +39,23 @@ export class Channel {
   }
 
   public static create({
-    id,
     key,
-    network,
+    networkKey,
     name,
     director,
     description,
     similarChannels,
   }: {
-    id: number
     key: string
-    network: number
+    networkKey: string
     name: string
     director: string
     description: string
-    similarChannels: Iterable<ChannelID>
+    similarChannels: Iterable<ChannelKey>
   }): Channel {
     return new Channel({
-      id: asChannelID(id),
       key: asChannelKey(key),
-      network: asNetworkID(network),
+      networkKey: asNetworkKey(networkKey),
       name,
       director,
       description,
@@ -78,9 +65,8 @@ export class Channel {
 
   public toJSON(): JsonObject {
     return {
-      id: this.id,
       key: this.key,
-      network: this.network,
+      networkKey: this.networkKey,
       name: this.name,
       director: this.director,
       description: this.description,

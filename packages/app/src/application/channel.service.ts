@@ -1,9 +1,8 @@
-import { Channel, type ChannelKey } from '#domain/channel/channel.js'
-import type { NetworkKey } from '#domain/network/network.js'
-
 import { Injectable } from '@nestjs/common'
 
+import { Channel, type ChannelKey } from '#domain/channel/channel.js'
 import { IChannelRepository } from '#domain/channel/channel.repository.interface.js'
+import type { NetworkKey } from '#domain/network/network.js'
 import { INetworkRepository } from '#domain/network/network.repository.interface.js'
 
 import type { IChannelService } from './channel.service.interface.js'
@@ -18,9 +17,8 @@ export class ChannelService implements IChannelService {
     this.networkRepository = networkRepository
   }
 
-  public async get(key: ChannelKey): Promise<Channel> {
-    const id = await this.channelRepository.getIdOf(key)
-    return this.channelRepository.get(id)
+  public get(key: ChannelKey): Promise<Channel> {
+    return this.channelRepository.get(key)
   }
 
   public getAll(): Promise<Channel[]> {
@@ -28,8 +26,7 @@ export class ChannelService implements IChannelService {
   }
 
   public async getAllForNetwork(key: NetworkKey): Promise<Channel[]> {
-    const id = await this.networkRepository.getIdOf(key)
-
-    return this.channelRepository.getAllForNetwork(id)
+    const network = await this.networkRepository.get(key)
+    return this.channelRepository.getAllForNetwork(network.key)
   }
 }

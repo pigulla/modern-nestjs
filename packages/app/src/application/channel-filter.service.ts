@@ -20,9 +20,8 @@ export class ChannelFilterService implements IChannelFilterService {
     this.networkRepository = networkRepository
   }
 
-  public async get(key: ChannelFilterKey): Promise<ChannelFilter> {
-    const id = await this.channelFilterRepository.getIdOf(key)
-    return this.channelFilterRepository.get(id)
+  public get(key: ChannelFilterKey): Promise<ChannelFilter> {
+    return this.channelFilterRepository.get(key)
   }
 
   public getAll(): Promise<ChannelFilter[]> {
@@ -30,8 +29,7 @@ export class ChannelFilterService implements IChannelFilterService {
   }
 
   public async getAllForNetwork(key: NetworkKey): Promise<ChannelFilter[]> {
-    const id = await this.networkRepository.getIdOf(key)
-
-    return this.channelFilterRepository.getAllForNetwork(id)
+    const network = await this.networkRepository.get(key)
+    return this.channelFilterRepository.getAllForNetwork(network.key)
   }
 }

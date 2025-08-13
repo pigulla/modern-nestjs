@@ -15,6 +15,5 @@ import { LoggingModule } from './logging.module.js'
     { provide: APP_INTERCEPTOR, useClass: ZodSerializerInterceptor },
     { provide: APP_PIPE, useClass: ZodValidationPipe },
   ],
-  exports: [ConfigModule],
 })
 export class MainModule {}

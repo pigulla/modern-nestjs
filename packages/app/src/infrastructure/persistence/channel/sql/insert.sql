@@ -1,18 +1,16 @@
 INSERT INTO
-  channels (id, key, network_id, name, description, director)
+  channels (key, network_key, name, description, director)
 VALUES
   (
-    $id,
     $key,
-    $network_id,
+    $network_key,
     $name,
     $description,
     $director
   )
 RETURNING
-  id,
   key,
-  network_id,
+  network_key,
   name,
   description,
   director;
