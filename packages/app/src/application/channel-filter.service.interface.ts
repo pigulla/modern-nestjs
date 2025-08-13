@@ -1,5 +1,5 @@
-import { ChannelFilter, type ChannelFilterKey } from '@di/domain/channel-filter.js'
-import type { NetworkKey } from '@di/domain/network.js'
+import { ChannelFilter, type ChannelFilterKey } from '#domain/channel-filter/channel-filter.js'
+import type { NetworkKey } from '#domain/network/network.js'
 
 export abstract class IChannelFilterService {
   public abstract get(key: ChannelFilterKey): Promise<ChannelFilter>

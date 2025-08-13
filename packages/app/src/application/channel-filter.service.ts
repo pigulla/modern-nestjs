@@ -1,9 +1,8 @@
-import type { ChannelFilter, ChannelFilterKey } from '@di/domain/channel-filter.js'
-import type { NetworkKey } from '@di/domain/network.js'
-
 import { Injectable } from '@nestjs/common'
 
+import type { ChannelFilter, ChannelFilterKey } from '#domain/channel-filter/channel-filter.js'
 import { IChannelFilterRepository } from '#domain/channel-filter/channel-filter.repository.interface.js'
+import type { NetworkKey } from '#domain/network/network.js'
 import { INetworkRepository } from '#domain/network/network.repository.interface.js'
 
 import type { IChannelFilterService } from './channel-filter.service.interface.js'

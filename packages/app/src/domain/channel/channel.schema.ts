@@ -1,7 +1,8 @@
 import z from 'zod'
 
+import { networkIdSchema } from '../network/network.schema.js'
+
 import type { ChannelID, ChannelKey } from './channel.js'
-import { networkIdSchema } from './network.schema.js'
 
 export const channelIdSchema = z.number().int().min(1).brand('channel-id')
 

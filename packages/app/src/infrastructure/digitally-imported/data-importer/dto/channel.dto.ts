@@ -1,6 +1,6 @@
-import { channelIdSchema } from '@di/domain/channel.schema.ts'
-
 import z from 'zod'
+
+import { channelIdSchema } from '#domain/channel/channel.schema.js'
 
 export const channelDtoSchema = z
   .object({

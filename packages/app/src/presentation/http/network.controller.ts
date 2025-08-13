@@ -1,8 +1,6 @@
-import type { NetworkKey } from '@di/domain/network.js'
-import { networkKeySchema } from '@di/domain/network.schema.js'
-import { ChannelDTO, domainToDTO as channelToDTO } from '@di/dto/channel.dto.js'
-import { ChannelFilterDTO, domainToDTO as channelFilterToDTO } from '@di/dto/channel-filter.dto.ts'
-import { NetworkDTO, domainToDTO as networkToDTO } from '@di/dto/network.dto.js'
+import { ChannelDTO } from '@di/dto/channel.dto.js'
+import { ChannelFilterDTO } from '@di/dto/channel-filter.dto.js'
+import { NetworkDTO } from '@di/dto/network.dto.js'
 
 import { Controller, Get, HttpStatus, NotFoundException, Param } from '@nestjs/common'
 import { ApiOperation, ApiParam, ApiResponse, ApiSecurity, ApiTags } from '@nestjs/swagger'
@@ -11,7 +9,11 @@ import { ZodValidationPipe } from 'nestjs-zod'
 import { IChannelService } from '#application/channel.service.interface.js'
 import { IChannelFilterService } from '#application/channel-filter.service.interface.js'
 import { INetworkService } from '#application/network.service.interface.js'
+import type { NetworkKey } from '#domain/network/network.js'
+import { networkKeySchema } from '#domain/network/network.schema.js'
 import { NetworkNotFoundError } from '#domain/network/network-not-found.error.js'
+
+import { channelFilterToDTO, channelToDTO, networkToDTO } from './to-dto.js'
 
 @Controller('networks')
 @ApiTags('network')

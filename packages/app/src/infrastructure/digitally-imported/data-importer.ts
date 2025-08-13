@@ -1,6 +1,6 @@
-import { Channel } from '@di/domain/channel.js'
-import { ChannelFilter } from '@di/domain/channel-filter.js'
-import { Network } from '@di/domain/network.js'
+import { Channel } from '#domain/channel/channel.js'
+import { ChannelFilter } from '#domain/channel-filter/channel-filter.js'
+import { Network } from '#domain/network/network.js'
 
 import { Injectable, Logger, type OnModuleInit } from '@nestjs/common'
 

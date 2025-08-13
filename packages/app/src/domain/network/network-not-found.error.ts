@@ -1,4 +1,4 @@
-import type { NetworkID, NetworkKey } from '@di/domain/network.js'
+import type { NetworkID, NetworkKey } from '#domain/network/network.js'
 
 export class NetworkNotFoundError extends Error {
   public constructor(identifier: { id: NetworkID } | { key: NetworkKey }) {

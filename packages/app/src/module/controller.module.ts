@@ -4,7 +4,7 @@ import { ChannelController } from '#presentation/http/channel.controller.js'
 import { ChannelFilterController } from '#presentation/http/channel-filter.controller.js'
 import { NetworkController } from '#presentation/http/network.controller.js'
 
-import { ApplicationModule } from './application.module.ts'
+import { ApplicationModule } from './application.module.js'
 
 @Module({
   imports: [ApplicationModule],

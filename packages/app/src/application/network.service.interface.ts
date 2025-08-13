@@ -1,4 +1,4 @@
-import { Network, type NetworkKey } from '@di/domain/network.js'
+import { Network, type NetworkKey } from '#domain/network/network.js'
 
 export abstract class INetworkService {
   public abstract get(key: NetworkKey): Promise<Network>

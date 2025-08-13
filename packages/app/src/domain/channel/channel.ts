@@ -1,6 +1,9 @@
 import type { JsonObject } from 'type-fest'
 import z from 'zod'
 
+import type { NetworkID } from '../network/network.js'
+import { asNetworkID } from '../network/network.schema.js'
+
 import {
   asChannelID,
   asChannelKey,
@@ -8,8 +11,6 @@ import {
   channelKeySchema,
   channelSchema,
 } from './channel.schema.js'
-import type { NetworkID, NetworkKey } from './network.js'
-import { asNetworkID } from './network.schema.js'
 
 export type ChannelID = z.infer<typeof channelIdSchema>
 export type ChannelKey = z.infer<typeof channelKeySchema>

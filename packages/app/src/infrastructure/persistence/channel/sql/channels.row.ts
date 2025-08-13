@@ -1,8 +1,8 @@
-import { Channel } from '@di/domain/channel.js'
-import { channelIdSchema, channelKeySchema } from '@di/domain/channel.schema.ts'
-import { networkIdSchema } from '@di/domain/network.schema.ts'
-
 import z from 'zod'
+
+import { Channel } from '#domain/channel/channel.js'
+import { channelIdSchema, channelKeySchema } from '#domain/channel/channel.schema.js'
+import { networkIdSchema } from '#domain/network/network.schema.js'
 
 export const channelsRow = z
   .strictObject({

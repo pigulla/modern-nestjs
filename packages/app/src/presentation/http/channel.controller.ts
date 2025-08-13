@@ -1,13 +1,15 @@
-import type { ChannelKey } from '@di/domain/channel.js'
-import { channelKeySchema } from '@di/domain/channel.schema.ts'
-import { ChannelDTO, domainToDTO } from '@di/dto/channel.dto.js'
+import { ChannelDTO } from '@di/dto/channel.dto.js'
 
 import { Controller, Get, HttpStatus, NotFoundException, Param } from '@nestjs/common'
 import { ApiOperation, ApiParam, ApiResponse, ApiSecurity, ApiTags } from '@nestjs/swagger'
 import { ZodValidationPipe } from 'nestjs-zod'
 
 import { IChannelService } from '#application/channel.service.interface.js'
+import type { ChannelKey } from '#domain/channel/channel.js'
+import { channelKeySchema } from '#domain/channel/channel.schema.js'
 import { ChannelNotFoundError } from '#domain/channel/channel-not-found.error.js'
+
+import { channelToDTO } from './to-dto.js'
 
 @Controller('channels')
 @ApiTags('channel')
@@ -40,7 +42,7 @@ export class ChannelController {
   })
   public async getAll(): Promise<ChannelDTO[]> {
     const channels = await this.channelService.getAll()
-    return channels.map(channel => domainToDTO(channel))
+    return channels.map(channel => channelToDTO(channel))
   }
 
   @Get(':key')
@@ -63,7 +65,7 @@ export class ChannelController {
   ): Promise<ChannelDTO> {
     try {
       const channel = await this.channelService.get(key)
-      return domainToDTO(channel)
+      return channelToDTO(channel)
     } catch (error) {
       if (error instanceof ChannelNotFoundError) {
         throw new NotFoundException(error.message)

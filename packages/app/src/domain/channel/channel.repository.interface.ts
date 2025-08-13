@@ -1,5 +1,5 @@
-import type { Channel, ChannelID, ChannelKey } from '@di/domain/channel.js'
-import type { NetworkID } from '@di/domain/network.js'
+import type { Channel, ChannelID, ChannelKey } from '#domain/channel/channel.js'
+import type { NetworkID } from '#domain/network/network.js'
 
 export abstract class IChannelRepository {
   public abstract getIdOf(key: ChannelKey): Promise<ChannelID>

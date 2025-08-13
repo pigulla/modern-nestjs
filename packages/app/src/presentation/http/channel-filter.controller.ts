@@ -1,13 +1,15 @@
-import type { ChannelFilterKey } from '@di/domain/channel-filter.js'
-import { channelFilterKeySchema } from '@di/domain/channel-filter.schema.js'
-import { ChannelFilterDTO, domainToDTO } from '@di/dto/channel-filter.dto.js'
+import { ChannelFilterDTO } from '@di/dto/channel-filter.dto.js'
 
 import { Controller, Get, HttpStatus, NotFoundException, Param } from '@nestjs/common'
 import { ApiOperation, ApiParam, ApiResponse, ApiSecurity, ApiTags } from '@nestjs/swagger'
 import { ZodValidationPipe } from 'nestjs-zod'
 
 import { IChannelFilterService } from '#application/channel-filter.service.interface.js'
+import type { ChannelFilterKey } from '#domain/channel-filter/channel-filter.js'
+import { channelFilterKeySchema } from '#domain/channel-filter/channel-filter.schema.js'
 import { ChannelFilterNotFoundError } from '#domain/channel-filter/channel-filter-not-found.error.js'
+
+import { channelFilterToDTO } from './to-dto.js'
 
 @Controller('channel-filters')
 @ApiTags('channel-filters')
@@ -40,7 +42,7 @@ export class ChannelFilterController {
   })
   public async getAll(): Promise<ChannelFilterDTO[]> {
     const channels = await this.channelFilterService.getAll()
-    return channels.map(channel => domainToDTO(channel))
+    return channels.map(channel => channelFilterToDTO(channel))
   }
 
   @Get(':key')
@@ -63,7 +65,7 @@ export class ChannelFilterController {
   ): Promise<ChannelFilterDTO> {
     try {
       const channel = await this.channelFilterService.get(key)
-      return domainToDTO(channel)
+      return channelFilterToDTO(channel)
     } catch (error) {
       if (error instanceof ChannelFilterNotFoundError) {
         throw new NotFoundException(error.message)

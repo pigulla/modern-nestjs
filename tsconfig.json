@@ -5,9 +5,6 @@
             "path": "packages/app"
         },
         {
-            "path": "packages/domain"
-        },
-        {
             "path": "packages/dto"
         }
     ]

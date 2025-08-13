@@ -1,12 +1,12 @@
-import { channelIdSchema } from '@di/domain/channel.schema.js'
-import { ChannelFilter } from '@di/domain/channel-filter.js'
+import z from 'zod'
+
+import { channelIdSchema } from '#domain/channel/channel.schema.js'
+import { ChannelFilter } from '#domain/channel-filter/channel-filter.js'
 import {
   channelFilterIdSchema,
   channelFilterKeySchema,
-} from '@di/domain/channel-filter.schema.js'
-import { networkIdSchema } from '@di/domain/network.schema.ts'
-
-import z from 'zod'
+} from '#domain/channel-filter/channel-filter.schema.js'
+import { networkIdSchema } from '#domain/network/network.schema.js'
 
 export const channelFiltersRow = z
   .strictObject({

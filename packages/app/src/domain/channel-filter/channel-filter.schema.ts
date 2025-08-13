@@ -1,8 +1,9 @@
 import z from 'zod'
 
-import { channelIdSchema } from './channel.schema.js'
+import { channelIdSchema } from '../channel/channel.schema.js'
+import { networkIdSchema } from '../network/network.schema.js'
+
 import type { ChannelFilterID, ChannelFilterKey } from './channel-filter.js'
-import { networkIdSchema } from './network.schema.js'
 
 export const channelFilterIdSchema = z.number().int().min(1).brand('channel-filter-id')
 

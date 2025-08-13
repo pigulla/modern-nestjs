@@ -2,8 +2,8 @@ import {
   ChannelFilter,
   type ChannelFilterID,
   type ChannelFilterKey,
-} from '@di/domain/channel-filter.js'
-import type { NetworkID } from '@di/domain/network.js'
+} from '#domain/channel-filter/channel-filter.js'
+import type { NetworkID } from '#domain/network/network.js'
 
 export abstract class IChannelFilterRepository {
   public abstract getIdOf(key: ChannelFilterKey): Promise<ChannelFilterID>

@@ -1,5 +1,5 @@
-import { Network } from '@di/domain/network.js'
-import { networkIdSchema, networkKeySchema } from '@di/domain/network.schema.js'
+import { Network } from '#domain/network/network.js'
+import { networkIdSchema, networkKeySchema } from '#domain/network/network.schema.js'
 import z from 'zod'
 
 export const networksRow = z

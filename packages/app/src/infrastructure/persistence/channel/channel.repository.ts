@@ -1,8 +1,8 @@
 import { join } from 'node:path'
 
-import type { Channel, ChannelID, ChannelKey } from '@di/domain/channel.js'
-import { asChannelID } from '@di/domain/channel.schema.js'
-import type { NetworkID } from '@di/domain/network.js'
+import type { Channel, ChannelID, ChannelKey } from '#domain/channel/channel.js'
+import { asChannelID } from '#domain/channel/channel.schema.js'
+import type { NetworkID } from '#domain/network/network.js'
 
 import { Injectable, type OnModuleInit } from '@nestjs/common'
 
