@@ -1,5 +1,5 @@
 {
-  "name": "@modern-nestjs/meta",
+  "name": "@di/meta",
   "version": "0.0.1",
   "private": true,
   "description": "Highly opinionated, modern setup for NestJS-projects.",

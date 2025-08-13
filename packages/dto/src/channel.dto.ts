@@ -1,5 +1,5 @@
-import { Channel } from '@modern-nestjs/domain/channel.js'
-import { channelIdSchema, channelKeySchema } from '@modern-nestjs/domain/channel.schema.js'
+import { Channel } from '@di/domain/channel.js'
+import { channelIdSchema, channelKeySchema } from '@di/domain/channel.schema.js'
 
 import { createZodDto } from 'nestjs-zod'
 import { z } from 'zod'

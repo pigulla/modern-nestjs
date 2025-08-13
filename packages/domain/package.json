@@ -1,5 +1,5 @@
 {
-    "name": "@modern-nestjs/domain",
+    "name": "@di/domain",
     "version": "0.0.1",
     "description": "The domain part.",
     "bugs": {

@@ -1,4 +1,4 @@
-import { asFruitID, Fruit } from '@modern-nestjs/domain/network.js'
+import { asFruitID, Fruit } from '@di/domain/network.js'
 
 import { HttpStatus, type INestApplication } from '@nestjs/common'
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'

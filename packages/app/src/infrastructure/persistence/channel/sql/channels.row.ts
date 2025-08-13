@@ -1,6 +1,6 @@
-import { Channel } from '@modern-nestjs/domain/channel.js'
-import { channelIdSchema, channelKeySchema } from '@modern-nestjs/domain/channel.schema.ts'
-import { networkIdSchema } from '@modern-nestjs/domain/network.schema.ts'
+import { Channel } from '@di/domain/channel.js'
+import { channelIdSchema, channelKeySchema } from '@di/domain/channel.schema.ts'
+import { networkIdSchema } from '@di/domain/network.schema.ts'
 
 import z from 'zod'
 

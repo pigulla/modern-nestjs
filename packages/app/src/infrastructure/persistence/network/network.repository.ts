@@ -1,7 +1,7 @@
 import { join } from 'node:path'
 
-import type { Network, NetworkID, NetworkKey } from '@modern-nestjs/domain/network.js'
-import { asNetworkID } from '@modern-nestjs/domain/network.schema.js'
+import type { Network, NetworkID, NetworkKey } from '@di/domain/network.js'
+import { asNetworkID } from '@di/domain/network.schema.js'
 
 import { Injectable, type OnModuleInit } from '@nestjs/common'
 

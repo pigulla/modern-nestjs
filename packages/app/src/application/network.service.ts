@@ -1,4 +1,4 @@
-import { Network, type NetworkKey } from '@modern-nestjs/domain/network.js'
+import { Network, type NetworkKey } from '@di/domain/network.js'
 
 import { Injectable } from '@nestjs/common'
 

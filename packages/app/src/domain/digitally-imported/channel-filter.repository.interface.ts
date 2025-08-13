@@ -2,8 +2,8 @@ import {
   ChannelFilter,
   type ChannelFilterID,
   type ChannelFilterKey,
-} from '@modern-nestjs/domain/channel-filter.js'
-import type { NetworkID } from '@modern-nestjs/domain/network.js'
+} from '@di/domain/channel-filter.js'
+import type { NetworkID } from '@di/domain/network.js'
 
 export abstract class IChannelFilterRepository {
   public abstract getIdOf(key: ChannelFilterKey): Promise<ChannelFilterID>

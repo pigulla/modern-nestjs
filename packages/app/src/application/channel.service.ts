@@ -1,5 +1,4 @@
-import { Channel, type ChannelKey } from '@modern-nestjs/domain/channel.js'
-
+import { Channel, type ChannelKey } from '@di/domain/channel.js'
 import { Injectable } from '@nestjs/common'
 
 import { IChannelRepository } from '#domain/digitally-imported/channel.repository.interface.js'

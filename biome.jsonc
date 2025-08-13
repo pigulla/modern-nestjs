@@ -98,7 +98,7 @@
                         "groups": [
                             ":NODE:",
                             ":BLANK_LINE:",
-                            ["@modern-nestjs/**"],
+                            ["@di/**"],
                             ":BLANK_LINE:",
                             ":PACKAGE:",
                             ":BLANK_LINE:",

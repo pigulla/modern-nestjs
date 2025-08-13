@@ -1,4 +1,4 @@
-import { ChannelFilter, type ChannelFilterKey } from '@modern-nestjs/domain/channel-filter.js'
+import { ChannelFilter, type ChannelFilterKey } from '@di/domain/channel-filter.js'
 
 export abstract class IChannelFilterService {
   public abstract get(key: ChannelFilterKey): Promise<ChannelFilter>

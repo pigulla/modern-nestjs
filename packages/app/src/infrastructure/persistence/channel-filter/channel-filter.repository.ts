@@ -4,8 +4,8 @@ import type {
   ChannelFilter,
   ChannelFilterID,
   ChannelFilterKey,
-} from '@modern-nestjs/domain/channel-filter.js'
-import type { NetworkID } from '@modern-nestjs/domain/network.js'
+} from '@di/domain/channel-filter.js'
+import type { NetworkID } from '@di/domain/network.js'
 
 import { Injectable, type OnModuleInit } from '@nestjs/common'
 

@@ -1,10 +1,10 @@
-import { channelIdSchema } from '@modern-nestjs/domain/channel.schema.js'
-import { ChannelFilter } from '@modern-nestjs/domain/channel-filter.js'
+import { channelIdSchema } from '@di/domain/channel.schema.js'
+import { ChannelFilter } from '@di/domain/channel-filter.js'
 import {
   channelFilterIdSchema,
   channelFilterKeySchema,
-} from '@modern-nestjs/domain/channel-filter.schema.js'
-import { networkIdSchema } from '@modern-nestjs/domain/network.schema.ts'
+} from '@di/domain/channel-filter.schema.js'
+import { networkIdSchema } from '@di/domain/network.schema.ts'
 
 import z from 'zod'
 

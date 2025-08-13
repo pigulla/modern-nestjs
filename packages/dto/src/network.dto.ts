@@ -1,5 +1,5 @@
-import { Network } from '@modern-nestjs/domain/network.js'
-import { networkIdSchema, networkKeySchema } from '@modern-nestjs/domain/network.schema.js'
+import { Network } from '@di/domain/network.js'
+import { networkIdSchema, networkKeySchema } from '@di/domain/network.schema.js'
 
 import { createZodDto } from 'nestjs-zod'
 import { z } from 'zod'

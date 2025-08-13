@@ -1,4 +1,4 @@
-import type { Channel, ChannelID, ChannelKey } from '@modern-nestjs/domain/channel.js'
+import type { Channel, ChannelID, ChannelKey } from '@di/domain/channel.js'
 
 export abstract class IChannelRepository {
   public abstract getIdOf(key: ChannelKey): Promise<ChannelID>

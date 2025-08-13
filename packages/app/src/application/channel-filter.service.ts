@@ -1,4 +1,4 @@
-import type { ChannelFilter, ChannelFilterKey } from '@modern-nestjs/domain/channel-filter.js'
+import type { ChannelFilter, ChannelFilterKey } from '@di/domain/channel-filter.js'
 
 import { Injectable } from '@nestjs/common'
 

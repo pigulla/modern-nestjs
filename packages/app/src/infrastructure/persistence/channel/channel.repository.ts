@@ -1,6 +1,6 @@
 import { join } from 'node:path'
 
-import type { Channel, ChannelID, ChannelKey } from '@modern-nestjs/domain/channel.js'
+import type { Channel, ChannelID, ChannelKey } from '@di/domain/channel.js'
 
 import { Injectable, type OnModuleInit } from '@nestjs/common'
 

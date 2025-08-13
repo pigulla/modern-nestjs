@@ -1,6 +1,6 @@
-import type { NetworkKey } from '@modern-nestjs/domain/network.js'
-import { networkKeySchema } from '@modern-nestjs/domain/network.schema.js'
-import { domainToDTO, NetworkDTO } from '@modern-nestjs/dto/network.dto.js'
+import type { NetworkKey } from '@di/domain/network.js'
+import { networkKeySchema } from '@di/domain/network.schema.js'
+import { domainToDTO, NetworkDTO } from '@di/dto/network.dto.js'
 
 import { Controller, Get, HttpStatus, NotFoundException, Param } from '@nestjs/common'
 import { ApiOperation, ApiParam, ApiResponse, ApiSecurity, ApiTags } from '@nestjs/swagger'

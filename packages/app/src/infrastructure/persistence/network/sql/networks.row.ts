@@ -1,6 +1,5 @@
-import { Network } from '@modern-nestjs/domain/network.js'
-import { networkIdSchema, networkKeySchema } from '@modern-nestjs/domain/network.schema.js'
-
+import { Network } from '@di/domain/network.js'
+import { networkIdSchema, networkKeySchema } from '@di/domain/network.schema.js'
 import z from 'zod'
 
 export const networksRow = z

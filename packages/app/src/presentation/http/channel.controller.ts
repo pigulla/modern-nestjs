@@ -1,6 +1,6 @@
-import type { ChannelKey } from '@modern-nestjs/domain/channel.js'
-import { channelKeySchema } from '@modern-nestjs/domain/channel.schema.ts'
-import { ChannelDTO, domainToDTO } from '@modern-nestjs/dto/channel.dto.js'
+import type { ChannelKey } from '@di/domain/channel.js'
+import { channelKeySchema } from '@di/domain/channel.schema.ts'
+import { ChannelDTO, domainToDTO } from '@di/dto/channel.dto.js'
 
 import { Controller, Get, HttpStatus, NotFoundException, Param } from '@nestjs/common'
 import { ApiOperation, ApiParam, ApiResponse, ApiSecurity, ApiTags } from '@nestjs/swagger'
