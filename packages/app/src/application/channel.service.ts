@@ -1,4 +1,4 @@
-import { Channel, type ChannelKey } from '@modern-nestjs/domain/channel.js'
+import { Channel, type ChannelIdentifier } from '@modern-nestjs/domain/channel.js'
 
 import { Injectable } from '@nestjs/common'
 
@@ -14,8 +14,8 @@ export class ChannelService implements IChannelService {
     this.repository = repository
   }
 
-  public getByKey(key: ChannelKey): Promise<Channel> {
-    return this.repository.getByKey(key)
+  public get(identifier: ChannelIdentifier): Promise<Channel> {
+    return this.repository.get(identifier)
   }
 
   public getAll(): Promise<Channel[]> {

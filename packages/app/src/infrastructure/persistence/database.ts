@@ -1,11 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
-import {
-  type DuckDBConnection,
-  DuckDBInstance,
-  type DuckDBPreparedStatement,
-} from '@duckdb/node-api'
+import { type DuckDBConnection, DuckDBInstance } from '@duckdb/node-api'
 import { Injectable, Logger, type OnModuleDestroy, type OnModuleInit } from '@nestjs/common'
 
 import type { IDatabase } from './database.interface.js'
@@ -27,12 +23,6 @@ export class Database implements IDatabase, OnModuleInit, OnModuleDestroy {
     }
 
     return this.connection
-  }
-
-  public async loadSQL(file: string): Promise<DuckDBPreparedStatement> {
-    const sql = (await readFile(file, 'utf8')).toString()
-
-    return this.db.prepare(sql)
   }
 
   public async onModuleInit(): Promise<void> {

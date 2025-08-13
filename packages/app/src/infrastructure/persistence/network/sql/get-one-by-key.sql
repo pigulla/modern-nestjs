@@ -1,11 +1,9 @@
 SELECT
   id,
   key,
-  network_id,
   name,
-  description,
-  director
+  url
 FROM
-  channels
+  networks
 WHERE
   key = $key;

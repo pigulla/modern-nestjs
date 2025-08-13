@@ -1,59 +1,98 @@
-import { readFile } from 'node:fs/promises'
-import { join } from 'node:path'
+import { Channel } from '@modern-nestjs/domain/channel.js'
+import { ChannelFilter } from '@modern-nestjs/domain/channel-filter.js'
+import { Network } from '@modern-nestjs/domain/network.js'
 
-import {
-  type DuckDBConnection,
-  DuckDBInstance,
-  type DuckDBPreparedStatement,
-} from '@duckdb/node-api'
-import { Injectable, type OnModuleDestroy, type OnModuleInit } from '@nestjs/common'
+import { Injectable, Logger, type OnModuleInit } from '@nestjs/common'
 
-import { networkDtoSchema } from '#infrastructure/digitally-imported/data-importer/dto/network.dto.js'
+import { IChannelRepository } from '#domain/digitally-imported/channel.repository.interface.js'
+import { IChannelFilterRepository } from '#domain/digitally-imported/channel-filter.repository.interface.js'
+import { INetworkRepository } from '#domain/digitally-imported/network.repository.interface.js'
 
 import data from '../../../../../data.json' with { type: 'json' }
 
 @Injectable()
-export class DataImporter implements OnModuleInit, OnModuleDestroy {
-  private instance: DuckDBInstance | null
-  private connection: DuckDBConnection | null
+export class DataImporter implements OnModuleInit {
+  private readonly logger = new Logger(DataImporter.name)
+  private readonly networkRepository: INetworkRepository
+  private readonly channelRepository: IChannelRepository
+  private readonly channelFilterRepository: IChannelFilterRepository
 
-  public constructor() {
-    this.instance = null
-    this.connection = null
-  }
-
-  private get db(): DuckDBConnection {
-    if (!this.connection) {
-      throw new Error('Not initialized')
-    }
-
-    return this.connection
-  }
-
-  private async loadSQL(name: string): Promise<DuckDBPreparedStatement> {
-    const file = await join(import.meta.dirname, 'sql', name)
-    const sql = (await readFile(file, 'utf8')).toString()
-
-    return this.db.prepare(sql)
+  public constructor(
+    networkRepository: INetworkRepository,
+    channelRepository: IChannelRepository,
+    channelFilterRepository: IChannelFilterRepository,
+  ) {
+    this.networkRepository = networkRepository
+    this.channelRepository = channelRepository
+    this.channelFilterRepository = channelFilterRepository
   }
 
   public async onModuleInit(): Promise<void> {
-    this.instance = await DuckDBInstance.create(':memory:')
-    this.connection = await this.instance.connect()
-
-    const createTableSql = await this.loadSQL('create-tables.sql')
-    await createTableSql.run()
+    await this.loadNetworks()
+    await this.loadChannels()
+    await this.loadChannelFilters()
   }
 
   private async loadNetworks(): Promise<void> {
-    const insertNetwork = await this.loadSQL('insert-channel.sql')
+    let count = 0
 
-    for (const item of data.networks) {
-      const network = networkDtoSchema.parse(item)
+    for (const network of data.networks) {
+      if (!network.active) {
+        continue
+      }
+
+      count++
+      await this.networkRepository.insert(
+        Network.create({
+          id: network.id,
+          key: network.key,
+          name: network.name,
+          url: network.url,
+        }),
+      )
     }
+
+    this.logger.verbose(`Successfully loaded ${count} network(s)`)
   }
 
-  public onModuleDestroy(): void {
-    this.db?.closeSync()
+  private async loadChannels(): Promise<void> {
+    let count = 0
+
+    for (const channel of data.channels) {
+      count++
+      await this.channelRepository.insert(
+        Channel.create({
+          id: channel.id,
+          key: channel.key,
+          network: channel.network_id,
+          name: channel.name,
+          description: channel.description,
+          director: channel.channel_director,
+          similarChannels: [],
+        }),
+      )
+    }
+
+    this.logger.verbose(`Successfully loaded ${count} channels(s)`)
+  }
+
+  private async loadChannelFilters(): Promise<void> {
+    let count = 0
+
+    for (const channelFilter of data.channel_filters) {
+      count++
+      await this.channelFilterRepository.insert(
+        ChannelFilter.create({
+          id: channelFilter.id,
+          key: channelFilter.key,
+          network: channelFilter.network_id,
+          name: channelFilter.name,
+          position: channelFilter.position,
+          channels: channelFilter.channels,
+        }),
+      )
+    }
+
+    this.logger.verbose(`Successfully loaded ${count} channel filter(s)`)
   }
 }

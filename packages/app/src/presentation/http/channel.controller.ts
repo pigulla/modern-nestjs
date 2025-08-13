@@ -1,4 +1,5 @@
-import { type ChannelKey, channelKeySchema } from '@modern-nestjs/domain/channel.js'
+import type { ChannelKey } from '@modern-nestjs/domain/channel.js'
+import { channelKeySchema } from '@modern-nestjs/domain/channel.schema.ts'
 import { ChannelDTO, domainToDTO } from '@modern-nestjs/dto/channel.dto.js'
 
 import { Controller, Get, HttpStatus, NotFoundException, Param } from '@nestjs/common'
@@ -62,7 +63,7 @@ export class ChannelController {
     @Param('key', new ZodValidationPipe(channelKeySchema)) key: ChannelKey,
   ): Promise<ChannelDTO> {
     try {
-      const channel = await this.channelService.getByKey(key)
+      const channel = await this.channelService.get({ key })
       return domainToDTO(channel)
     } catch (error) {
       if (error instanceof ChannelNotFoundError) {

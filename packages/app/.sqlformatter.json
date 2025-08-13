@@ -1,0 +1,15 @@
+{
+    "language": "duckdb",
+    "tabWidth": 2,
+    "useTabs": false,
+    "keywordCase": "upper",
+    "identifierCase": "preserve",
+    "functionCase": "preserve",
+    "dataTypeCase": "upper",
+    "expressionWidth": 50,
+    "linesBetweenQueries": 1,
+    "logicalOperatorNewline": "before",
+    "denseOperators": false,
+    "newlineBeforeSemicolon": false,
+    "paramTypes": { "named": ["$"] }
+}

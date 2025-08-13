@@ -6,8 +6,7 @@ export type ChannelRepositoryMock = Mocked<IChannelRepository>
 
 export function mockChannelRepository(): ChannelRepositoryMock {
   return {
-    getByID: vi.fn(),
-    getByKey: vi.fn(),
+    get: vi.fn(),
     getAll: vi.fn(),
     insert: vi.fn(),
   }

@@ -1,9 +1,9 @@
-import type { ChannelID, ChannelKey } from '@modern-nestjs/domain/channel.js'
+import type { ChannelIdentifier } from '@modern-nestjs/domain/channel.js'
 
 export class ChannelNotFoundError extends Error {
-  public constructor(data: { key: ChannelKey } | { id: ChannelID }) {
+  public constructor(identifier: ChannelIdentifier) {
     super(
-      `Channel with ${'key' in data ? 'data' : 'key'} "${'key' in data ? data.key : data.id}" not found`,
+      `Channel with ${'key' in identifier ? 'key' : 'id'} "${'key' in identifier ? identifier.key : identifier.id}" not found`,
     )
   }
 }

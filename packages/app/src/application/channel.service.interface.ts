@@ -1,6 +1,6 @@
-import { Channel, type ChannelKey } from '@modern-nestjs/domain/channel.js'
+import { Channel, type ChannelIdentifier } from '@modern-nestjs/domain/channel.js'
 
 export abstract class IChannelService {
-  public abstract getByKey(key: ChannelKey): Promise<Channel>
+  public abstract get(identifier: ChannelIdentifier): Promise<Channel>
   public abstract getAll(): Promise<Channel[]>
 }

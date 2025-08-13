@@ -1,26 +1,18 @@
 import type { JsonObject } from 'type-fest'
 import z from 'zod'
 
-export const networkIdSchema = z.number().int().min(1).brand('network-id')
-export type NetworkID = z.infer<typeof networkIdSchema>
+import {
+  asNetworkID,
+  asNetworkKey,
+  networkIdSchema,
+  networkKeySchema,
+  networkSchema,
+} from './network.schema.js'
 
-export const networkKeySchema = z.string().min(1).brand('network-key')
+export type NetworkID = z.infer<typeof networkIdSchema>
 export type NetworkKey = z.infer<typeof networkKeySchema>
 
-export function asNetworkID(value: number): NetworkID {
-  return networkIdSchema.parse(value)
-}
-
-export function asNetworkKey(value: string): NetworkKey {
-  return networkKeySchema.parse(value)
-}
-
-const networkSchema = z.strictObject({
-  id: networkIdSchema,
-  key: networkKeySchema,
-  name: z.string().min(1),
-  url: z.url(),
-})
+export type NetworkIdentifier = { id: NetworkID } | { key: NetworkKey }
 
 export class Network {
   // biome-ignore lint/correctness/noUnusedPrivateClassMembers: Disable structural typing.
@@ -40,8 +32,6 @@ export class Network {
     this.url = url
   }
 
-  // This is an alternative, more user-friendly way to construct an instance that takes care of annoying type casts and
-  // conversions. It's basically just syntactic sugar.
   public static create({
     id,
     key,

@@ -1,4 +1,4 @@
-import { channelIdSchema } from '@modern-nestjs/domain/channel.js'
+import { channelIdSchema } from '@modern-nestjs/domain/channel.schema.ts'
 
 import z from 'zod'
 
