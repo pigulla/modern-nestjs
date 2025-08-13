@@ -3,9 +3,9 @@ import { join } from 'node:path'
 import type {
   ChannelFilter,
   ChannelFilterID,
-  ChannelFilterIdentifier,
   ChannelFilterKey,
 } from '@modern-nestjs/domain/channel-filter.js'
+import type { NetworkID } from '@modern-nestjs/domain/network.js'
 
 import { Injectable, type OnModuleInit } from '@nestjs/common'
 
@@ -20,7 +20,14 @@ import { channelFiltersRow } from './sql/channel-filters.row.js'
 @Injectable()
 export class ChannelFilterRepository
   extends AbstractRepository<
-    ['get-one-by-id', 'get-one-by-key', 'get-all', 'insert', 'assign-channel-to-filter']
+    [
+      'get-one-by-id',
+      'get-one-by-key',
+      'get-all',
+      'insert',
+      'assign-channel-to-filter',
+      'get-id-by-key',
+    ]
   >
   implements IChannelFilterRepository, OnModuleInit
 {
@@ -33,15 +40,16 @@ export class ChannelFilterRepository
         'get-all',
         'insert',
         'assign-channel-to-filter',
+        'get-id-by-key',
       ],
     })
   }
 
-  public get(identifier: ChannelFilterIdentifier): Promise<ChannelFilter> {
-    return 'id' in identifier ? this.getByID(identifier.id) : this.getByKey(identifier.key)
+  public async getIdOf(key: ChannelFilterKey): Promise<ChannelFilterID> {
+    throw new Error('Not implemented')
   }
 
-  public async getByID(id: ChannelFilterID): Promise<ChannelFilter> {
+  public async get(id: ChannelFilterID): Promise<ChannelFilter> {
     const stmt = this.stmt.GET_ONE_BY_ID
 
     stmt.bind({ id })
@@ -54,25 +62,16 @@ export class ChannelFilterRepository
     return channelFiltersRow.parse(rows[0]).toDomain()
   }
 
-  public async getByKey(key: ChannelFilterKey): Promise<ChannelFilter> {
-    const stmt = this.stmt.GET_ONE_BY_KEY
-
-    stmt.bind({ key })
-    const rows = (await stmt.runAndReadAll()).getRowObjects()
-
-    if (rows.length === 0) {
-      throw new ChannelFilterNotFoundError({ key })
-    }
-
-    return channelFiltersRow.parse(rows[0]).toDomain()
-  }
-
   public async getAll(): Promise<ChannelFilter[]> {
     const stmt = this.stmt.GET_ALL
 
     const rows = (await stmt.runAndReadAll()).getRowObjects()
 
     return rows.map(row => channelFiltersRow.parse(row).toDomain())
+  }
+
+  public getForNetwork(_id: NetworkID): Promise<ChannelFilter[]> {
+    return Promise.resolve([])
   }
 
   // TODO: This should happen transactionally.
@@ -95,6 +94,6 @@ export class ChannelFilterRepository
       await stmt2.run()
     }
 
-    return this.getByID(channelFilter.id)
+    return this.get(channelFilter.id)
   }
 }

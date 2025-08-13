@@ -19,4 +19,4 @@ SELECT
 FROM
   channel_filters
 WHERE
-  channel_filters.id = $id;
+  network_id = $network_id;

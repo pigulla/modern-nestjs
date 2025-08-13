@@ -1,6 +1,6 @@
-import { Network, type NetworkIdentifier } from '@modern-nestjs/domain/network.js'
+import { Network, type NetworkKey } from '@modern-nestjs/domain/network.js'
 
 export abstract class INetworkService {
-  public abstract get(identifier: NetworkIdentifier): Promise<Network>
+  public abstract get(key: NetworkKey): Promise<Network>
   public abstract getAll(): Promise<Network[]>
 }

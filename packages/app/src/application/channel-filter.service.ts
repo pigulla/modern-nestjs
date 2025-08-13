@@ -1,7 +1,4 @@
-import type {
-  ChannelFilter,
-  ChannelFilterIdentifier,
-} from '@modern-nestjs/domain/channel-filter.js'
+import type { ChannelFilter, ChannelFilterKey } from '@modern-nestjs/domain/channel-filter.js'
 
 import { Injectable } from '@nestjs/common'
 
@@ -17,8 +14,9 @@ export class ChannelFilterService implements IChannelFilterService {
     this.repository = repository
   }
 
-  public get(identifier: ChannelFilterIdentifier): Promise<ChannelFilter> {
-    return this.repository.get(identifier)
+  public async get(key: ChannelFilterKey): Promise<ChannelFilter> {
+    const id = await this.repository.getIdOf(key)
+    return this.repository.get(id)
   }
 
   public getAll(): Promise<ChannelFilter[]> {

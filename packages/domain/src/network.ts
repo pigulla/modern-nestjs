@@ -12,8 +12,6 @@ import {
 export type NetworkID = z.infer<typeof networkIdSchema>
 export type NetworkKey = z.infer<typeof networkKeySchema>
 
-export type NetworkIdentifier = { id: NetworkID } | { key: NetworkKey }
-
 export class Network {
   // biome-ignore lint/correctness/noUnusedPrivateClassMembers: Disable structural typing.
   readonly #brand = Symbol(Network.name)

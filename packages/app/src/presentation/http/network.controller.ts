@@ -63,7 +63,7 @@ export class NetworkController {
     @Param('key', new ZodValidationPipe(networkKeySchema)) key: NetworkKey,
   ): Promise<NetworkDTO> {
     try {
-      const network = await this.networkService.get({ key })
+      const network = await this.networkService.get(key)
       return domainToDTO(network)
     } catch (error) {
       if (error instanceof NetworkNotFoundError) {

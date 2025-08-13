@@ -1,11 +1,6 @@
 import { join } from 'node:path'
 
-import type {
-  Channel,
-  ChannelID,
-  ChannelIdentifier,
-  ChannelKey,
-} from '@modern-nestjs/domain/channel.js'
+import type { Channel, ChannelID, ChannelKey } from '@modern-nestjs/domain/channel.js'
 
 import { Injectable, type OnModuleInit } from '@nestjs/common'
 
@@ -17,21 +12,23 @@ import { IDatabase } from '#infrastructure/persistence/database.interface.js'
 
 @Injectable()
 export class ChannelRepository
-  extends AbstractRepository<['get-one-by-id', 'get-one-by-key', 'get-all', 'insert']>
+  extends AbstractRepository<
+    ['get-one-by-id', 'get-one-by-key', 'get-all', 'insert', 'get-id-by-key']
+  >
   implements IChannelRepository, OnModuleInit
 {
   public constructor(database: IDatabase) {
     super(database, {
       directory: join(import.meta.dirname, 'sql'),
-      fileNames: ['get-one-by-id', 'get-one-by-key', 'get-all', 'insert'],
+      fileNames: ['get-one-by-id', 'get-one-by-key', 'get-all', 'insert', 'get-id-by-key'],
     })
   }
 
-  public get(identifier: ChannelIdentifier): Promise<Channel> {
-    return 'id' in identifier ? this.getByID(identifier.id) : this.getByKey(identifier.key)
+  public async getIdOf(key: ChannelKey): Promise<ChannelID> {
+    throw new Error('Not implemented')
   }
 
-  public async getByID(id: ChannelID): Promise<Channel> {
+  public async get(id: ChannelID): Promise<Channel> {
     const stmt = this.stmt.GET_ONE_BY_ID
 
     stmt.bind({ id })
@@ -39,19 +36,6 @@ export class ChannelRepository
 
     if (rows.length === 0) {
       throw new ChannelNotFoundError({ id })
-    }
-
-    return channelsRow.parse(rows[0]).toDomain()
-  }
-
-  public async getByKey(key: ChannelKey): Promise<Channel> {
-    const stmt = this.stmt.GET_ONE_BY_KEY
-
-    stmt.bind({ key })
-    const rows = (await stmt.runAndReadAll()).getRowObjects()
-
-    if (rows.length === 0) {
-      throw new ChannelNotFoundError({ key })
     }
 
     return channelsRow.parse(rows[0]).toDomain()

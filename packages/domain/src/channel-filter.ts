@@ -16,8 +16,6 @@ import { asNetworkID } from './network.schema.js'
 export type ChannelFilterID = z.infer<typeof channelFilterIdSchema>
 export type ChannelFilterKey = z.infer<typeof channelFilterKeySchema>
 
-export type ChannelFilterIdentifier = { id: ChannelFilterID } | { key: ChannelFilterKey }
-
 export class ChannelFilter {
   // biome-ignore lint/correctness/noUnusedPrivateClassMembers: Disable structural typing.
   readonly #brand = Symbol(ChannelFilter.name)

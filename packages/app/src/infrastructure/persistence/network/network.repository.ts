@@ -1,11 +1,7 @@
 import { join } from 'node:path'
 
-import type {
-  Network,
-  NetworkID,
-  NetworkIdentifier,
-  NetworkKey,
-} from '@modern-nestjs/domain/network.js'
+import type { Network, NetworkID, NetworkKey } from '@modern-nestjs/domain/network.js'
+import { asNetworkID } from '@modern-nestjs/domain/network.schema.js'
 
 import { Injectable, type OnModuleInit } from '@nestjs/common'
 
@@ -19,21 +15,32 @@ import { networksRow } from './sql/networks.row.js'
 
 @Injectable()
 export class NetworkRepository
-  extends AbstractRepository<['get-one-by-id', 'get-one-by-key', 'get-all', 'insert']>
+  extends AbstractRepository<
+    ['get-one-by-id', 'get-one-by-key', 'get-all', 'insert', 'get-id-by-key']
+  >
   implements INetworkRepository, OnModuleInit
 {
   public constructor(database: IDatabase) {
     super(database, {
       directory: join(import.meta.dirname, 'sql'),
-      fileNames: ['get-one-by-id', 'get-one-by-key', 'get-all', 'insert'],
+      fileNames: ['get-one-by-id', 'get-one-by-key', 'get-all', 'insert', 'get-id-by-key'],
     })
   }
 
-  public get(identifier: NetworkIdentifier): Promise<Network> {
-    return 'id' in identifier ? this.getByID(identifier.id) : this.getByKey(identifier.key)
+  public async getIdOf(key: NetworkKey): Promise<NetworkID> {
+    const stmt = this.stmt.GET_ID_BY_KEY
+
+    stmt.bind({ key })
+    const rows = (await stmt.runAndReadAll()).getRowObjects()
+
+    if (rows.length === 0) {
+      throw new NetworkNotFoundError({ key })
+    }
+
+    return asNetworkID(rows[0].id as number)
   }
 
-  public async getByID(id: NetworkID): Promise<Network> {
+  public async get(id: NetworkID): Promise<Network> {
     const stmt = this.stmt.GET_ONE_BY_ID
 
     stmt.bind({ id })
@@ -41,19 +48,6 @@ export class NetworkRepository
 
     if (rows.length === 0) {
       throw new NetworkNotFoundError({ id })
-    }
-
-    return networksRow.parse(rows[0]).toDomain()
-  }
-
-  public async getByKey(key: NetworkKey): Promise<Network> {
-    const stmt = this.stmt.GET_ONE_BY_KEY
-
-    stmt.bind({ key })
-    const rows = (await stmt.runAndReadAll()).getRowObjects()
-
-    if (rows.length === 0) {
-      throw new NetworkNotFoundError({ key })
     }
 
     return networksRow.parse(rows[0]).toDomain()

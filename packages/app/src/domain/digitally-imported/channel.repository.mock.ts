@@ -8,6 +8,7 @@ export function mockChannelRepository(): ChannelRepositoryMock {
   return {
     get: vi.fn(),
     getAll: vi.fn(),
+    getIdOf: vi.fn(),
     insert: vi.fn(),
   }
 }

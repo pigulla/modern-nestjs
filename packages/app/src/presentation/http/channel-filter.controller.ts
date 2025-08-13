@@ -63,7 +63,7 @@ export class ChannelFilterController {
     @Param('key', new ZodValidationPipe(channelFilterKeySchema)) key: ChannelFilterKey,
   ): Promise<ChannelFilterDTO> {
     try {
-      const channel = await this.channelFilterService.get({ key })
+      const channel = await this.channelFilterService.get(key)
       return domainToDTO(channel)
     } catch (error) {
       if (error instanceof ChannelFilterNotFoundError) {

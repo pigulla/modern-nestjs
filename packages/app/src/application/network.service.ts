@@ -1,4 +1,4 @@
-import { Network, type NetworkIdentifier } from '@modern-nestjs/domain/network.js'
+import { Network, type NetworkKey } from '@modern-nestjs/domain/network.js'
 
 import { Injectable } from '@nestjs/common'
 
@@ -14,8 +14,9 @@ export class NetworkService implements INetworkService {
     this.repository = repository
   }
 
-  public get(identifier: NetworkIdentifier): Promise<Network> {
-    return this.repository.get(identifier)
+  public async get(key: NetworkKey): Promise<Network> {
+    const id = await this.repository.getIdOf(key)
+    return this.repository.get(id)
   }
 
   public getAll(): Promise<Network[]> {

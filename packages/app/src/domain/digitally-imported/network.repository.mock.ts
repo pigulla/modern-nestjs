@@ -8,6 +8,7 @@ export function mockNetworkRepository(): NetworkRepositoryMock {
   return {
     get: vi.fn(),
     getAll: vi.fn(),
+    getIdOf: vi.fn(),
     insert: vi.fn(),
   }
 }
