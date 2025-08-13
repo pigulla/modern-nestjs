@@ -5,8 +5,8 @@ import { asNetworkID } from '@di/domain/network.schema.js'
 
 import { Injectable, type OnModuleInit } from '@nestjs/common'
 
-import type { INetworkRepository } from '#domain/digitally-imported/network.repository.interface.js'
-import { NetworkNotFoundError } from '#domain/digitally-imported/network-not-found.error.js'
+import type { INetworkRepository } from '#domain/network/network.repository.interface.js'
+import { NetworkNotFoundError } from '#domain/network/network-not-found.error.js'
 
 import { AbstractRepository } from '../abstract.repository.js'
 import { IDatabase } from '../database.interface.js'

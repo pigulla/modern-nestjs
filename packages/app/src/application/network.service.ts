@@ -2,7 +2,7 @@ import { Network, type NetworkKey } from '@di/domain/network.js'
 
 import { Injectable } from '@nestjs/common'
 
-import { INetworkRepository } from '#domain/digitally-imported/network.repository.interface.js'
+import { INetworkRepository } from '#domain/network/network.repository.interface.js'
 
 import type { INetworkService } from './network.service.interface.js'
 

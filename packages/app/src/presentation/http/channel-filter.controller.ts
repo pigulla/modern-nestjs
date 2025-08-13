@@ -7,11 +7,20 @@ import { ApiOperation, ApiParam, ApiResponse, ApiSecurity, ApiTags } from '@nest
 import { ZodValidationPipe } from 'nestjs-zod'
 
 import { IChannelFilterService } from '#application/channel-filter.service.interface.js'
-import { ChannelFilterNotFoundError } from '#domain/digitally-imported/channel-filter-not-found.error.js'
+import { ChannelFilterNotFoundError } from '#domain/channel-filter/channel-filter-not-found.error.js'
 
 @Controller('channel-filters')
 @ApiTags('channel-filters')
 @ApiSecurity({})
+@ApiResponse({
+  status: HttpStatus.BAD_REQUEST,
+  description:
+    'A query or route parameter, the payload or a header was malformed and did not pass validation.',
+})
+@ApiResponse({
+  status: HttpStatus.INTERNAL_SERVER_ERROR,
+  description: 'An unexpected error occurred.',
+})
 export class ChannelFilterController {
   private readonly channelFilterService: IChannelFilterService
 
@@ -29,31 +38,21 @@ export class ChannelFilterController {
     type: [ChannelFilterDTO],
     description: 'The operation completed successfully.',
   })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description:
-      'A query or route parameter, the payload or a header was malformed and did not pass validation.',
-  })
   public async getAll(): Promise<ChannelFilterDTO[]> {
     const channels = await this.channelFilterService.getAll()
     return channels.map(channel => domainToDTO(channel))
   }
 
   @Get(':key')
+  @ApiParam({ name: 'key', type: 'string', example: 'ambient' })
   @ApiOperation({
     summary: 'Get a channel filter by key.',
     description: 'Get the channel filter with the given key, if it exists.',
   })
-  @ApiParam({ name: 'key', type: 'string', example: 'ambient' })
   @ApiResponse({
     status: HttpStatus.OK,
     type: ChannelFilterDTO,
     description: 'The operation completed successfully.',
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description:
-      'A query or route parameter, the payload or a header was malformed and did not pass validation.',
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,

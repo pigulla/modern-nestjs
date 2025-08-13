@@ -1,16 +1,13 @@
 import { join } from 'node:path'
 
-import type {
-  ChannelFilter,
-  ChannelFilterID,
-  ChannelFilterKey,
-} from '@di/domain/channel-filter.js'
+import type { ChannelFilter, ChannelFilterID, ChannelFilterKey } from '@di/domain/channel-filter.js'
+import { asChannelFilterID } from '@di/domain/channel-filter.schema.js'
 import type { NetworkID } from '@di/domain/network.js'
 
 import { Injectable, type OnModuleInit } from '@nestjs/common'
 
-import type { IChannelFilterRepository } from '#domain/digitally-imported/channel-filter.repository.interface.js'
-import { ChannelFilterNotFoundError } from '#domain/digitally-imported/channel-filter-not-found.error.js'
+import type { IChannelFilterRepository } from '#domain/channel-filter/channel-filter.repository.interface.js'
+import { ChannelFilterNotFoundError } from '#domain/channel-filter/channel-filter-not-found.error.js'
 
 import { AbstractRepository } from '../abstract.repository.js'
 import { IDatabase } from '../database.interface.js'
@@ -24,6 +21,7 @@ export class ChannelFilterRepository
       'get-one-by-id',
       'get-one-by-key',
       'get-all',
+      'get-all-for-network',
       'insert',
       'assign-channel-to-filter',
       'get-id-by-key',
@@ -38,6 +36,7 @@ export class ChannelFilterRepository
         'get-one-by-id',
         'get-one-by-key',
         'get-all',
+        'get-all-for-network',
         'insert',
         'assign-channel-to-filter',
         'get-id-by-key',
@@ -46,9 +45,17 @@ export class ChannelFilterRepository
   }
 
   public async getIdOf(key: ChannelFilterKey): Promise<ChannelFilterID> {
-    throw new Error('Not implemented')
-  }
+    const stmt = this.stmt.GET_ID_BY_KEY
 
+    stmt.bind({ key })
+    const rows = (await stmt.runAndReadAll()).getRowObjects()
+
+    if (rows.length === 0) {
+      throw new ChannelFilterNotFoundError({ key })
+    }
+
+    return asChannelFilterID(rows[0].id as number)
+  }
   public async get(id: ChannelFilterID): Promise<ChannelFilter> {
     const stmt = this.stmt.GET_ONE_BY_ID
 
@@ -72,6 +79,15 @@ export class ChannelFilterRepository
 
   public getForNetwork(_id: NetworkID): Promise<ChannelFilter[]> {
     return Promise.resolve([])
+  }
+
+  public async getAllForNetwork(id: NetworkID): Promise<ChannelFilter[]> {
+    const stmt = this.stmt.GET_ALL_FOR_NETWORK
+    stmt.bind({ network_id: id })
+
+    const rows = (await stmt.runAndReadAll()).getRowObjects()
+
+    return rows.map(row => channelFiltersRow.parse(row).toDomain())
   }
 
   // TODO: This should happen transactionally.

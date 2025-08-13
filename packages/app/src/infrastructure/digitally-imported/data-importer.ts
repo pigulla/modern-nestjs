@@ -1,11 +1,12 @@
 import { Channel } from '@di/domain/channel.js'
 import { ChannelFilter } from '@di/domain/channel-filter.js'
 import { Network } from '@di/domain/network.js'
+
 import { Injectable, Logger, type OnModuleInit } from '@nestjs/common'
 
-import { IChannelRepository } from '#domain/digitally-imported/channel.repository.interface.js'
-import { IChannelFilterRepository } from '#domain/digitally-imported/channel-filter.repository.interface.js'
-import { INetworkRepository } from '#domain/digitally-imported/network.repository.interface.js'
+import { IChannelRepository } from '#domain/channel/channel.repository.interface.js'
+import { IChannelFilterRepository } from '#domain/channel-filter/channel-filter.repository.interface.js'
+import { INetworkRepository } from '#domain/network/network.repository.interface.js'
 
 import data from '../../../../../data.json' with { type: 'json' }
 

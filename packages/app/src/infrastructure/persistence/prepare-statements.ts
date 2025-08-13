@@ -6,7 +6,7 @@ import type { SnakeCase } from 'type-fest'
 
 export type PreparedStatements<T extends readonly string[]> = {
   [k in T[number] as Uppercase<SnakeCase<k>>]: DuckDBPreparedStatement
-} & Record<string, DuckDBPreparedStatement>
+}
 
 export async function prepareStatements<T extends readonly string[]>(
   db: DuckDBConnection,
