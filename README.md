@@ -10,7 +10,7 @@ This repository provides a highly opinionated, basic setup for modern NestJS app
 
 ### Key Features
 - 🦠 Use [Biome](https://biomejs.dev/) instead of [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/). Biome hasn't yet reached feature parity compared to a fully pimped out ESLint setup, but it causes orders of magnitude fewer headaches. It's also roughly ten billion times faster.
-- 🕵️‍♀️ Validate DTOs, route and query parameters with [Zod](https://github.com/colinhacks/zod) instead of [Class Validator](https://github.com/typestack/class-validator) (powered by [`nestjs-zod`](https://github.com/BenLorantfy/nestjs-zod) - this currently requires the [v5 beta](https://github.com/BenLorantfy/nestjs-zod/discussions/148)). 
+- 🕵️‍♀️ Validate DTOs, route and query parameters with [Zod](https://github.com/colinhacks/zod) instead of [Class Validator](https://github.com/typestack/class-validator) (powered by [`nestjs-zod`](https://github.com/BenLorantfy/nestjs-zod)). 
 - ✅ Validate OpenAPI documentation with [Redocly](https://redocly.com/redocly-cli). It can also [generate](https://redocly.com/docs/cli/commands/build-docs) reasonably pretty HTML docs.
 - 🧑‍🔧 Use [Vitest](https://vitest.dev/) instead of [Jest](https://vitest.dev/).
 - 🏚 Comes with [architecture tests](./test/architecture) powered by [TSArch](https://github.com/ts-arch/ts-arch). The tests currently assert the core ideas of a [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html). Feel free to [configure](./test/architecture/rules.json) them to your liking.
