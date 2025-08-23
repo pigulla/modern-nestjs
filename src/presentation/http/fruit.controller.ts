@@ -13,8 +13,8 @@ import {
   Post,
   Put,
 } from '@nestjs/common'
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
-import { ZodValidationPipe } from 'nestjs-zod'
+import { ApiOperation, ApiParam, ApiResponse, ApiSecurity, ApiTags } from '@nestjs/swagger'
+import { ZodResponse, ZodValidationPipe } from 'nestjs-zod'
 
 import { IFruitService } from '#application/fruit.service.interface.js'
 import { FruitAlreadyExistsError } from '#domain/error/fruit-already-exists.error.js'
@@ -25,6 +25,7 @@ import { domainToDTO, dtoToDomain, FruitDTO } from './fruit.dto.js'
 
 @Controller('fruits')
 @ApiTags('fruit')
+@ApiSecurity({})
 export class FruitController {
   private readonly fruitService: IFruitService
 
@@ -37,11 +38,7 @@ export class FruitController {
     summary: 'Get a random fruit.',
     description: 'Return a randomly selected fruit.',
   })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'The operation completed successfully.',
-    type: FruitDTO,
-  })
+  @ZodResponse({ description: 'The operation completed successfully.', type: FruitDTO })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
     description: 'No fruits were found so a random fruit could not be returned.',
@@ -50,7 +47,7 @@ export class FruitController {
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: 'The operation failed unexpectedly.',
   })
-  public random(): FruitDTO {
+  public random() {
     const fruit = this.fruitService.getRandom()
 
     if (!fruit) {
@@ -66,11 +63,7 @@ export class FruitController {
     description: 'Get the fruit with the given id, if it exists.',
   })
   @ApiParam({ name: 'id', type: 'number', format: 'int', example: 42 })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: FruitDTO,
-    description: 'The operation completed successfully.',
-  })
+  @ZodResponse({ description: 'The operation completed successfully.', type: FruitDTO })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description:
@@ -80,9 +73,7 @@ export class FruitController {
     status: HttpStatus.NOT_FOUND,
     description: 'The fruit with the given id was not found.',
   })
-  public get(
-    @Param('id', ParseIntPipe, new ZodValidationPipe(fruitIdSchema)) id: FruitID,
-  ): FruitDTO {
+  public get(@Param('id', ParseIntPipe, new ZodValidationPipe(fruitIdSchema)) id: FruitID) {
     try {
       return domainToDTO(this.fruitService.get(id))
     } catch (error) {
@@ -134,10 +125,7 @@ export class FruitController {
     description: 'Update the fruit with the given id, if it exists.',
   })
   @ApiParam({ name: 'id', type: 'number', format: 'int', example: 42 })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'The operation completed successfully.',
-  })
+  @ZodResponse({ description: 'The operation completed successfully.', type: FruitDTO })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description:
@@ -150,7 +138,7 @@ export class FruitController {
   public update(
     @Param('id', ParseIntPipe, new ZodValidationPipe(fruitIdSchema)) id: FruitID,
     @Body() dto: FruitDTO,
-  ): FruitDTO {
+  ) {
     if (id !== dto.id) {
       throw new BadRequestException('Route parameter does not match payload.')
     }
@@ -174,10 +162,10 @@ export class FruitController {
     summary: 'Create a fruit.',
     description: 'Create a new fruit.',
   })
-  @ApiResponse({
+  @ZodResponse({
     status: HttpStatus.CREATED,
-    type: FruitDTO,
     description: 'The operation completed successfully.',
+    type: FruitDTO,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
@@ -188,7 +176,7 @@ export class FruitController {
     status: HttpStatus.CONFLICT,
     description: 'A fruit with the given id already exists.',
   })
-  public create(@Body() dto: FruitDTO): FruitDTO {
+  public create(@Body() dto: FruitDTO) {
     const fruit = dtoToDomain(dto)
 
     try {
