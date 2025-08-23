@@ -30,5 +30,6 @@ This repository provides a highly opinionated, basic setup for modern NestJS app
 - Unfortunately, the build order has to be sorted topologically in the `workspace` property of [`package.json`](./package.json) (until this is [fixed](https://github.com/npm/cli/issues/4139#issuecomment-1730186418) by `npm`).
 
 ### Other Notes
+- Knip doesn't seem to work with subpath imports and/or workspaces yet (or maybe I'm doing something wrong). This needs some investigation.
 - We use abstract classes instead of interfaces solely because they can then double as injection tokens (interfaces don't exist at runtime, abstract classes do). Note that the concretions don't `extend` but `implement` them.
 - This is a very basic setup for a monorepo. If you need more features (and accept the headaches that come with those) check out [nx](https://nx.dev/) or [Turborepo](https://turborepo.com/).

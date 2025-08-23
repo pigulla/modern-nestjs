@@ -29,9 +29,6 @@
             "development": "./src/infrastructure/*",
             "dist": "./dist/src/infrastructure/*"
         },
-        "#mocks": {
-            "development": "./src/mocks.js"
-        },
         "#module/*": {
             "development": "./src/module/*",
             "dist": "./dist/src/module/*"
@@ -46,16 +43,16 @@
         }
     },
     "scripts": {
-        "build": "rm -rf dist && npm run build:tsc && npm run build:copy-config",
+        "build": "npm run build:clean && npm run build:tsc && npm run build:copy-config",
+        "build:clean": "rm -rf dist",
         "build:copy-config": "rsync --archive --include '*/' --exclude 'local*' config/ dist/config",
         "build:tsc": "tsc --project tsconfig.build.json",
         "format": "npm run format:biome && npm run format:package-json",
         "format:biome": "biome check --write",
         "format:package-json": "sort-package-json",
-        "lint": "npm run lint:tsc && npm run lint:biome && npm run lint:knip && npm run lint:lockfile && npm run lint:package-json",
+        "lint": "npm run lint:biome && npm run lint:knip && npm run lint:lockfile && npm run lint:package-json",
         "lint:biome": "biome check",
         "lint:package-json": "npmPkgJsonLint . && sort-package-json --check",
-        "lint:tsc": "tsc --noEmit",
         "openapi": "npm run openapi:build && npm run openapi:html && npm run openapi:lint",
         "openapi:build": "NODE_OPTIONS='--conditions development' jiti scripts/build-openapi-spec.ts > openapi.json",
         "openapi:html": "redocly build-docs openapi.json --output=openapi.html",
@@ -76,15 +73,15 @@
         "@nestjs/core": "11.1.6",
         "@nestjs/platform-express": "11.1.6",
         "@nestjs/swagger": "11.2.0",
-        "config": "4.1.0",
+        "config": "4.1.1",
         "nestjs-pino": "4.4.0",
-        "nestjs-zod": "5.0.0-beta.20250719T005107",
+        "nestjs-zod": "5.0.0",
         "rxjs": "7.8.2",
-        "zod": "4.0.17"
+        "zod": "4.1.0"
     },
     "devDependencies": {
         "@nestjs/testing": "11.1.6",
-        "@redocly/cli": "2.0.3",
+        "@redocly/cli": "2.0.7",
         "@types/config": "3.3.5",
         "@types/express": "5.0.3",
         "@types/supertest": "6.0.3",

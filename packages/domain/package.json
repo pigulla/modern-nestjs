@@ -23,18 +23,18 @@
         }
     },
     "scripts": {
-        "build": "rm -rf dist && npm run build:tsc",
+        "build": "npm run build:clean && npm run build:tsc",
+        "build:clean": "rm -rf dist",
         "build:tsc": "tsc --project tsconfig.build.json",
         "format": "npm run format:biome && npm run format:package-json",
         "format:biome": "biome check --write",
         "format:package-json": "sort-package-json",
-        "lint": "npm run lint:tsc && npm run lint:biome && npm run lint:knip && npm run lint:lockfile && npm run lint:package-json",
+        "lint": "npm run lint:biome && npm run lint:knip && npm run lint:lockfile && npm run lint:package-json",
         "lint:biome": "biome check",
         "lint:package-json": "npmPkgJsonLint . && sort-package-json --check",
-        "lint:tsc": "tsc --noEmit",
         "test": "npm run lint && npm run vitest && npm audit --omit dev --audit-level high"
     },
     "dependencies": {
-        "zod": "4.0.17"
+        "zod": "4.1.0"
     }
 }

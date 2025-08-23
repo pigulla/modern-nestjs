@@ -8,9 +8,9 @@ import request from 'supertest'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
 import { IFruitService } from '#application/fruit.service.interface.js'
+import { type FruitServiceMock, mockFruitService } from '#application/fruit.service.mock.js'
 import { FruitAlreadyExistsError } from '#domain/error/fruit-already-exists.error.js'
 import { FruitNotFoundError } from '#domain/error/fruit-not-found.error.js'
-import { type FruitServiceMock, mockFruitService } from '#mocks'
 import { FruitController } from '#presentation/http/fruit.controller.js'
 
 describe('AppController', () => {
