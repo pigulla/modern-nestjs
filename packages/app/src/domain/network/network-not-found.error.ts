@@ -1,7 +1,9 @@
-import type { NetworkKey } from './network.js'
+import { EntityNotFoundError } from '../entity-not-found.error.js'
 
-export class NetworkNotFoundError extends Error {
-  public constructor(key: NetworkKey) {
-    super(`Network with key "${key}" not found`)
+import type { NetworkID, NetworkKey } from './network.js'
+
+export class NetworkNotFoundError extends EntityNotFoundError {
+  public constructor(identifier: NetworkID | NetworkKey) {
+    super(`Network with ${typeof identifier === 'number' ? 'id' : 'key'} "${identifier}" not found`)
   }
 }

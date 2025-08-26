@@ -8,8 +8,9 @@ import type { Network } from '#domain/network/network.js'
 
 export function channelToDTO(channel: Channel): ChannelDTO {
   return channelDtoSchema.parse({
+    id: channel.id,
     key: channel.key,
-    networkKey: channel.networkKey,
+    networkId: channel.networkId,
     name: channel.name,
     director: channel.director,
     description: channel.description,
@@ -18,8 +19,9 @@ export function channelToDTO(channel: Channel): ChannelDTO {
 
 export function channelFilterToDTO(channelFilter: ChannelFilter): ChannelFilterDTO {
   return channelFilterDtoSchema.parse({
+    id: channelFilter.id,
     key: channelFilter.key,
-    networkKey: channelFilter.networkKey,
+    networkId: channelFilter.networkId,
     name: channelFilter.name,
     position: channelFilter.position,
     channels: [...channelFilter.channels],
@@ -28,6 +30,7 @@ export function channelFilterToDTO(channelFilter: ChannelFilter): ChannelFilterD
 
 export function networkToDTO(network: Network): NetworkDTO {
   return networkDtoSchema.parse({
+    id: network.id,
     key: network.key,
     name: network.name,
     url: network.url,

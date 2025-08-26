@@ -6,7 +6,8 @@ export type NetworkRepositoryMock = Mocked<INetworkRepository>
 
 export function mockNetworkRepository(): NetworkRepositoryMock {
   return {
-    get: vi.fn(),
+    getByID: vi.fn(),
+    getByKey: vi.fn(),
     getAll: vi.fn(),
     insert: vi.fn(),
   }

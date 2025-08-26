@@ -1,6 +1,10 @@
 import { Global, Module } from '@nestjs/common'
 import type { IConfig } from 'config'
 
+import {
+  AUDIO_ADDICT_CONFIG,
+  type AudioAddictConfig,
+} from '#infrastructure/config/audio-addict.config.js'
 import { CONFIG, type Config, config } from '#infrastructure/config/config.js'
 import { LOGGING_CONFIG, type LoggingConfig } from '#infrastructure/config/logging.config.js'
 import { OPEN_API_CONFIG, type OpenApiConfig } from '#infrastructure/config/open-api.config.js'
@@ -42,7 +46,12 @@ const NODE_CONFIG = Symbol('node-config')
       inject: [CONFIG],
       useFactory: (config: Config): LoggingConfig => config.logging,
     },
+    {
+      provide: AUDIO_ADDICT_CONFIG,
+      inject: [CONFIG],
+      useFactory: (config: Config): AudioAddictConfig => config.audioAddict,
+    },
   ],
-  exports: [SERVER_CONFIG, OPEN_API_CONFIG, LOGGING_CONFIG],
+  exports: [SERVER_CONFIG, OPEN_API_CONFIG, LOGGING_CONFIG, AUDIO_ADDICT_CONFIG],
 })
 export class ConfigModule {}

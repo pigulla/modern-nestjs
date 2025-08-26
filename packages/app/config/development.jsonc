@@ -4,7 +4,7 @@
         "pretty": true
     },
     "openApi": {
-        "server": "http://localhost:3000",
+        "server": "http://localhost.com:3000",
         "swagger": {
             "enabled": true
         }

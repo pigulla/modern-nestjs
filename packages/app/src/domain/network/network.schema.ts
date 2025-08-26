@@ -1,10 +1,16 @@
 import z from 'zod'
 
-import type { NetworkKey } from './network.js'
+import type { NetworkID, NetworkKey } from './network.js'
+
+export const networkIdSchema = z.number().int().positive().brand('network-id')
+
+export function asNetworkID(value: number): NetworkID {
+  return networkIdSchema.parse(value)
+}
 
 export const networkKeySchema = z
   .string()
-  .regex(/^[a-z0-9]+$/)
+  .regex(/^[_a-z0-9]+$/)
   .brand('network-key')
 
 export function asNetworkKey(value: string): NetworkKey {
@@ -12,7 +18,8 @@ export function asNetworkKey(value: string): NetworkKey {
 }
 
 export const networkSchema = z.strictObject({
+  id: networkIdSchema,
   key: networkKeySchema,
   name: z.string().min(1),
-  url: z.url(),
+  url: z.httpUrl(),
 })

@@ -17,16 +17,15 @@ export class ChannelService implements IChannelService {
     this.networkRepository = networkRepository
   }
 
-  public get(key: ChannelKey): Promise<Channel> {
-    return this.channelRepository.get(key)
+  public async get(networkKey: NetworkKey, channelKey: ChannelKey): Promise<Channel> {
+    const network = await this.networkRepository.getByKey(networkKey)
+
+    return this.channelRepository.getByKeyForNetwork(network.id, channelKey)
   }
 
-  public getAll(): Promise<Channel[]> {
-    return this.channelRepository.getAll()
-  }
+  public async getAllForNetwork(networkKey: NetworkKey): Promise<Channel[]> {
+    const network = await this.networkRepository.getByKey(networkKey)
 
-  public async getAllForNetwork(key: NetworkKey): Promise<Channel[]> {
-    const network = await this.networkRepository.get(key)
-    return this.channelRepository.getAllForNetwork(network.key)
+    return this.channelRepository.getAllForNetwork(network.id)
   }
 }

@@ -6,16 +6,21 @@ import { Logger } from 'nestjs-pino'
 import { OPEN_API_CONFIG, type OpenApiConfig } from '#infrastructure/config/open-api.config.js'
 import { SERVER_CONFIG, type ServerConfig } from '#infrastructure/config/server.config.js'
 import { MainModule } from '#module/main.module.js'
+import { EntityNotFoundExceptionFilter } from '#presentation/http/entity-not-found.exception-filter.js'
 import { createOpenAPIDocument } from '#util/create-openapi-document.js'
 
 export async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create<NestExpressApplication>(MainModule, { bufferLogs: true })
+  const app = await NestFactory.create<NestExpressApplication>(MainModule, { bufferLogs: false })
 
   const server = app.get<ServerConfig>(SERVER_CONFIG)
   const openApi = app.get<OpenApiConfig>(OPEN_API_CONFIG)
   const logger = app.get(Logger)
+  const adapter = app.getHttpAdapter()
 
-  app.enableShutdownHooks().useLogger(logger)
+  app
+    .enableShutdownHooks()
+    .useGlobalFilters(new EntityNotFoundExceptionFilter(adapter))
+    .useLogger(logger)
 
   if (openApi.swagger.enabled) {
     SwaggerModule.setup(openApi.swagger.path, app, () => createOpenAPIDocument(app, openApi))

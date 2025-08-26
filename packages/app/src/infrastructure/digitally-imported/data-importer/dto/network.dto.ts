@@ -5,7 +5,7 @@ export const networkDtoSchema = z
     id: z.number().int(),
     key: z.string(),
     name: z.string(),
-    url: z.url(),
+    url: z.httpUrl(),
     created_at: z.iso.date(),
     updated_at: z.iso.date(),
     active: z.boolean(),

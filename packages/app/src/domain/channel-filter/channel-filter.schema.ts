@@ -1,13 +1,19 @@
 import z from 'zod'
 
-import { channelKeySchema } from '../channel/channel.schema.js'
-import { networkKeySchema } from '../network/network.schema.js'
+import { channelIdSchema } from '../channel/channel.schema.js'
+import { networkIdSchema } from '../network/network.schema.js'
 
-import type { ChannelFilterKey } from './channel-filter.js'
+import type { ChannelFilterID, ChannelFilterKey } from './channel-filter.js'
+
+export const channelFilterIdSchema = z.number().int().positive().brand('channel-filter-id')
+
+export function asChannelFilterID(value: number): ChannelFilterID {
+  return channelFilterIdSchema.parse(value)
+}
 
 export const channelFilterKeySchema = z
   .string()
-  .regex(/^[a-z0-9]+$/)
+  .regex(/^[_a-z0-9]+$/)
   .brand('channel-filter-key')
 
 export function asChannelFilterKey(value: string): ChannelFilterKey {
@@ -16,11 +22,12 @@ export function asChannelFilterKey(value: string): ChannelFilterKey {
 
 export const channelFilterSchema = z
   .strictObject({
+    id: channelFilterIdSchema,
     key: channelFilterKeySchema,
-    networkKey: networkKeySchema,
+    networkId: networkIdSchema,
     name: z.string().min(1),
-    position: z.number().int().min(1),
-    channels: z.set(channelKeySchema).readonly(),
+    position: z.number().int().min(0),
+    channels: z.set(channelIdSchema).readonly(),
   })
   .readonly()
   .brand('channel-filter')

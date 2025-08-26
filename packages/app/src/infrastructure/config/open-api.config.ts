@@ -4,17 +4,17 @@ export const OPEN_API_CONFIG = Symbol('open-api-config')
 
 export const openApiConfig = z
   .strictObject({
-    server: z.url({ protocol: /^https?$/ }),
+    server: z.httpUrl(),
     title: z.string(),
     description: z.string(),
     version: z.string(),
     license: z.strictObject({
       name: z.string(),
-      url: z.url({ protocol: /^https?$/ }),
+      url: z.httpUrl(),
     }),
     contact: z.strictObject({
       name: z.string(),
-      url: z.url({ protocol: /^https?$/ }),
+      url: z.httpUrl(),
       email: z.email(),
     }),
     swagger: z.strictObject({ enabled: z.boolean(), path: z.string() }).readonly(),

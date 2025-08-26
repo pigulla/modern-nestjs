@@ -1,7 +1,9 @@
-import type { ChannelKey } from './channel.js'
+import { EntityNotFoundError } from '../entity-not-found.error.js'
 
-export class ChannelNotFoundError extends Error {
-  public constructor(key: ChannelKey) {
-    super(`Channel with key "${key}" not found`)
+import type { ChannelID, ChannelKey } from './channel.js'
+
+export class ChannelNotFoundError extends EntityNotFoundError {
+  public constructor(identifier: ChannelID | ChannelKey) {
+    super(`Channel with ${typeof identifier === 'number' ? 'id' : 'key'} "${identifier}" not found`)
   }
 }

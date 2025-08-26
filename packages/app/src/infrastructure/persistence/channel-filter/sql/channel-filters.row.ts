@@ -1,26 +1,30 @@
 import z from 'zod'
 
-import { channelKeySchema } from '#domain/channel/channel.schema.js'
+import { channelIdSchema } from '#domain/channel/channel.schema.js'
 import { ChannelFilter } from '#domain/channel-filter/channel-filter.js'
-import { channelFilterKeySchema } from '#domain/channel-filter/channel-filter.schema.js'
-import { networkKeySchema } from '#domain/network/network.schema.js'
+import {
+  channelFilterIdSchema,
+  channelFilterKeySchema,
+} from '#domain/channel-filter/channel-filter.schema.js'
+import { networkIdSchema } from '#domain/network/network.schema.js'
 
 export const channelFiltersRow = z
   .strictObject({
+    id: channelFilterIdSchema,
     key: channelFilterKeySchema,
-    network_key: networkKeySchema,
+    network_id: networkIdSchema,
     name: z.string(),
-    position: z.number().int(),
-    channel_keys: z.preprocess(value => JSON.parse(value as string), z.array(channelKeySchema)),
+    position: z.number().int().min(0),
+    channel_ids: z.preprocess(value => JSON.parse(value as string), z.array(channelIdSchema)),
   })
   .transform(data => ({
     ...data,
     toDomain: () => {
-      const { network_key, channel_keys, ...other } = data
+      const { network_id, channel_ids, ...other } = data
       return new ChannelFilter({
         ...other,
-        networkKey: network_key,
-        channels: new Set(channel_keys),
+        networkId: network_id,
+        channels: new Set(channel_ids),
       })
     },
   }))

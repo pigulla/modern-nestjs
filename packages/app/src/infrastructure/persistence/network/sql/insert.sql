@@ -1,8 +1,9 @@
 INSERT INTO
-  networks (key, name, url)
+  networks (id, key, name, url)
 VALUES
-  ($key, $name, $url)
+  ($id, $key, $name, $url)
 RETURNING
+  id,
   key,
   name,
   url;

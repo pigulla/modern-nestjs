@@ -27,5 +27,9 @@
             "email": "raphael@pigulla.net",
             "url": "https://de.linkedin.com/in/pigulla"
         }
+    },
+    "audioAddict": {
+        "baseUrl": "https://api.audioaddict.com",
+        "listeningKey": ""
     }
 }

@@ -1,13 +1,14 @@
 import z from 'zod'
 
 import { Channel } from '#domain/channel/channel.js'
-import { channelKeySchema } from '#domain/channel/channel.schema.js'
-import { networkKeySchema } from '#domain/network/network.schema.js'
+import { channelIdSchema, channelKeySchema } from '#domain/channel/channel.schema.js'
+import { networkIdSchema } from '#domain/network/network.schema.js'
 
 export const channelsRow = z
   .strictObject({
+    id: channelIdSchema,
     key: channelKeySchema,
-    network_key: networkKeySchema,
+    network_id: networkIdSchema,
     name: z.string(),
     description: z.string(),
     director: z.string(),
@@ -15,8 +16,8 @@ export const channelsRow = z
   .transform(data => ({
     ...data,
     toDomain: () => {
-      const { network_key, ...other } = data
-      return new Channel({ ...other, networkKey: network_key, similarChannels: new Set() })
+      const { network_id, ...other } = data
+      return new Channel({ ...other, networkId: network_id, similar: new Set() })
     },
   }))
   .readonly()

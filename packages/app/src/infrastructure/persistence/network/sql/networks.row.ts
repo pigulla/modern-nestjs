@@ -1,13 +1,14 @@
 import z from 'zod'
 
 import { Network } from '#domain/network/network.js'
-import { networkKeySchema } from '#domain/network/network.schema.js'
+import { networkIdSchema, networkKeySchema } from '#domain/network/network.schema.js'
 
 export const networksRow = z
   .strictObject({
+    id: networkIdSchema,
     key: networkKeySchema,
     name: z.string(),
-    url: z.url(),
+    url: z.httpUrl(),
   })
   .transform(data => ({
     ...data,

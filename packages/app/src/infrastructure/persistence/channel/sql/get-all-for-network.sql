@@ -1,10 +1,11 @@
 SELECT
+  id,
   key,
-  network_key,
+  network_id,
   name,
   description,
   director
 FROM
   channels
 WHERE
-  network_key = $network_key;
+  network_id = $network_id;

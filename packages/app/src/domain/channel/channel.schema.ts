@@ -1,12 +1,18 @@
 import z from 'zod'
 
-import { networkKeySchema } from '../network/network.schema.js'
+import { networkIdSchema } from '#domain/network/network.schema.js'
 
-import type { ChannelKey } from './channel.js'
+import type { ChannelID, ChannelKey } from './channel.js'
+
+export const channelIdSchema = z.number().int().positive().brand('channel-id')
+
+export function asChannelID(value: number): ChannelID {
+  return channelIdSchema.parse(value)
+}
 
 export const channelKeySchema = z
   .string()
-  .regex(/^[a-z0-9]+$/)
+  .regex(/^[_a-z0-9]+$/)
   .brand('channel-key')
 
 export function asChannelKey(value: string): ChannelKey {
@@ -15,11 +21,12 @@ export function asChannelKey(value: string): ChannelKey {
 
 export const channelSchema = z
   .strictObject({
+    id: channelIdSchema,
     key: channelKeySchema,
-    networkKey: networkKeySchema,
+    networkId: networkIdSchema,
     name: z.string().min(1),
     director: z.string(),
     description: z.string(),
-    similarChannels: z.set(channelKeySchema).readonly(),
+    similar: z.set(channelIdSchema).readonly(),
   })
   .readonly()

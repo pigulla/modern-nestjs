@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common'
 
-import { ChannelController } from '#presentation/http/channel.controller.js'
 import { NetworkController } from '#presentation/http/network.controller.js'
+import { StreamController } from '#presentation/http/stream.controller.js'
 
 import { ApplicationModule } from './application.module.js'
 
 @Module({
   imports: [ApplicationModule],
-  controllers: [NetworkController, ChannelController],
+  controllers: [NetworkController, StreamController],
 })
 export class ControllerModule {}

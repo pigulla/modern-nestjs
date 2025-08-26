@@ -1,33 +1,29 @@
-import * as net from 'node:net'
-
 import { Injectable, Logger, type OnModuleInit } from '@nestjs/common'
-import type { Writable } from 'type-fest'
 
-import { Channel, type ChannelKey } from '#domain/channel/channel.js'
+import { Channel, type ChannelID } from '#domain/channel/channel.js'
 import { IChannelRepository } from '#domain/channel/channel.repository.interface.js'
-import { ChannelFilter, type ChannelFilterKey } from '#domain/channel-filter/channel-filter.js'
+import { ChannelFilter } from '#domain/channel-filter/channel-filter.js'
 import { IChannelFilterRepository } from '#domain/channel-filter/channel-filter.repository.interface.js'
-import { Network, type NetworkKey } from '#domain/network/network.js'
+import { Network, type NetworkID } from '#domain/network/network.js'
 import { INetworkRepository } from '#domain/network/network.repository.interface.js'
 
-import data from '../../../../../data.json' with { type: 'json' }
-
-type NetworkMap = ReadonlyMap<number, NetworkKey>
-type ChannelMap = ReadonlyMap<number, ChannelKey>
-type ChannelFilterMap = ReadonlyMap<number, ChannelFilterKey>
+import { IAudioAddictAPI } from './api/audio-addict-api.interface.js'
 
 @Injectable()
 export class DataImporter implements OnModuleInit {
   private readonly logger = new Logger(DataImporter.name)
+  private readonly audioAddictApi: IAudioAddictAPI
   private readonly networkRepository: INetworkRepository
   private readonly channelRepository: IChannelRepository
   private readonly channelFilterRepository: IChannelFilterRepository
 
   public constructor(
+    audioAddictApi: IAudioAddictAPI,
     networkRepository: INetworkRepository,
     channelRepository: IChannelRepository,
     channelFilterRepository: IChannelFilterRepository,
   ) {
+    this.audioAddictApi = audioAddictApi
     this.networkRepository = networkRepository
     this.channelRepository = channelRepository
     this.channelFilterRepository = channelFilterRepository
@@ -35,79 +31,85 @@ export class DataImporter implements OnModuleInit {
 
   public async onModuleInit(): Promise<void> {
     const networks = await this.loadNetworks()
-    const channels = await this.loadChannels(networks)
-    await this.loadChannelFilters(networks, channels)
+    await this.loadChannels(networks)
+    await this.loadChannelFilters(networks)
   }
 
-  private async loadNetworks(): Promise<NetworkMap> {
-    const result = new Map() as Writable<NetworkMap>
+  private async loadNetworks(): Promise<Network[]> {
+    const networks = await this.audioAddictApi.getNetworks()
+    const result: Network[] = []
 
-    for (const item of data.networks) {
-      if (!item.active) {
-        continue
-      }
+    for (const item of networks) {
+      const network = Network.create({
+        id: item.id,
+        key: item.key,
+        name: item.name,
+        url: item.url,
+      })
+      result.push(network)
 
-      const network = await this.networkRepository.insert(
-        Network.create({
-          key: item.key,
-          name: item.name,
-          url: item.url,
-        }),
-      )
-
-      result.set(item.id, network.key)
+      await this.networkRepository.insert(network)
     }
 
-    this.logger.verbose(`Successfully loaded ${result.size} network(s)`)
+    this.logger.log(`Successfully loaded ${result.length} network(s)`)
     return result
   }
 
-  private async loadChannels(networks: NetworkMap): Promise<ChannelMap> {
-    const result = new Map() as Writable<ChannelMap>
+  private async loadChannels(networks: Network[]): Promise<void> {
+    const channelsByNetwork: ReadonlyMap<Network, Channel[]> = new Map(
+      await Promise.all(
+        networks.map(
+          async network => [network, await this.audioAddictApi.getChannels(network.id)] as const,
+        ),
+      ),
+    )
 
-    for (const item of data.channels) {
-      const channel = await this.channelRepository.insert(
-        Channel.create({
+    for (const [{ id, name }, channels] of channelsByNetwork) {
+      for (const item of channels) {
+        const channel = Channel.create({
+          id: item.id,
           key: item.key,
-          // biome-ignore lint/style/noNonNullAssertion: If this explodes, it should do so loudly.
-          networkKey: networks.get(item.network_id)!,
+          networkId: id,
           name: item.name,
           description: item.description,
-          director: item.channel_director,
-          similarChannels: [],
-        }),
+          director: item.director,
+          similar: item.similar,
+        })
+        await this.channelRepository.insert(channel)
+      }
+
+      this.logger.log(
+        `Successfully loaded ${channels.length} channel(s) for network "${name}" (id=${id})`,
       )
-
-      result.set(item.id, channel.key)
     }
-
-    this.logger.verbose(`Successfully loaded ${result.size} channels(s)`)
-    return result
   }
 
-  private async loadChannelFilters(
-    networks: NetworkMap,
-    channels: ChannelMap,
-  ): Promise<ChannelFilterMap> {
-    const result = new Map() as Writable<ChannelFilterMap>
+  private async loadChannelFilters(networks: Network[]): Promise<void> {
+    const channelFiltersByNetwork: ReadonlyMap<Network, ChannelFilter[]> = new Map(
+      await Promise.all(
+        networks.map(
+          async network =>
+            [network, await this.audioAddictApi.getChannelFilters(network.id)] as const,
+        ),
+      ),
+    )
 
-    for (const item of data.channel_filters) {
-      const channelFilter = await this.channelFilterRepository.insert(
-        ChannelFilter.create({
+    for (const [{ id, name }, channelFilters] of channelFiltersByNetwork) {
+      for (const item of channelFilters) {
+        const channelFilter = ChannelFilter.create({
+          id: item.id,
           key: item.key,
-          // biome-ignore lint/style/noNonNullAssertion: If this explodes, it should do so loudly.
-          networkKey: networks.get(item.network_id)!,
+          networkId: id,
           name: item.name,
           position: item.position,
-          // biome-ignore lint/style/noNonNullAssertion: If this explodes, it should do so loudly.
-          channels: item.channels.map(id => channels.get(id)!),
-        }),
+          channels: item.channels,
+        })
+        await this.channelFilterRepository.insert(channelFilter)
+      }
+
+      this.logger.log(
+        `Successfully loaded ${channelFilters.length} channel filter(s) for network "${name}" (id=${id})`,
       )
-
-      result.set(item.id, channelFilter.key)
     }
-
-    this.logger.verbose(`Successfully loaded ${result.size} channel filter(s)`)
-    return result
   }
 }

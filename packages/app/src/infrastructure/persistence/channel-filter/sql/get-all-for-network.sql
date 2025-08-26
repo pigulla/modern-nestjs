@@ -1,21 +1,22 @@
 SELECT
+  channel_filters.id,
   channel_filters.key,
   channel_filters.name,
-  channel_filters.network_key,
+  channel_filters.network_id,
   channel_filters.position,
   COALESCE(
     (
       SELECT
-        JSON_GROUP_ARRAY(channels.key)
+        JSON_GROUP_ARRAY(channels.id)
       FROM
         channels_to_channel_filters
-        JOIN channels ON channels.key = channels_to_channel_filters.channel_key
+        JOIN channels ON channels.id = channels_to_channel_filters.channel_id
       WHERE
-        channels_to_channel_filters.channel_filter_key = channel_filters.key
+        channels_to_channel_filters.channel_filter_id = channel_filters.id
     ),
     '[]'
-  ) AS channel_keys
+  ) AS channel_ids
 FROM
   channel_filters
 WHERE
-  network_key = $network_key;
+  network_id = $network_id;

@@ -14,7 +14,7 @@ export class NetworkService implements INetworkService {
   }
 
   public get(key: NetworkKey): Promise<Network> {
-    return this.repository.get(key)
+    return this.repository.getByKey(key)
   }
 
   public getAll(): Promise<Network[]> {

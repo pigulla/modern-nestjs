@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+import { audioAddictConfig } from './audio-addict.config.js'
 import { loggingConfig } from './logging.config.js'
 import { openApiConfig } from './open-api.config.js'
 import { serverConfig } from './server.config.js'
@@ -11,6 +12,7 @@ export const config = z
     logging: loggingConfig,
     openApi: openApiConfig,
     server: serverConfig,
+    audioAddict: audioAddictConfig,
   })
   .readonly()
   .brand('config')

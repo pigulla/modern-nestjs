@@ -6,7 +6,8 @@ export type ChannelFilterRepositoryMock = Mocked<IChannelFilterRepository>
 
 export function mockChannelFilterRepository(): ChannelFilterRepositoryMock {
   return {
-    get: vi.fn(),
+    getByID: vi.fn(),
+    getByKeyForNetwork: vi.fn(),
     getAll: vi.fn(),
     getAllForNetwork: vi.fn(),
     insert: vi.fn(),
