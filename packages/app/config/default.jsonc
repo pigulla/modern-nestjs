@@ -30,6 +30,11 @@
     },
     "audioAddict": {
         "baseUrl": "https://api.audioaddict.com",
-        "listeningKey": ""
+        "listeningKey": "",
+        "format": "mp3-320"
+    },
+    "externalPlayer": {
+        "path": "",
+        "arguments": []
     }
 }

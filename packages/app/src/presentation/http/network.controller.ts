@@ -60,7 +60,7 @@ export class NetworkController {
   @ApiParam({ name: 'networkKey', type: 'string', example: 'di' })
   @ApiOperation({
     summary: 'Get a network by key.',
-    description: 'Get the network with the given key, if it exists.',
+    description: 'Get the network with the given key.',
   })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -82,7 +82,7 @@ export class NetworkController {
   @ApiParam({ name: 'networkKey', type: 'string', example: 'di' })
   @ApiOperation({
     summary: 'Get all channels of a network.',
-    description: 'Get all channels of the network with the given key, if it exists.',
+    description: 'Get all channels of the network with the given key.',
   })
   @ZodResponse({ description: 'The operation completed successfully.', type: [ChannelDTO] })
   @ApiResponse({
@@ -121,7 +121,7 @@ export class NetworkController {
   @ApiParam({ name: 'networkKey', type: 'string', example: 'di' })
   @ApiOperation({
     summary: 'Get all channel filters of a network.',
-    description: 'Get all channel filters of the network with the given key, if it exists.',
+    description: 'Get all channel filters of the network with the given key.',
   })
   @ZodResponse({ description: 'The operation completed successfully.', type: [ChannelFilterDTO] })
   @ApiResponse({
@@ -140,7 +140,7 @@ export class NetworkController {
   @ApiParam({ name: 'channelFilterKey', type: 'string', example: 'popular' })
   @ApiOperation({
     summary: 'Get the channel filters with the given key.',
-    description: 'Get the channel filters with the given key for the given network, if it exists.',
+    description: 'Get the channel filters with the given key for the given network.',
   })
   @ZodResponse({ description: 'The operation completed successfully.', type: ChannelFilterDTO })
   @ApiResponse({
