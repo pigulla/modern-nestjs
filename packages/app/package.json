@@ -59,7 +59,7 @@
         "lint:package-json": "npmPkgJsonLint . && sort-package-json --check",
         "lint:sql": "NODE_OPTIONS='--conditions development' jiti scripts/sql-formatter.ts lint",
         "lint:tsc": "tsc --noEmit",
-        "openapi": "npm run openapi:build && npm run openapi:html && npm run openapi:lint",
+        "openapi": "npm run openapi:build && npm run openapi:lint && npm run openapi:html",
         "openapi:build": "NODE_OPTIONS='--conditions development' jiti scripts/build-openapi-spec.ts > openapi.json",
         "openapi:html": "redocly build-docs openapi.json --output=openapi.html",
         "openapi:lint": "redocly lint openapi.json",

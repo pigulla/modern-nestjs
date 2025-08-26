@@ -1,4 +1,3 @@
-import { ChannelDTO } from '@di/dto/channel.dto.js'
 import { NowPlayingDTO, nowPlayingDtoSchema } from '@di/dto/now-playing.dto.js'
 
 import {
@@ -20,8 +19,8 @@ import { IStreamProvider } from '#application/stream-provider.interface.js'
 import type { ChannelKey } from '#domain/channel/channel.js'
 import { channelKeySchema } from '#domain/channel/channel.schema.js'
 import { ChannelNotFoundError } from '#domain/channel/channel-not-found.error.js'
-
-import { channelToDTO } from './to-dto.js'
+import type { NetworkKey } from '#domain/network/network.js'
+import { networkKeySchema } from '#domain/network/network.schema.js'
 
 @Controller('stream')
 @ApiTags('stream')
@@ -66,48 +65,59 @@ export class StreamController {
     description: 'No channel is currently being streamed.',
   })
   public nowPlaying() {
-    const channel = this.streamProvider.getChannel()
-    const track = this.streamProvider.getTrack()
+    const nowPlaying = this.streamProvider.getNowPlaying()
 
-    if (!channel || !track) {
-      throw new NotFoundException()
+    if (!nowPlaying) {
+      throw new NotFoundException('No channel is currently being streamed')
     }
 
     return nowPlayingDtoSchema.parse({
-      track,
+      track: nowPlaying.track,
+      network: {
+        id: nowPlaying.network.id,
+        key: nowPlaying.network.key,
+        name: nowPlaying.network.name,
+        url: nowPlaying.network.url,
+      },
       channel: {
-        key: channel.key,
-        networkKey: channel.networkKey,
-        name: channel.name,
-        director: channel.director,
-        description: channel.description,
+        key: nowPlaying.channel.key,
+        networkId: nowPlaying.channel.networkId,
+        name: nowPlaying.channel.name,
+        director: nowPlaying.channel.director,
+        description: nowPlaying.channel.description,
       },
     })
   }
 
-  @Get(':key')
-  @ApiParam({ name: 'key', type: 'string', example: 'ambient' })
+  @Get(':networkKey/:channelKey')
+  @ApiParam({ name: 'networkKey', type: 'string', example: 'di' })
+  @ApiParam({ name: 'channelKey', type: 'string', example: 'trance' })
   @ApiOperation({
-    summary: 'Start streaming a channel by key.',
+    summary: 'Start streaming a channel.',
     description:
-      'Start playback of the channel with the given key, if it exists. The stream is the raw audio without any IceCast metadata. Any previously started stream is terminated.',
+      'Start playback of the channel of the given network with the given key, if it exists. The stream is the raw audio without any IceCast metadata. Any previously started stream is terminated.',
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    type: 'binary',
     description: 'The operation completed successfully.',
+    schema: {
+      type: 'string',
+      format: 'binary',
+    },
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
     description: 'The channel with the given key was not found.',
   })
   public async play(
-    @Param('key', new ZodValidationPipe(channelKeySchema)) key: ChannelKey,
+    @Param('networkKey', new ZodValidationPipe(networkKeySchema)) networkKey: NetworkKey,
+    @Param('channelKey', new ZodValidationPipe(channelKeySchema))
+    channelKey: ChannelKey,
     @Res() response: Response,
   ): Promise<void> {
     try {
       response.set('content-type', 'audio/aac')
-      const channel = await this.channelService.get(key)
+      const channel = await this.channelService.get(networkKey, channelKey)
       await this.streamProvider.streamTo(channel, response)
     } catch (error) {
       if (error instanceof ChannelNotFoundError) {

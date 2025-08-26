@@ -6,6 +6,8 @@ import { ModuleRef } from '@nestjs/core'
 
 import { IStreamProvider } from '#application/stream-provider.interface.js'
 import type { Channel } from '#domain/channel/channel.js'
+import type { Network } from '#domain/network/network.js'
+import { INetworkRepository } from '#domain/network/network.repository.interface.js'
 
 import { AUDIO_ADDICT_CONFIG, type AudioAddictConfig } from '../config/audio-addict.config.js'
 
@@ -16,9 +18,15 @@ export class StreamProvider implements IStreamProvider, OnApplicationShutdown {
   private readonly logger = new Logger(StreamProvider.name)
   private readonly listeningKey: string
   private readonly moduleRef: ModuleRef
-  private active: { channel: Channel; stream: Writable; track: string } | null
+  private readonly networkRepository: INetworkRepository
+  private active: { network: Network; channel: Channel; stream: Writable; track: string } | null
 
-  public constructor(@Inject(AUDIO_ADDICT_CONFIG) config: AudioAddictConfig, moduleRef: ModuleRef) {
+  public constructor(
+    networkRepository: INetworkRepository,
+    @Inject(AUDIO_ADDICT_CONFIG) config: AudioAddictConfig,
+    moduleRef: ModuleRef,
+  ) {
+    this.networkRepository = networkRepository
     this.listeningKey = config.listeningKey
     this.moduleRef = moduleRef
     this.active = null
@@ -37,12 +45,14 @@ export class StreamProvider implements IStreamProvider, OnApplicationShutdown {
     this.active.stream.destroy()
   }
 
-  public getChannel(): Channel | null {
-    return this.active?.channel ?? null
-  }
-
-  public getTrack(): string | null {
-    return this.active?.track ?? null
+  public getNowPlaying(): { network: Network; channel: Channel; track: string } | null {
+    return this.active
+      ? {
+          network: this.active.network,
+          channel: this.active.channel,
+          track: this.active.track,
+        }
+      : null
   }
 
   public async streamTo(channel: Channel, stream: Writable): Promise<void> {
@@ -52,6 +62,7 @@ export class StreamProvider implements IStreamProvider, OnApplicationShutdown {
     this.stop()
     this.active = {
       channel,
+      network: await this.networkRepository.getByID(channel.networkId),
       track: '',
       stream: stream.once('close', () => {
         this.logger.debug('Stream closed')
