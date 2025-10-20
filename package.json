@@ -114,7 +114,7 @@
     "type-fest": "5.0.1",
     "typescript": "5.9.3",
     "unplugin-swc": "1.5.7",
-    "vite": "7.1.7",
+    "vite": "7.1.11",
     "vitest": "3.2.4",
     "yaml": "2.8.1"
   }
