@@ -12,7 +12,7 @@ import { asFruitID, Fruit } from '#domain/fruit.js'
 import { type FruitServiceMock, mockFruitService } from '#mocks'
 import { FruitController } from '#presentation/http/fruit.controller.js'
 
-describe('AppController', () => {
+describe('FruitController', () => {
   const banana = Fruit.create({ id: 42, name: 'Banana', calories: 30 })
 
   let fruitServiceMock: FruitServiceMock
@@ -251,7 +251,7 @@ describe('AppController', () => {
 
     it('should return a 409', async () => {
       fruitServiceMock.create.mockImplementation(() => {
-        throw new FruitAlreadyExistsError(banana.name)
+        throw new FruitAlreadyExistsError(banana.id)
       })
 
       await request(app.getHttpServer())
