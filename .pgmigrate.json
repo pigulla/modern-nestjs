@@ -1,0 +1,6 @@
+{
+    "migration-file-language": "sql",
+    "migration-filename-format": "utc",
+    "migrations-dir": "migrations",
+    "migrations-table": "pgmigrations"
+}

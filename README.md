@@ -22,6 +22,9 @@ This repository provides a highly opinionated, basic setup for modern NestJS app
 - 🚀 Did I mention that the package itself is ESM? Because it is.
 - 🧰 Use [`@tsconfig/bases`](https://github.com/tsconfig/bases) for TypeScript configuration.
 - 💁‍♂️ Preconfigured for [commitizen](https://commitizen.github.io/cz-cli/).
+- 🛢 Use [Testcontainers](https://testcontainers.com/) for integration tests.
+- 🤞 Use PostgreSQL for persistence via [`pgpromise`](https://github.com/vitaly-t/pg-promise), handle migrations with [`node-pg-migrate`](https://salsita.github.io/node-pg-migrate) and format the files with [`sql-formatter`](https://github.com/sql-formatter-org/sql-formatter).
+- 🧼 Clean transaction management with [`@nestjs-cls/transactional`](https://papooch.github.io/nestjs-cls/plugins/available-plugins/transactional).
 
 ### Missing Features
 - We can _almost_ run the code natively using [type stripping](https://nodejs.org/api/typescript.html#type-stripping). To make this work we need the [`rewriteRelativeImportExtensions`](https://devblogs.microsoft.com/typescript/announcing-typescript-5-7/) option introduced in TypeScript 5.7 - unfortunately this doesn't play well with subpath imports because those are absolute. Guess we have to either wait for TypeScript to fix this or get rid of the subpath imports.
@@ -29,3 +32,5 @@ This repository provides a highly opinionated, basic setup for modern NestJS app
 
 ### Other Notes
 - We use abstract classes instead of interfaces solely because they can then double as injection tokens (interfaces don't exist at runtime, abstract classes do). Note that the concretions don't `extend` but `implement` them.
+- [`slonik`](https://www.npmjs.com/package/slonik) is also a fantastic library (and it also uses [Zod](https://github.com/colinhacks/zod)), but we prefer keeping the SQL files separately ([not really possible](https://github.com/gajus/slonik-sql-tag-raw) with Slonik).
+- [`Kysely`](https://kysely.dev/) looks very promising but I wouldn't use anything pre-1.0 in production (because it's basically a [free-for-all](https://semver.org/#spec-item-4) and anything can break at any time).
