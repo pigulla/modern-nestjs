@@ -33,6 +33,8 @@ npm-debug.log*
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # Apps-specific files
-/packages/*/openapi.html
-/packages/*/openapi.json
+/apps/*/.turbo/
+/apps/*/openapi.html
+/apps/*/openapi.json
+/packages/*/.turbo/
 /packages/*/config/local*

@@ -1,5 +1,5 @@
 {
-    "name": "@modern-nestjs/app",
+    "name": "@modern-nestjs/server",
     "version": "0.0.1",
     "description": "The app part.",
     "bugs": {
