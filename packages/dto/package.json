@@ -36,7 +36,7 @@
     },
     "dependencies": {
         "@modern-nestjs/domain": "0.0.1",
-        "nestjs-zod": "5.0.0-beta.20250719T005107",
-        "zod": "4.0.17"
+        "nestjs-zod": "5.0.1",
+        "zod": "4.1.13"
     }
 }

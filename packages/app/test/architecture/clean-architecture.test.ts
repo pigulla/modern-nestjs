@@ -27,24 +27,23 @@ describe('The project implements a clean architecture where', () => {
       ]),
     )
 
-    it.each<TestCase>(rules)(
-      'should not import from %s%s',
-      async (target, _, source, exceptions) => {
-        let rule = filesOfProject(pathToTsConfig)
-          .inFolder(source)
-          .shouldNot()
-          .dependOnFiles()
-          .inFolder(target)
+    it.each<TestCase>(
+      rules,
+    )('should not import from %s%s', async (target, _, source, exceptions) => {
+      let rule = filesOfProject(pathToTsConfig)
+        .inFolder(source)
+        .shouldNot()
+        .dependOnFiles()
+        .inFolder(target)
 
-        if (exceptions.size > 0) {
-          const exceptionPattern = [...exceptions]
-            .map(exception => `\\.${exception.slice(0, -1)}\\.ts`)
-            .join('|')
-          rule = rule.matchingPattern(`.*(?<!${exceptionPattern})$`)
-        }
+      if (exceptions.size > 0) {
+        const exceptionPattern = [...exceptions]
+          .map(exception => `\\.${exception.slice(0, -1)}\\.ts`)
+          .join('|')
+        rule = rule.matchingPattern(`.*(?<!${exceptionPattern})$`)
+      }
 
-        await expect(rule.check()).resolves.toEqual([])
-      },
-    )
+      await expect(rule.check()).resolves.toEqual([])
+    })
   })
 })

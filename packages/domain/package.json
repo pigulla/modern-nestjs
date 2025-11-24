@@ -35,6 +35,6 @@
         "test": "npm run lint && npm run vitest && npm audit --omit dev --audit-level high"
     },
     "dependencies": {
-        "zod": "4.0.17"
+        "zod": "4.1.13"
     }
 }
