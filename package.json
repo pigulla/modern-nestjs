@@ -99,7 +99,7 @@
     "@types/config": "3.3.5",
     "@types/node": "24.10.1",
     "@types/supertest": "6.0.3",
-    "@vitest/coverage-v8": "4.0.12",
+    "@vitest/coverage-v8": "4.0.13",
     "cz-conventional-changelog": "3.3.0",
     "jiti": "2.6.1",
     "knip": "5.70.1",
