@@ -115,7 +115,7 @@
     "typescript": "5.9.3",
     "unplugin-swc": "1.5.8",
     "vite": "7.2.4",
-    "vitest": "4.0.12",
+    "vitest": "4.0.13",
     "yaml": "2.8.1"
   }
 }
