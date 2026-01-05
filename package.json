@@ -93,7 +93,7 @@
     "@nestjs/testing": "11.1.9",
     "@redocly/cli": "2.12.6",
     "@swc-node/register": "1.11.1",
-    "@swc/core": "1.15.4",
+    "@swc/core": "1.15.8",
     "@tsconfig/node-ts": "23.6.2",
     "@tsconfig/node24": "24.0.3",
     "@types/config": "3.3.5",
