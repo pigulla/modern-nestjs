@@ -80,7 +80,7 @@
     "@nestjs/common": "11.1.11",
     "@nestjs/core": "11.1.11",
     "@nestjs/platform-express": "11.1.11",
-    "@nestjs/swagger": "11.2.4",
+    "@nestjs/swagger": "11.2.5",
     "config": "4.1.1",
     "nestjs-pino": "4.5.0",
     "nestjs-zod": "5.1.1",
