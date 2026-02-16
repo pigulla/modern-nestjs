@@ -8,6 +8,7 @@
     "validate-package-names": true,
     "validate-integrity": true,
     "allowed-package-name-aliases": [
+        "ajv:@redocly/ajv",
         "string-width-cjs:string-width",
         "strip-ansi-cjs:strip-ansi",
         "wrap-ansi-cjs:wrap-ansi"
