@@ -89,7 +89,7 @@
     "zod": "4.3.6"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.0",
+    "@biomejs/biome": "2.4.4",
     "@nestjs/testing": "11.1.13",
     "@redocly/cli": "2.19.1",
     "@swc-node/register": "1.11.1",
