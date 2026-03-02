@@ -1,5 +1,5 @@
 import { Global, Module } from '@nestjs/common'
-import type { IConfig } from 'config'
+import type { Config as NodeConfig } from 'config'
 
 import { CONFIG, type Config, config } from '#infrastructure/config/config.js'
 import { LOGGING_CONFIG, type LoggingConfig } from '#infrastructure/config/logging.config.js'
@@ -13,7 +13,7 @@ const NODE_CONFIG = Symbol('node-config')
   providers: [
     {
       provide: NODE_CONFIG,
-      async useFactory(): Promise<IConfig> {
+      async useFactory(): Promise<NodeConfig> {
         // Do this asynchronously to avoid side effects when importing this module.
         const config = await import('config')
         return config.default
@@ -22,8 +22,9 @@ const NODE_CONFIG = Symbol('node-config')
     {
       provide: CONFIG,
       inject: [NODE_CONFIG],
-      useFactory(nodeConfig: IConfig): Config {
+      useFactory(nodeConfig: NodeConfig): Config {
         const plain = nodeConfig.util.toObject()
+        // console.dir(config.parse)
         return config.parse(plain)
       },
     },
