@@ -80,7 +80,7 @@
   "dependencies": {
     "@nestjs/common": "11.1.16",
     "@nestjs/core": "11.1.16",
-    "@nestjs/platform-express": "11.1.16",
+    "@nestjs/platform-express": "11.1.17",
     "@nestjs/swagger": "11.2.6",
     "config": "4.4.1",
     "nestjs-pino": "4.6.0",
