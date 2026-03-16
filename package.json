@@ -99,7 +99,7 @@
     "@tsconfig/node24": "24.0.4",
     "@types/node": "25.5.0",
     "@types/supertest": "7.2.0",
-    "@vitest/coverage-v8": "4.0.18",
+    "@vitest/coverage-v8": "4.1.0",
     "cz-conventional-changelog": "3.3.0",
     "jiti": "2.6.1",
     "knip": "5.86.0",
