@@ -97,7 +97,7 @@
     "@swc/core": "1.15.18",
     "@tsconfig/node-ts": "23.6.4",
     "@tsconfig/node24": "24.0.4",
-    "@types/node": "25.4.0",
+    "@types/node": "25.5.0",
     "@types/supertest": "7.2.0",
     "@vitest/coverage-v8": "4.0.18",
     "cz-conventional-changelog": "3.3.0",
