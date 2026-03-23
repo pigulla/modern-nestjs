@@ -94,7 +94,7 @@
     "@nestjs/testing": "11.1.17",
     "@redocly/cli": "2.22.1",
     "@swc-node/register": "1.11.1",
-    "@swc/core": "1.15.18",
+    "@swc/core": "1.15.21",
     "@tsconfig/node-ts": "23.6.4",
     "@tsconfig/node24": "24.0.4",
     "@types/node": "25.5.0",
