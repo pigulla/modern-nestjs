@@ -92,7 +92,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.4.8",
     "@nestjs/testing": "11.1.17",
-    "@redocly/cli": "2.24.1",
+    "@redocly/cli": "2.25.2",
     "@swc-node/register": "1.11.1",
     "@swc/core": "1.15.21",
     "@tsconfig/node-ts": "23.6.4",
