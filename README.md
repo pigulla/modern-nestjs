@@ -1,4 +1,6 @@
 <p align="center">
+  <img src="http://unmaintained.tech/badge.svg" />
+  <br><br>
   <img src="./logo.png" width="200" alt="Logo" />
 </p>
 <p align="center">A simple skeleton for modern <a href="https://nestjs.com/">NestJS</a> applications.</p>
