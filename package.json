@@ -18,39 +18,16 @@
   },
   "type": "module",
   "imports": {
-    "#application/*": {
-      "development": "./src/application/*",
-      "dist": "./dist/src/application/*"
-    },
-    "#domain/*": {
-      "development": "./src/domain/*",
-      "dist": "./dist/src/domain/*"
-    },
-    "#infrastructure/*": {
-      "development": "./src/infrastructure/*",
-      "dist": "./dist/src/infrastructure/*"
-    },
-    "#mocks": {
-      "development": "./src/mocks.js"
-    },
-    "#module/*": {
-      "development": "./src/module/*",
-      "dist": "./dist/src/module/*"
-    },
-    "#presentation/*": {
-      "development": "./src/presentation/*",
-      "dist": "./dist/src/presentation/*"
-    },
-    "#util/*": {
-      "development": "./src/util/*",
-      "dist": "./dist/src/util/*"
+    "#/*": {
+      "development": "./src/*",
+      "dist": "./dist/src/*"
     }
   },
   "scripts": {
     "audit": "npm audit --omit dev --audit-level high",
-    "build": "rm -rf dist && tsc --project tsconfig.build.json && npm run build:copy-config",
+    "build": "rm -rf dist && tsc --project tsconfig.build.json && npm run build:copy-config && npm run build:copy-sql",
     "build:copy-config": "rsync --archive --include '*/' --exclude 'local*' config/ dist/config",
-    "build:copy-sql": "rsync --archive --include '*/' --include '*.sql' --exclude '*' src/ dist/src",
+    "build:copy-sql": "rsync --archive --prune-empty-dirs --include '*/' --include '*.sql' --exclude '*' src/ dist/src && rsync --archive --prune-empty-dirs --include '*/' --include '*.sql' --exclude '*' migrations/ dist/migrations",
     "format": "npm run format:biome && npm run format:package-json && npm run format:sql",
     "format:biome": "biome check --write",
     "format:package-json": "sort-package-json",
@@ -100,21 +77,20 @@
     "zod": "4.3.6"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.12",
+    "@biomejs/biome": "2.4.13",
     "@nestjs/testing": "11.1.19",
-    "@redocly/cli": "2.29.1",
+    "@redocly/cli": "2.29.2",
     "@swc-node/register": "1.11.1",
     "@swc/core": "1.15.30",
     "@testcontainers/postgresql": "11.14.0",
     "@tsconfig/node-ts": "23.6.4",
     "@tsconfig/node24": "24.0.4",
-    "@types/config": "4.4.0",
     "@types/node": "25.6.0",
     "@types/supertest": "7.2.0",
     "@vitest/coverage-v8": "4.1.5",
     "cz-conventional-changelog": "3.3.0",
     "jiti": "2.6.1",
-    "knip": "6.6.1",
+    "knip": "6.6.2",
     "lockfile-lint": "5.0.0",
     "node-pg-migrate": "8.0.4",
     "npm-package-json-lint": "10.2.1",
@@ -128,7 +104,7 @@
     "type-fest": "5.6.0",
     "typescript": "6.0.3",
     "unplugin-swc": "1.5.9",
-    "vite": "8.0.9",
+    "vite": "8.0.10",
     "vitest": "4.1.5",
     "yaml": "2.8.3"
   }

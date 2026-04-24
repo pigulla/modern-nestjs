@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common'
 import type { Config as NodeConfig } from 'config'
 
-import { CONFIG, type Config, config } from '#infrastructure/config/config.js'
-import { DATABASE_CONFIG, type DatabaseConfig } from '#infrastructure/config/database.config.js'
-import { LOGGING_CONFIG, type LoggingConfig } from '#infrastructure/config/logging.config.js'
-import { OPEN_API_CONFIG, type OpenApiConfig } from '#infrastructure/config/open-api.config.js'
-import { SERVER_CONFIG, type ServerConfig } from '#infrastructure/config/server.config.js'
+import { CONFIG, type Config, config } from '#/infrastructure/config/config.js'
+import { DATABASE_CONFIG, type DatabaseConfig } from '#/infrastructure/config/database.config.js'
+import { LOGGING_CONFIG, type LoggingConfig } from '#/infrastructure/config/logging.config.js'
+import { OPEN_API_CONFIG, type OpenApiConfig } from '#/infrastructure/config/open-api.config.js'
+import { SERVER_CONFIG, type ServerConfig } from '#/infrastructure/config/server.config.js'
 
 const NODE_CONFIG = Symbol('node-config')
 

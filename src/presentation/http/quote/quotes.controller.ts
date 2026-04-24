@@ -15,9 +15,9 @@ import {
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { ZodValidationPipe } from 'nestjs-zod'
 
-import { type QuoteID, quoteIdSchema } from '#domain/quote/quote-id.js'
-import { QuoteNotFoundError } from '#domain/quote/quote-not-found.error.js'
-import { IQuoteRepository } from '#domain/quote/quote-repository.interface.js'
+import { type QuoteID, quoteIdSchema } from '#/domain/quote/quote-id.js'
+import { QuoteNotFoundError } from '#/domain/quote/quote-not-found.error.js'
+import { IQuoteRepository } from '#/domain/quote/quote-repository.interface.js'
 
 import { CreateQuoteDTO, fromDomain, QuoteDTO, UpdateQuoteDTO } from './quote.dto.js'
 
@@ -57,6 +57,7 @@ export class QuotesController {
 
     return fromDomain(quote)
   }
+
   @Get()
   @ApiOperation({
     summary: 'Get all quotes.',

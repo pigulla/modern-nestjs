@@ -15,9 +15,9 @@ import {
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { ZodValidationPipe } from 'nestjs-zod'
 
-import { type AuthorID, authorIdSchema } from '#domain/author/author-id.js'
-import { AuthorNotFoundError } from '#domain/author/author-not-found.error.js'
-import { IAuthorRepository } from '#domain/author/author-repository.interface.js'
+import { type AuthorID, authorIdSchema } from '#/domain/author/author-id.js'
+import { AuthorNotFoundError } from '#/domain/author/author-not-found.error.js'
+import { IAuthorRepository } from '#/domain/author/author-repository.interface.js'
 
 import { AuthorDTO, CreateAuthorDTO, fromDomain, UpdateAuthorDTO } from './author.dto.js'
 

@@ -2,8 +2,8 @@ import type { Dayjs } from 'dayjs'
 import * as dayjs from 'dayjs'
 import z from 'zod'
 
-import { Author } from '#domain/author/author.js'
-import { authorIdSchema } from '#domain/author/author-id.js'
+import { Author } from '#/domain/author/author.js'
+import { authorIdSchema } from '#/domain/author/author-id.js'
 
 export const authorsRow = z
   .strictObject({

@@ -11,10 +11,10 @@ import { LoggerModule } from 'nestjs-pino'
 import { runner } from 'node-pg-migrate'
 import { txMode } from 'pg-promise'
 
-import { createDatabaseConfig, DATABASE_CONFIG } from '#infrastructure/config/database.config.js'
-import { DB_CONNECTION } from '#infrastructure/persistence/connection-provider.interface.js'
-import { ConfigModule } from '#module/config.module.js'
-import { DatabaseModule } from '#module/database.module.js'
+import { createDatabaseConfig, DATABASE_CONFIG } from '#/infrastructure/config/database.config.js'
+import { DB_CONNECTION } from '#/infrastructure/persistence/connection-provider.interface.js'
+import { ConfigModule } from '#/module/config.module.js'
+import { DatabaseModule } from '#/module/database.module.js'
 
 import pgPromiseConfig from '../../../.pgmigrate.json' with { type: 'json' }
 

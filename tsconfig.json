@@ -5,6 +5,7 @@
         "noEmit": true,
         "rootDir": ".",
         "outDir": "./dist",
+        "moduleResolution": "nodenext",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "customConditions": ["development"]

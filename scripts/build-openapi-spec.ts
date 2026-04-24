@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core'
 
-import { OPEN_API_CONFIG, type OpenApiConfig } from '#infrastructure/config/open-api.config.js'
-import { MainModule } from '#module/main.module.js'
-import { createOpenAPIDocument } from '#util/create-openapi-document.js'
+import { OPEN_API_CONFIG, type OpenApiConfig } from '#/infrastructure/config/open-api.config.js'
+import { MainModule } from '#/module/main.module.js'
+import { createOpenAPIDocument } from '#/util/create-openapi-document.js'
 
 async function buildOpenApiSpec(): Promise<void> {
   const app = await NestFactory.create(MainModule, {

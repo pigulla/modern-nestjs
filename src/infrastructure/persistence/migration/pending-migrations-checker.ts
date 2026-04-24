@@ -1,6 +1,6 @@
 import { Injectable, type OnModuleInit } from '@nestjs/common'
 
-import { NoMigrationsFoundError } from '#infrastructure/persistence/migration/error/no-migrations-found.error.js'
+import { NoMigrationsFoundError } from '#/infrastructure/persistence/migration/error/no-migrations-found.error.js'
 
 import { IDefinedMigrationsProvider } from './defined-migrations-provider.interface.js'
 import { MigrationsPendingError } from './error/migrations-pending.error.js'

@@ -1,9 +1,9 @@
 import type { ConfigType } from 'dayjs'
 import dayjs from 'dayjs'
 
-import { asAuthorID } from '#domain/author/author-id.js'
-import { Quote } from '#domain/quote/quote.js'
-import { asQuoteID } from '#domain/quote/quote-id.js'
+import { asAuthorID } from '#/domain/author/author-id.js'
+import { Quote } from '#/domain/quote/quote.js'
+import { asQuoteID } from '#/domain/quote/quote-id.js'
 
 export type QuoteProperties = {
   id: number

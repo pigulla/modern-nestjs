@@ -1,8 +1,8 @@
 import type { ConfigType } from 'dayjs'
 import dayjs from 'dayjs'
 
-import { Author } from '#domain/author/author.js'
-import { asAuthorID } from '#domain/author/author-id.js'
+import { Author } from '#/domain/author/author.js'
+import { asAuthorID } from '#/domain/author/author-id.js'
 
 export type AuthorProperties = {
   id: number

@@ -2,9 +2,9 @@ import type { Dayjs } from 'dayjs'
 import * as dayjs from 'dayjs'
 import z from 'zod'
 
-import { authorIdSchema } from '#domain/author/author-id.js'
-import { Quote } from '#domain/quote/quote.js'
-import { quoteIdSchema } from '#domain/quote/quote-id.js'
+import { authorIdSchema } from '#/domain/author/author-id.js'
+import { Quote } from '#/domain/quote/quote.js'
+import { quoteIdSchema } from '#/domain/quote/quote-id.js'
 
 export const quotesRow = z
   .strictObject({

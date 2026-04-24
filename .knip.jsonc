@@ -1,6 +1,5 @@
 {
-    "$schema": "https://unpkg.com/knip@5/schema-jsonc.json",
-    "entry": ["src/index.ts", "scripts/build-openapi-spec.ts"],
+    "$schema": "https://unpkg.com/knip@6/schema-jsonc.json",
     "project": ["src/**/*.ts", "test/**/*.ts"],
     "ignoreDependencies": [
         "@nestjs/schematics",
@@ -8,8 +7,9 @@
         "cz-conventional-changelog",
         "pino",
         "pino-pretty",
-        "source-map-support",
-        "vite",
-        "yaml"
-    ]
+        "source-map-support"
+    ],
+    "paths": {
+        "#/*": ["./src/*"]
+    }
 }

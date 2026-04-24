@@ -5,12 +5,12 @@ import { ZodSerializerInterceptor, ZodValidationPipe } from 'nestjs-zod'
 import request from 'supertest'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 
-import { IQuoteRepository } from '#domain/quote/quote-repository.interface.js'
+import { IQuoteRepository } from '#/domain/quote/quote-repository.interface.js'
 import {
   mockQuoteRepository,
   type QuoteRepositoryMock,
-} from '#domain/quote/quote-repository.mock.js'
-import { QuotesController } from '#presentation/http/quote/quotes.controller.js'
+} from '#/domain/quote/quote-repository.mock.js'
+import { QuotesController } from '#/presentation/http/quote/quotes.controller.js'
 
 import { QuoteBuilder } from '../../builder/quote.builder.js'
 

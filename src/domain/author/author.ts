@@ -3,7 +3,7 @@ import * as dayjs from 'dayjs'
 import type { JsonObject } from 'type-fest'
 import z from 'zod'
 
-import { validate } from '#util/validation/validate.js'
+import { validate } from '#/util/validation/validate.js'
 
 import { type AuthorID, authorIdSchema } from './author-id.js'
 import { InvalidAuthorError } from './invalid-author.error.js'

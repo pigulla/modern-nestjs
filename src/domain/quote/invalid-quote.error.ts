@@ -1,6 +1,6 @@
 import { type ZodError } from 'zod'
 
-import { ObjectValidationError } from '#util/validation/object-validation.error.js'
+import { ObjectValidationError } from '#/util/validation/object-validation.error.js'
 
 import { Quote } from './quote.js'
 

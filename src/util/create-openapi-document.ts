@@ -1,7 +1,7 @@
 import { type INestApplication } from '@nestjs/common'
 import { DocumentBuilder, type OpenAPIObject, SwaggerModule } from '@nestjs/swagger'
 
-import { type OpenApiConfig } from '#infrastructure/config/open-api.config.js'
+import { type OpenApiConfig } from '#/infrastructure/config/open-api.config.js'
 
 export function createOpenAPIDocument(
   app: INestApplication,
